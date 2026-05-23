@@ -1,0 +1,8 @@
+{
+  "name": "HardSoft Technologies",
+  "description": "Site web vitrine pour HardSoft Technologies, agence de développement logiciel, POS et automatisation au Sénégal.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
