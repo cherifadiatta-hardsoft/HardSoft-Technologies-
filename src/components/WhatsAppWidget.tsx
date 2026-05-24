@@ -74,7 +74,8 @@ export default function WhatsAppWidget() {
               </div>
               <button 
                 onClick={() => setIsOpen(false)}
-                className="text-white hover:bg-white/20 p-1.5 rounded-full transition-colors"
+                className="text-white hover:bg-white/20 p-1.5 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-white"
+                aria-label="Fermer la fenêtre de chat"
               >
                 <X size={20} />
               </button>
@@ -132,7 +133,9 @@ export default function WhatsAppWidget() {
 
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="group flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-[#25D366] hover:bg-[#128C7E] text-white rounded-full shadow-xl shadow-[#25D366]/30 transition-all z-50 relative"
+        aria-label={isOpen ? "Fermer le widget WhatsApp" : "Ouvrir le support WhatsApp"}
+        aria-expanded={isOpen}
+        className="group flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-[#25D366] hover:bg-[#128C7E] text-white rounded-full shadow-xl shadow-[#25D366]/30 transition-all z-50 relative focus:outline-none focus:ring-4 focus:ring-[#25D366]/50"
       >
         {isOpen ? <X size={28} className="transform transition-transform" /> : <MessageCircle size={32} className="group-hover:scale-110 transition-transform" />}
       </button>

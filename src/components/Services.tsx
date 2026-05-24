@@ -32,7 +32,12 @@ const services = [
 
 export default function Services() {
   return (
-    <section id="services" className="py-24 relative">
+    <section 
+      id="services" 
+      data-seo-title="Nos Services | HardSoft Technologies" 
+      data-seo-description="Développement sur-mesure, automatisation n8n, création de sites web et applications mobiles." 
+      className="py-24 relative"
+    >
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Ce que nous faisons</h2>

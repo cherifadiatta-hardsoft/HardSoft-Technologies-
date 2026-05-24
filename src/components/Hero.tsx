@@ -4,7 +4,12 @@ import { WHATSAPP_URL } from '../config';
 
 export default function Hero() {
   return (
-    <section id="accueil" className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+    <section 
+      id="accueil" 
+      data-seo-title="HardSoft Technologies | Accueil" 
+      data-seo-description="Découvrez nos solutions logicielles et nos services de développement pour la transformation digitale." 
+      className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden"
+    >
       {/* Abstract Background */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-indigo-900/20 via-slate-950 to-slate-950 -z-10"></div>
       <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay -z-10"></div>

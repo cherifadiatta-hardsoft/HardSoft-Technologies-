@@ -74,7 +74,12 @@ export default function Testimonials() {
   }, []);
 
   return (
-    <section className="py-24 bg-slate-900 border-t border-slate-800 overflow-hidden">
+    <section 
+      id="temoignages" 
+      data-seo-title="Témoignages | HardSoft Technologies" 
+      data-seo-description="Découvrez les avis et retours d'expérience de nos clients partenaires sur nos solutions." 
+      className="py-24 bg-slate-900 border-t border-slate-800 overflow-hidden"
+    >
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Ce que disent nos clients</h2>
@@ -124,14 +129,16 @@ export default function Testimonials() {
 
           {/* Navigation Buttons */}
           <button
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 sm:-translate-x-6 w-12 h-12 bg-slate-800 hover:bg-indigo-600 text-white rounded-full flex items-center justify-center shadow-lg transition-colors z-10"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 sm:-translate-x-6 w-12 h-12 bg-slate-800 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-white rounded-full flex items-center justify-center shadow-lg transition-colors z-10"
             onClick={() => paginate(-1)}
+            aria-label="Témoignage précédent"
           >
             <ChevronLeft size={24} />
           </button>
           <button
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 sm:translate-x-6 w-12 h-12 bg-slate-800 hover:bg-indigo-600 text-white rounded-full flex items-center justify-center shadow-lg transition-colors z-10"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 sm:translate-x-6 w-12 h-12 bg-slate-800 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-white rounded-full flex items-center justify-center shadow-lg transition-colors z-10"
             onClick={() => paginate(1)}
+            aria-label="Témoignage suivant"
           >
             <ChevronRight size={24} />
           </button>
@@ -146,7 +153,9 @@ export default function Testimonials() {
                 setDirection(index > currentIndex ? 1 : -1);
                 setCurrentIndex(index);
               }}
-              className={`h-2 rounded-full transition-all ${
+              aria-label={`Aller au témoignage ${index + 1}`}
+              aria-current={index === currentIndex ? "true" : "false"}
+              className={`h-2 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-slate-900 transition-all ${
                 index === currentIndex ? 'w-8 bg-indigo-500' : 'w-2 bg-slate-700 hover:bg-slate-500'
               }`}
             />

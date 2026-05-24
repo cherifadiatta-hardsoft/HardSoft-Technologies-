@@ -1,20 +1,25 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# HardSoft Technologies
 
-# Run and deploy your AI Studio app
+Bienvenue sur le projet du site officiel de HardSoft Technologies. 
 
-This contains everything you need to run your app locally.
+## Prérequis
 
-View your app in AI Studio: https://ai.studio/apps/3283b844-596a-416d-b043-850a94170d5a
+- Node.js (v18+)
+- npm ou bun
 
-## Run Locally
+## Scripts disponibles
 
-**Prerequisites:**  Node.js
+- `npm run dev` : Lance le serveur de développement.
+- `npm run build` : Compile l'application pour la production.
+- `npm run preview` : Prévisualise le build de production localement.
 
+## Frameworks et Bibliothèques
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+- **React / Vite** : Frontend rapide et moderne.
+- **Tailwind CSS** : Styliser l'interface avec des utilitaires.
+- **Motion (Framer Motion)** : Animations fluides.
+- **Lucide React** : Collection d'icônes SVG.
+
+## Déploiement (GitHub / Hostinger)
+
+Assurez-vous que votre plateforme est configurée pour utiliser la commande `npm run build` et le répertoire de sortie `dist`.

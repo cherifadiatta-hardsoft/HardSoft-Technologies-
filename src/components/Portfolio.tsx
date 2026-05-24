@@ -11,6 +11,7 @@ const projects = [
     description: 'Plateforme connectée et répertoire des pharmacies du Sénégal.',
     category: 'SaaS & Écosystème',
     accent: 'bg-emerald-500',
+    isNew: true,
   },
   {
     name: 'Teeru',
@@ -18,6 +19,7 @@ const projects = [
     description: 'Plateforme de services à la demande.',
     category: 'SaaS & Écosystème',
     accent: 'bg-blue-500',
+    isNew: true,
   },
   {
     name: 'HardSoft Smart Display',
@@ -25,6 +27,7 @@ const projects = [
     description: 'Solution de signalisation numérique d\'entreprise.',
     category: 'SaaS & Écosystème',
     accent: 'bg-indigo-500',
+    isNew: true,
   },
   {
     name: 'ALGS',
@@ -106,7 +109,12 @@ export default function Portfolio() {
   );
 
   return (
-    <section id="portfolio" className="py-24 bg-slate-900 border-t border-slate-800">
+    <section 
+      id="portfolio" 
+      data-seo-title="Nos Réalisations | HardSoft Technologies" 
+      data-seo-description="Découvrez nos projets : sites web, applications SaaS et plateformes développées pour nos clients." 
+      className="py-24 bg-slate-900 border-t border-slate-800"
+    >
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center max-w-2xl mx-auto mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Nos Réalisations</h2>
@@ -147,8 +155,15 @@ export default function Portfolio() {
               >
                 <div className="p-6 flex-1 flex flex-col">
                   <div className="flex justify-between items-start mb-4">
-                     <div className={`w-10 h-10 rounded-lg ${project.accent} flex items-center justify-center text-white font-bold text-lg`}>
-                        {project.name.charAt(0)}
+                     <div className="flex items-center gap-3">
+                       <div className={`w-10 h-10 rounded-lg ${project.accent} flex items-center justify-center text-white font-bold text-lg`}>
+                          {project.name.charAt(0)}
+                       </div>
+                       {(project as any).isNew && (
+                         <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 rounded-full">
+                           Nouveau
+                         </span>
+                       )}
                      </div>
                      <span className="text-xs font-medium px-2.5 py-1 bg-slate-800 text-slate-300 rounded-full border border-slate-700">
                         {project.category}

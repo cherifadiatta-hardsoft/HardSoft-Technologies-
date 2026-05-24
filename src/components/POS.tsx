@@ -9,7 +9,12 @@ export default function POS() {
   ];
 
   return (
-    <section id="pos" className="py-24 bg-slate-900">
+    <section 
+      id="pos" 
+      data-seo-title="Solution POS & Caisse Enregistreuse | HardSoft Technologies" 
+      data-seo-description="Simplifiez la gestion de votre point de vente, gérez les stocks et analysez vos ventes en temps réel." 
+      className="py-24 bg-slate-900"
+    >
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <motion.div

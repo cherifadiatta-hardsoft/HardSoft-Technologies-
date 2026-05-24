@@ -1,10 +1,17 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, Code2 } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useScroll, useSpring } from 'motion/react';
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,6 +27,8 @@ export default function Header() {
     { name: 'Logiciel POS', href: '#pos' },
     { name: 'Formations', href: '#formations' },
     { name: 'Réalisations', href: '#portfolio' },
+    { name: 'À Propos', href: '#about' },
+    { name: 'FAQ', href: '#faq' },
     { name: 'Contact', href: '#contact' },
   ];
 
@@ -63,8 +72,10 @@ export default function Header() {
 
         {/* Mobile Nav Toggle */}
         <button
-          className="md:hidden p-2 text-slate-300 hover:text-white"
+          className="md:hidden p-2 text-slate-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-lg"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label={mobileMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
+          aria-expanded={mobileMenuOpen}
         >
           {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -101,6 +112,12 @@ export default function Header() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Reading Progress Bar */}
+      <motion.div
+        className="absolute bottom-0 left-0 right-0 h-1 bg-indigo-500 origin-left"
+        style={{ scaleX }}
+      />
     </header>
   );
 }

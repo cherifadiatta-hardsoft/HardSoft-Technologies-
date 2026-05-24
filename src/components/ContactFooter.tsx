@@ -1,3 +1,4 @@
+import React from 'react';
 import { MapPin, Phone, Mail, Send, MessageCircle } from 'lucide-react';
 import { WHATSAPP_URL } from '../config';
 
