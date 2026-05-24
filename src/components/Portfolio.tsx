@@ -113,12 +113,12 @@ export default function Portfolio() {
       id="portfolio" 
       data-seo-title="Nos Réalisations | HardSoft Technologies" 
       data-seo-description="Découvrez nos projets : sites web, applications SaaS et plateformes développées pour nos clients." 
-      className="py-24 bg-slate-900 border-t border-slate-800"
+      className="py-24 bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800"
     >
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center max-w-2xl mx-auto mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Nos Réalisations</h2>
-          <p className="text-slate-400">
+          <p className="text-slate-600 dark:text-slate-400">
             Découvrez nos propres solutions SaaS ainsi que les plateformes développées pour nos clients.
           </p>
         </div>
@@ -131,8 +131,8 @@ export default function Portfolio() {
               onClick={() => setActiveCategory(category)}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                 activeCategory === category
-                  ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/25'
-                  : 'bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white border border-slate-700'
+                  ? 'bg-indigo-600 text-slate-900 dark:text-white shadow-lg shadow-indigo-500/25'
+                  : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:bg-slate-700 hover:text-slate-900 dark:text-white border border-slate-300 dark:border-slate-700'
               }`}
             >
               {category}
@@ -151,12 +151,12 @@ export default function Portfolio() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.2 }}
-                className="group bg-slate-950 border border-slate-800 rounded-2xl overflow-hidden hover:border-slate-600 transition-colors flex flex-col"
+                className="group bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden hover:border-slate-600 transition-colors flex flex-col"
               >
                 <div className="p-6 flex-1 flex flex-col">
                   <div className="flex justify-between items-start mb-4">
                      <div className="flex items-center gap-3">
-                       <div className={`w-10 h-10 rounded-lg ${project.accent} flex items-center justify-center text-white font-bold text-lg`}>
+                       <div className={`w-10 h-10 rounded-lg ${project.accent} flex items-center justify-center text-slate-900 dark:text-white font-bold text-lg`}>
                           {project.name.charAt(0)}
                        </div>
                        {(project as any).isNew && (
@@ -165,12 +165,12 @@ export default function Portfolio() {
                          </span>
                        )}
                      </div>
-                     <span className="text-xs font-medium px-2.5 py-1 bg-slate-800 text-slate-300 rounded-full border border-slate-700">
+                     <span className="text-xs font-medium px-2.5 py-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-full border border-slate-300 dark:border-slate-700">
                         {project.category}
                      </span>
                   </div>
-                  <h3 className="text-xl font-semibold mb-2 text-white">{project.name}</h3>
-                  <p className="text-sm text-slate-400 mb-6 flex-1">{project.description}</p>
+                  <h3 className="text-xl font-semibold mb-2 text-slate-900 dark:text-white">{project.name}</h3>
+                  <p className="text-sm text-slate-600 dark:text-slate-400 mb-6 flex-1">{project.description}</p>
                   
                   <a 
                     href={`https://${project.domain}`} 

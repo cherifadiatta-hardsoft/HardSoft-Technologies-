@@ -49,12 +49,12 @@ export default function FAQ() {
       id="faq" 
       data-seo-title="Foire Aux Questions | HardSoft Technologies" 
       data-seo-description="Trouvez des réponses concernant nos tarifs, processus de développement et méthodes de travail." 
-      className="py-24 bg-slate-950 border-t border-slate-800 relative z-10"
+      className="py-24 bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 relative z-10"
     >
       <div className="max-w-3xl mx-auto px-6">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Foire Aux Questions</h2>
-          <p className="text-slate-400 mb-8">
+          <p className="text-slate-600 dark:text-slate-400 mb-8">
             Trouvez les réponses à vos questions concernant nos services, nos tarifs et notre méthodologie.
           </p>
           
@@ -68,8 +68,8 @@ export default function FAQ() {
                 }}
                 className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
                   selectedCategory === category
-                    ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/20'
-                    : 'bg-slate-900 border border-slate-700 text-slate-300 hover:border-slate-500 hover:bg-slate-800 hover:text-white'
+                    ? 'bg-indigo-600 text-slate-900 dark:text-white shadow-lg shadow-indigo-600/20'
+                    : 'bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-slate-500 hover:bg-slate-100 dark:bg-slate-800 hover:text-slate-900 dark:text-white'
                 }`}
               >
                 {category}
@@ -79,12 +79,12 @@ export default function FAQ() {
 
           <div className="relative max-w-xl mx-auto text-left">
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-              <Search size={20} className="text-slate-500" />
+              <Search size={20} className="text-slate-500 dark:text-slate-400" />
             </div>
             <input
               type="text"
               placeholder="Rechercher une question..."
-              className="w-full bg-slate-900 border border-slate-700 text-slate-200 rounded-xl py-3 pl-11 pr-4 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow"
+              className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 rounded-xl py-3 pl-11 pr-4 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               aria-label="Rechercher dans la FAQ"
@@ -97,14 +97,14 @@ export default function FAQ() {
             filteredFaqs.map((faq, index) => (
               <div 
                 key={index} 
-                className="border border-slate-800 bg-slate-900 rounded-2xl overflow-hidden transition-colors hover:border-slate-700"
+                className="border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 rounded-2xl overflow-hidden transition-colors hover:border-slate-300 dark:border-slate-700"
               >
                 <button
                   className="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-2xl transition-colors"
                   onClick={() => setOpenIndex(openIndex === index ? null : index)}
                   aria-expanded={openIndex === index}
                 >
-                  <span className="font-semibold text-lg text-slate-200">{faq.question}</span>
+                  <span className="font-semibold text-lg text-slate-800 dark:text-slate-200">{faq.question}</span>
                   <ChevronDown 
                     size={20} 
                     className={`text-indigo-400 transition-transform duration-300 shrink-0 ml-4 ${
@@ -121,7 +121,7 @@ export default function FAQ() {
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.3, ease: 'easeInOut' }}
                     >
-                      <div className="px-6 pb-5 text-slate-400 leading-relaxed">
+                      <div className="px-6 pb-5 text-slate-600 dark:text-slate-400 leading-relaxed">
                         {faq.answer}
                       </div>
                     </motion.div>
@@ -130,7 +130,7 @@ export default function FAQ() {
               </div>
             ))
           ) : (
-            <div className="text-center py-10 text-slate-500">
+            <div className="text-center py-10 text-slate-500 dark:text-slate-400">
               <p>Aucun résultat trouvé pour "{searchQuery}".</p>
             </div>
           )}

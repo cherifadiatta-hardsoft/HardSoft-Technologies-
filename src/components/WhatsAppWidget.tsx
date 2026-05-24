@@ -56,7 +56,7 @@ export default function WhatsAppWidget() {
             initial={{ opacity: 0, y: 20, scale: 0.9, originBottom: true, originRight: true }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
-            className="absolute bottom-20 right-0 w-[350px] sm:w-[380px] bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl overflow-hidden origin-bottom-right"
+            className="absolute bottom-20 right-0 w-[350px] sm:w-[380px] bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-2xl shadow-2xl overflow-hidden origin-bottom-right"
           >
             {/* Header */}
             <div className="bg-[#25D366] p-4 flex items-center justify-between">
@@ -68,13 +68,13 @@ export default function WhatsAppWidget() {
                   <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-400 border-2 border-[#25D366] rounded-full"></div>
                 </div>
                 <div>
-                  <h3 className="text-white font-semibold leading-tight">HardSoft Support</h3>
-                  <p className="text-white/90 text-xs mt-0.5">En ligne • Répond instantanément 🟢</p>
+                  <h3 className="text-slate-900 dark:text-white font-semibold leading-tight">HardSoft Support</h3>
+                  <p className="text-slate-900 dark:text-white/90 text-xs mt-0.5">En ligne • Répond instantanément 🟢</p>
                 </div>
               </div>
               <button 
                 onClick={() => setIsOpen(false)}
-                className="text-white hover:bg-white/20 p-1.5 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-white"
+                className="text-slate-900 dark:text-white hover:bg-white/20 p-1.5 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-white"
                 aria-label="Fermer la fenêtre de chat"
               >
                 <X size={20} />
@@ -83,7 +83,7 @@ export default function WhatsAppWidget() {
 
             {/* Chat Body */}
             <div className="p-4 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] bg-[#0c1317]">
-              <div className="bg-slate-800 rounded-2xl rounded-tl-sm p-4 text-sm text-slate-200 mb-4 shadow-sm inline-block max-w-[95%] border border-slate-700 relative">
+              <div className="bg-slate-100 dark:bg-slate-800 rounded-2xl rounded-tl-sm p-4 text-sm text-slate-800 dark:text-slate-200 mb-4 shadow-sm inline-block max-w-[95%] border border-slate-300 dark:border-slate-700 relative">
                 <p>Bonjour ! Comment allez-vous ? 👋</p>
                 <p className="mt-2">Comment pouvons-nous vous aider aujourd'hui ?</p>
                 <p className="mt-4 text-emerald-400 font-medium text-xs">Veuillez sélectionner le service qui vous intéresse pour lancer la discussion sur WhatsApp :</p>
@@ -95,12 +95,12 @@ export default function WhatsAppWidget() {
                     key={opt.id} 
                     className={`flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition-all ${
                       selectedOption?.id === opt.id 
-                        ? 'border-[#25D366] bg-[#25D366]/10 text-white' 
-                        : 'border-slate-700 bg-slate-800/80 text-slate-300 hover:bg-slate-700 hover:border-slate-600'
+                        ? 'border-[#25D366] bg-[#25D366]/10 text-slate-900 dark:text-white' 
+                        : 'border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:bg-slate-700 hover:border-slate-600'
                     }`}
                     onClick={() => setSelectedOption(opt)}
                   >
-                    <div className={`p-1.5 rounded-lg ${selectedOption?.id === opt.id ? 'text-[#25D366]' : 'text-slate-400'}`}>
+                    <div className={`p-1.5 rounded-lg ${selectedOption?.id === opt.id ? 'text-[#25D366]' : 'text-slate-600 dark:text-slate-400'}`}>
                        {opt.icon}
                     </div>
                     <span className="text-sm font-medium flex-1 leading-snug">{opt.label}</span>
@@ -113,14 +113,14 @@ export default function WhatsAppWidget() {
             </div>
 
             {/* Footer */}
-            <div className="p-4 bg-slate-900 border-t border-slate-800">
+            <div className="p-4 bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800">
               <button 
                 onClick={handleOpenWhatsApp}
                 disabled={!selectedOption}
                 className={`w-full flex items-center justify-center gap-2 font-semibold py-3.5 px-4 rounded-xl transition-all ${
                   selectedOption 
-                    ? 'bg-[#25D366] hover:bg-[#128C7E] text-white shadow-lg shadow-[#25D366]/20' 
-                    : 'bg-slate-800 text-slate-500 cursor-not-allowed'
+                    ? 'bg-[#25D366] hover:bg-[#128C7E] text-slate-900 dark:text-white shadow-lg shadow-[#25D366]/20' 
+                    : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 cursor-not-allowed'
                 }`}
               >
                 <MessageCircle size={20} />
@@ -135,7 +135,7 @@ export default function WhatsAppWidget() {
         onClick={() => setIsOpen(!isOpen)}
         aria-label={isOpen ? "Fermer le widget WhatsApp" : "Ouvrir le support WhatsApp"}
         aria-expanded={isOpen}
-        className="group flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-[#25D366] hover:bg-[#128C7E] text-white rounded-full shadow-xl shadow-[#25D366]/30 transition-all z-50 relative focus:outline-none focus:ring-4 focus:ring-[#25D366]/50"
+        className="group flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-[#25D366] hover:bg-[#128C7E] text-slate-900 dark:text-white rounded-full shadow-xl shadow-[#25D366]/30 transition-all z-50 relative focus:outline-none focus:ring-4 focus:ring-[#25D366]/50"
       >
         {isOpen ? <X size={28} className="transform transition-transform" /> : <MessageCircle size={32} className="group-hover:scale-110 transition-transform" />}
       </button>

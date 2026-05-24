@@ -11,7 +11,7 @@ export default function Hero() {
       className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden"
     >
       {/* Abstract Background */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-indigo-900/20 via-slate-950 to-slate-950 -z-10"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-indigo-900/20 via-white dark:via-slate-950 to-white dark:to-slate-950 -z-10"></div>
       <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay -z-10"></div>
       
       {/* Decorative Grid */}
@@ -31,14 +31,14 @@ export default function Hero() {
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-6 leading-[1.1]">
             Propulsez votre entreprise grâce au <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-violet-400">digital sur mesure.</span>
           </h1>
-          <p className="text-lg text-slate-400 mb-10 leading-relaxed max-w-xl">
+          <p className="text-lg text-slate-600 dark:text-slate-400 mb-10 leading-relaxed max-w-xl">
             De la création de votre site web à l'automatisation de vos processus, HardSoft Technologies conçoit les solutions logicielles qui feront grandir votre activité.
           </p>
 
           <div className="flex flex-col sm:flex-row flex-wrap gap-4">
             <a
               href="#services"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-full transition-all group shrink-0"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-indigo-600 hover:bg-indigo-500 text-slate-900 dark:text-white font-semibold rounded-full transition-all group shrink-0"
             >
               <span className="whitespace-nowrap">Découvrir nos services</span>
               <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform shrink-0" />
@@ -63,8 +63,8 @@ export default function Hero() {
           {/* Abstract Tech Illustration Placeholder */}
           <div className="relative w-full aspect-square max-w-md mx-auto">
             <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/20 to-violet-500/20 rounded-full blur-3xl mix-blend-screen animate-pulse"></div>
-            <div className="absolute inset-4 bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl overflow-hidden transform rotate-3 hover:rotate-0 transition-transform duration-500 flex flex-col">
-              <div className="h-8 bg-slate-800/50 border-b border-slate-700/50 flex items-center px-4 gap-2">
+            <div className="absolute inset-4 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl overflow-hidden transform rotate-3 hover:rotate-0 transition-transform duration-500 flex flex-col">
+              <div className="h-8 bg-slate-100 dark:bg-slate-800/50 border-b border-slate-300 dark:border-slate-700/50 flex items-center px-4 gap-2">
                 <div className="w-3 h-3 rounded-full bg-red-400/80"></div>
                 <div className="w-3 h-3 rounded-full bg-yellow-400/80"></div>
                 <div className="w-3 h-3 rounded-full bg-green-400/80"></div>

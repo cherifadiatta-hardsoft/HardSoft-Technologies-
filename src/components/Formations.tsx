@@ -13,7 +13,7 @@ export default function Formations() {
       <div className="absolute -top-1/2 -right-1/4 w-full h-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-indigo-900/20 via-transparent to-transparent -z-10 blur-3xl"></div>
       
       <div className="max-w-7xl mx-auto px-6">
-        <div className="bg-slate-900/50 border border-slate-800 rounded-3xl p-8 md:p-16 flex flex-col md:flex-row items-center justify-between gap-12 backdrop-blur-sm">
+        <div className="bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 md:p-16 flex flex-col md:flex-row items-center justify-between gap-12 backdrop-blur-sm">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -24,20 +24,20 @@ export default function Formations() {
               <BookOpen size={32} />
             </div>
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Formations en Informatique</h2>
-            <p className="text-lg text-slate-400 leading-relaxed mb-6">
+            <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
               Envie de monter en compétences ou de former vos équipes ? Nous proposons des modules de formation pratiques et adaptés au marché actuel : Développement, outils numériques et bureautique.
             </p>
             <ul className="grid sm:grid-cols-2 gap-3 mb-8">
-               <li className="flex items-center gap-2 text-slate-300">
+               <li className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
                   <CheckIcon /> Cycle complet Développeur
                </li>
-               <li className="flex items-center gap-2 text-slate-300">
+               <li className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
                   <CheckIcon /> Outils d'Automatisation (n8n)
                </li>
-               <li className="flex items-center gap-2 text-slate-300">
+               <li className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
                   <CheckIcon /> Executive Education (Diplôme)
                </li>
-               <li className="flex items-center gap-2 text-slate-300">
+               <li className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
                   <CheckIcon /> Sessions Intra/Inter Entreprise
                </li>
             </ul>
@@ -47,7 +47,7 @@ export default function Formations() {
              <br />
              <a
               href="#contact"
-              className="inline-flex items-center gap-2 px-6 py-3 border border-indigo-500/50 text-indigo-400 hover:bg-indigo-500 hover:text-white font-semibold rounded-lg transition-all"
+              className="inline-flex items-center gap-2 px-6 py-3 border border-indigo-500/50 text-indigo-400 hover:bg-indigo-500 hover:text-slate-900 dark:text-white font-semibold rounded-lg transition-all"
             >
               Voir le programme
             </a>
@@ -59,16 +59,16 @@ export default function Formations() {
             viewport={{ once: true }}
             className="flex-1 w-full relative"
           >
-             <div className="aspect-video bg-slate-950 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl relative group cursor-pointer flex items-center justify-center">
+             <div className="aspect-video bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-2xl relative group cursor-pointer flex items-center justify-center">
                 {/* Lazy Loaded Image for training session */}
                 <LazyImage
                   src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&q=80&w=1000"
                   alt="Session de formation en informatique"
                   containerClassName="absolute inset-0 w-full h-full group-hover:scale-105 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-tr from-slate-900 via-transparent to-indigo-900/40 opacity-80 mix-blend-multiply pointer-events-none"></div>
+                <div className="absolute inset-0 bg-gradient-to-tr from-slate-50 dark:from-slate-900 via-transparent to-indigo-900/40 opacity-80 mix-blend-multiply pointer-events-none"></div>
                 
-                <div className="w-16 h-16 bg-white/10 backdrop-blur text-white rounded-full flex items-center justify-center group-hover:scale-110 group-hover:bg-indigo-600 transition-all z-10">
+                <div className="w-16 h-16 bg-slate-900/10 dark:bg-white/10 backdrop-blur text-slate-900 dark:text-white rounded-full flex items-center justify-center group-hover:scale-110 group-hover:bg-indigo-600 transition-all z-10">
                    <PlayCircle size={32} className="ml-1" />
                 </div>
              </div>

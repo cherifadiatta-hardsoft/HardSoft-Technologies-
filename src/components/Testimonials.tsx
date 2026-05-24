@@ -78,12 +78,12 @@ export default function Testimonials() {
       id="temoignages" 
       data-seo-title="Témoignages | HardSoft Technologies" 
       data-seo-description="Découvrez les avis et retours d'expérience de nos clients partenaires sur nos solutions." 
-      className="py-24 bg-slate-900 border-t border-slate-800 overflow-hidden"
+      className="py-24 bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Ce que disent nos clients</h2>
-          <p className="text-slate-400">
+          <p className="text-slate-600 dark:text-slate-400">
             La satisfaction de nos partenaires est notre meilleure preuve de l'efficacité de nos solutions.
           </p>
         </div>
@@ -114,13 +114,13 @@ export default function Testimonials() {
               }}
               className="absolute w-full px-4"
             >
-              <div className="bg-slate-950 border border-slate-800 rounded-3xl p-8 sm:p-12 text-center shadow-xl">
+              <div className="bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 sm:p-12 text-center shadow-xl">
                 <Quote className="mx-auto text-indigo-500/40 mb-6" size={48} />
-                <p className="text-lg md:text-xl text-slate-300 font-medium leading-relaxed mb-8">
+                <p className="text-lg md:text-xl text-slate-700 dark:text-slate-300 font-medium leading-relaxed mb-8">
                   "{testimonials[currentIndex].quote}"
                 </p>
                 <div>
-                  <h4 className="text-white font-bold text-lg">{testimonials[currentIndex].name}</h4>
+                  <h4 className="text-slate-900 dark:text-white font-bold text-lg">{testimonials[currentIndex].name}</h4>
                   <p className="text-indigo-400 text-sm">{testimonials[currentIndex].company}</p>
                 </div>
               </div>
@@ -129,14 +129,14 @@ export default function Testimonials() {
 
           {/* Navigation Buttons */}
           <button
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 sm:-translate-x-6 w-12 h-12 bg-slate-800 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-white rounded-full flex items-center justify-center shadow-lg transition-colors z-10"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 sm:-translate-x-6 w-12 h-12 bg-slate-100 dark:bg-slate-800 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-900 dark:text-white rounded-full flex items-center justify-center shadow-lg transition-colors z-10"
             onClick={() => paginate(-1)}
             aria-label="Témoignage précédent"
           >
             <ChevronLeft size={24} />
           </button>
           <button
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 sm:translate-x-6 w-12 h-12 bg-slate-800 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-white rounded-full flex items-center justify-center shadow-lg transition-colors z-10"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 sm:translate-x-6 w-12 h-12 bg-slate-100 dark:bg-slate-800 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-900 dark:text-white rounded-full flex items-center justify-center shadow-lg transition-colors z-10"
             onClick={() => paginate(1)}
             aria-label="Témoignage suivant"
           >
@@ -156,7 +156,7 @@ export default function Testimonials() {
               aria-label={`Aller au témoignage ${index + 1}`}
               aria-current={index === currentIndex ? "true" : "false"}
               className={`h-2 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-slate-900 transition-all ${
-                index === currentIndex ? 'w-8 bg-indigo-500' : 'w-2 bg-slate-700 hover:bg-slate-500'
+                index === currentIndex ? 'w-8 bg-indigo-500' : 'w-2 bg-slate-200 dark:bg-slate-700 hover:bg-slate-500'
               }`}
             />
           ))}

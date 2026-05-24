@@ -25,7 +25,7 @@ export default function Approaches() {
       id="approches"
       data-seo-title="Nos Approches de Développement | HardSoft Technologies" 
       data-seo-description="Sur-mesure, Low-Code/No-Code ou intégration de solutions existantes, nous choisissons la meilleure approche pour votre projet." 
-      className="py-24 bg-slate-950 relative overflow-hidden"
+      className="py-24 bg-white dark:bg-slate-950 relative overflow-hidden"
     >
       {/* Background elements */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent"></div>
@@ -33,7 +33,7 @@ export default function Approaches() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Nos 3 Approches de Développement</h2>
-          <p className="text-slate-400">
+          <p className="text-slate-600 dark:text-slate-400">
             Nous adaptons notre méthodologie en fonction de vos besoins, de votre budget et de vos délais.
           </p>
         </div>
@@ -46,18 +46,18 @@ export default function Approaches() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.2, duration: 0.5 }}
-              className="relative p-8 rounded-3xl bg-slate-900 border border-slate-800 hover:border-slate-700 transition-colors group"
+              className="relative p-8 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:border-slate-700 transition-colors group"
             >
               <div className="absolute top-0 right-8 -translate-y-1/2 text-8xl font-black text-slate-800/30 group-hover:text-slate-800/50 transition-colors z-0">
                 {index + 1}
               </div>
               
               <div className="relative z-10">
-                <div className="w-16 h-16 rounded-2xl bg-slate-950 border border-slate-800 flex items-center justify-center mb-6 group-hover:-translate-y-2 transition-transform">
+                <div className="w-16 h-16 rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 flex items-center justify-center mb-6 group-hover:-translate-y-2 transition-transform">
                   {approach.icon}
                 </div>
                 <h3 className="text-xl font-bold mb-4">{approach.title}</h3>
-                <p className="text-slate-400 leading-relaxed">
+                <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
                   {approach.description}
                 </p>
               </div>

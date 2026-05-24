@@ -28,7 +28,7 @@ export default function App() {
   const seoUrl = activeSection ? `https://hardsoft-technologies.net/#${activeSection.id}` : 'https://hardsoft-technologies.net/';
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-50 font-sans selection:bg-indigo-500/30">
+    <div className="min-h-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-50 font-sans selection:bg-indigo-500/30">
       <SEO 
         title={seoTitle} 
         description={seoDescription} 

@@ -10,11 +10,11 @@ export default function LazyImage({ src, alt, containerClassName = '', imageClas
   const [isLoaded, setIsLoaded] = useState(false);
 
   return (
-    <div className={`relative overflow-hidden bg-slate-800 ${containerClassName}`}>
+    <div className={`relative overflow-hidden bg-slate-100 dark:bg-slate-800 ${containerClassName}`}>
       {/* Placeholder animation */}
       {!isLoaded && (
         <motion.div
-          className="absolute inset-0 bg-slate-700"
+          className="absolute inset-0 bg-slate-200 dark:bg-slate-700"
           animate={{ opacity: [0.4, 0.8, 0.4] }}
           transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
         />
