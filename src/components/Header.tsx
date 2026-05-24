@@ -76,58 +76,44 @@ export default function Header() {
         )}
       </AnimatePresence>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        {/* Main Row / Primary Nav */}
-        <div className={`flex items-center justify-between transition-all duration-300 ${isScrolled ? 'py-3' : 'pt-5 pb-3'}`}>
-          <a href="#accueil" className="flex items-center gap-2 group shrink-0">
-            <div className="w-10 h-10 rounded-lg bg-indigo-600 flex items-center justify-center text-slate-900 dark:text-white group-hover:scale-105 transition-transform">
-              <Code2 size={24} />
-            </div>
-            <span className="text-xl font-bold tracking-tight">
-              HardSoft <span className="text-indigo-400">Tech</span>
-            </span>
-          </a>
-
-          {/* Desktop Primary Nav */}
-          <nav className="hidden lg:flex items-center">
-            <ul className="flex items-center gap-6 xl:gap-8">
-              {navLinks.map((link) => (
-                 <li key={link.name}>
-                   <a
-                     href={link.href}
-                     className="text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:text-white transition-colors whitespace-nowrap"
-                   >
-                     {link.name}
-                   </a>
-                 </li>
-              ))}
-            </ul>
-          </nav>
-
-          {/* Mobile Menu Toggle (Only Mobile) */}
-          <div className="flex lg:hidden items-center">
-            <button
-              className="p-2 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-lg"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              aria-label={mobileMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
-              aria-expanded={mobileMenuOpen}
-            >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+      <div className={`max-w-[1400px] mx-auto px-4 sm:px-6 flex items-center justify-between transition-all duration-300 ${isScrolled ? 'h-16' : 'h-20'}`}>
+        {/* Logo */}
+        <a href="#accueil" className="flex items-center gap-2 group shrink-0">
+          <div className="w-9 h-9 rounded-lg bg-indigo-600 flex items-center justify-center text-slate-900 dark:text-white group-hover:scale-105 transition-transform">
+            <Code2 size={20} />
           </div>
-        </div>
+          <span className="text-lg font-bold tracking-tight hidden sm:block">
+            HardSoft <span className="text-indigo-400">Tech</span>
+          </span>
+        </a>
 
-        {/* Secondary Row / Utilities (Bottom) */}
-        <div className={`hidden lg:flex items-center justify-end gap-3 xl:gap-4 transition-all duration-300 ${isScrolled ? 'pb-3' : 'pb-4'}`}>
+        {/* Desktop Primary Nav */}
+        <nav className="hidden xl:flex items-center">
+          <ul className="flex items-center gap-5 2xl:gap-7">
+            {navLinks.map((link) => (
+               <li key={link.name}>
+                 <a
+                   href={link.href}
+                   className="text-[13px] font-semibold text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors whitespace-nowrap"
+                 >
+                   {link.name}
+                 </a>
+               </li>
+            ))}
+          </ul>
+        </nav>
+
+        {/* Utilities & Search (Desktop) */}
+        <div className="hidden xl:flex items-center gap-3">
           <div className="relative">
             <div className="flex items-center">
-              <Search className="absolute left-3 w-4 h-4 text-slate-400" />
+              <Search className="absolute left-2.5 w-3.5 h-3.5 text-slate-400" />
               <input
                 type="text"
                 placeholder={t('search.placeholder')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-48 xl:w-64 pl-9 pr-4 py-1.5 bg-slate-100 dark:bg-slate-800 border border-transparent rounded-full text-sm focus:ring-2 focus:ring-indigo-500 focus:bg-white dark:focus:bg-slate-900 text-slate-900 dark:text-white outline-none transition-all"
+                className="w-36 2xl:w-44 pl-8 pr-3 py-1.5 bg-slate-100/80 dark:bg-slate-800/80 border border-transparent rounded-full text-xs focus:ring-2 focus:ring-indigo-500 focus:bg-white dark:focus:bg-slate-900 text-slate-900 dark:text-white outline-none transition-all"
               />
             </div>
             
@@ -139,41 +125,65 @@ export default function Header() {
                       key={link.name}
                       href={link.href}
                       onClick={() => setSearchQuery('')}
-                      className="px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700"
+                      className="px-4 py-2 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700"
                     >
                       {link.name}
                     </a>
                   ))
                 ) : (
-                  <span className="px-4 py-2 text-sm text-slate-500">{t('search.no_results')}</span>
+                  <span className="px-4 py-2 text-xs text-slate-500">{t('search.no_results')}</span>
                 )}
               </div>
             )}
           </div>
 
+          <div className="h-4 w-px bg-slate-200 dark:bg-slate-700 mx-1"></div>
+
           <button
             onClick={toggleLanguage}
-            className="px-3 py-1.5 rounded-full bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-400 font-bold text-xs uppercase hover:bg-indigo-200 dark:hover:bg-indigo-900/60 transition-colors flex items-center gap-1.5"
+            className="flex items-center justify-center p-1.5 rounded-full text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
             aria-label="Changer de langue"
+            title={language === 'fr' ? 'Passer en anglais' : 'Switch to French'}
           >
-            <Languages size={14} />
-            <span>{language}</span>
+            <Languages size={16} />
+            <span className="ml-1 text-[10px] font-bold uppercase">{language}</span>
           </button>
 
           <button
             onClick={toggleTheme}
-            className="p-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors border border-transparent hover:border-slate-200 dark:hover:border-slate-700"
+            className="flex items-center justify-center p-1.5 rounded-full text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
             aria-label="Basculer le thème"
           >
-            {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+            {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
           </button>
 
           <a
             href="#contact"
-            className="px-5 py-2 bg-indigo-600 text-white dark:bg-white dark:text-slate-950 text-sm font-semibold rounded-full hover:bg-indigo-700 dark:hover:bg-indigo-50 transition-colors whitespace-nowrap shadow-sm hover:shadow-md ml-2"
+            className="ml-2 px-4 py-1.5 bg-indigo-600 text-white dark:bg-white dark:text-slate-950 text-xs font-semibold rounded-full hover:bg-indigo-700 dark:hover:bg-indigo-50 transition-colors whitespace-nowrap shadow-sm hover:shadow-md"
           >
-            Demander un devis
+            Devis
           </a>
+        </div>
+
+        {/* Mobile Menu Toggle */}
+        <div className="flex xl:hidden items-center gap-4">
+          <div className="flex xl:hidden items-center gap-1 sm:gap-2">
+            <button
+              onClick={toggleLanguage}
+              className="px-2 sm:px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-bold text-[10px] sm:text-xs uppercase hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors flex items-center gap-1.5"
+            >
+              <Languages size={14} />
+              <span>{language}</span>
+            </button>
+          </div>
+          
+          <button
+            className="p-1.5 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:text-white rounded-lg"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label={mobileMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
+          >
+            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
       </div>
 

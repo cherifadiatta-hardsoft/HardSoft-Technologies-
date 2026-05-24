@@ -9,9 +9,9 @@ export default function ContactFooter() {
   const [showNewsletterToast, setShowNewsletterToast] = useState(false);
 
   const [formData, setFormData] = useState({
-    name: 'Diatta Cherif A',
-    email: 'jik.jikoox@gmail.com',
-    phone: '781466421',
+    name: '',
+    email: '',
+    phone: '',
     service: '',
     contactMethod: '',
     projectDescription: ''

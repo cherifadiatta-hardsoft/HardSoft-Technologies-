@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef, Suspense, lazy } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import CompanyStats from './components/CompanyStats';
@@ -7,7 +8,6 @@ import Formations from './components/Formations';
 import Portfolio from './components/Portfolio';
 import Testimonials from './components/Testimonials';
 import Founder from './components/Founder';
-import FAQ from './components/FAQ';
 import ProjectEstimator from './components/ProjectEstimator';
 import ContactFooter from './components/ContactFooter';
 import WhatsAppWidget from './components/WhatsAppWidget';
@@ -16,6 +16,43 @@ import Technologies from './components/Technologies';
 import BackToTop from './components/BackToTop';
 import SEO from './components/SEO';
 import { useSectionObserver } from './hooks/useSectionObserver';
+
+const LazyFAQ = lazy(() => import('./components/FAQ'));
+
+function FAQSection() {
+  const [isInView, setIsInView] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '400px' }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={ref}>
+      {isInView ? (
+        <Suspense fallback={<div className="py-24 text-center text-slate-500">Chargement de la FAQ...</div>}>
+          <LazyFAQ />
+        </Suspense>
+      ) : (
+        <div className="py-24" />
+      )}
+    </div>
+  );
+}
 
 export default function App() {
   const activeSection = useSectionObserver();
@@ -49,7 +86,7 @@ export default function App() {
         <Portfolio />
         <Founder />
         <Testimonials />
-        <FAQ />
+        <FAQSection />
       </main>
 
       <ProjectEstimator />
