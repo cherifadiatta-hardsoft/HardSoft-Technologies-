@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ExternalLink } from 'lucide-react';
+import LazyImage from './LazyImage';
 
 const categories = ['Tous', 'SaaS & Écosystème', 'Institutionnel', 'E-Commerce & Médias'];
 
@@ -142,32 +143,43 @@ export default function Portfolio() {
 
         {/* Grid */}
         <motion.div layout className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <AnimatePresence>
+          <AnimatePresence mode="popLayout">
             {filteredProjects.map((project) => (
               <motion.div
                 key={project.domain}
                 layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.2 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3, ease: 'easeInOut' }}
                 className="group bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden hover:border-slate-600 transition-colors flex flex-col"
               >
+                <div className="relative h-48 w-full border-b border-slate-100 dark:border-slate-800 overflow-hidden bg-slate-100 dark:bg-slate-900">
+                  <LazyImage 
+                    src={`https://picsum.photos/seed/${project.domain}/600/400`} 
+                    alt={project.name} 
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                  />
+                  {(project as any).isNew && (
+                    <div className="absolute top-4 left-4">
+                      <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 bg-indigo-600 text-white shadow backdrop-blur rounded-full">
+                        Nouveau
+                      </span>
+                    </div>
+                  )}
+                  <div className="absolute top-4 right-4">
+                     <span className="text-xs font-medium px-2.5 py-1 bg-white/95 dark:bg-slate-900/95 text-slate-800 dark:text-slate-200 backdrop-blur rounded-full shadow-sm">
+                        {project.category}
+                     </span>
+                  </div>
+                </div>
                 <div className="p-6 flex-1 flex flex-col">
                   <div className="flex justify-between items-start mb-4">
                      <div className="flex items-center gap-3">
                        <div className={`w-10 h-10 rounded-lg ${project.accent} flex items-center justify-center text-slate-900 dark:text-white font-bold text-lg`}>
                           {project.name.charAt(0)}
                        </div>
-                       {(project as any).isNew && (
-                         <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 rounded-full">
-                           Nouveau
-                         </span>
-                       )}
                      </div>
-                     <span className="text-xs font-medium px-2.5 py-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-full border border-slate-300 dark:border-slate-700">
-                        {project.category}
-                     </span>
                   </div>
                   <h3 className="text-xl font-semibold mb-2 text-slate-900 dark:text-white">{project.name}</h3>
                   <p className="text-sm text-slate-600 dark:text-slate-400 mb-6 flex-1">{project.description}</p>

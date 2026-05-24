@@ -1,5 +1,6 @@
 import Header from './components/Header';
 import Hero from './components/Hero';
+import CompanyStats from './components/CompanyStats';
 import Services from './components/Services';
 import POS from './components/POS';
 import Formations from './components/Formations';
@@ -7,6 +8,7 @@ import Portfolio from './components/Portfolio';
 import Testimonials from './components/Testimonials';
 import Founder from './components/Founder';
 import FAQ from './components/FAQ';
+import ProjectEstimator from './components/ProjectEstimator';
 import ContactFooter from './components/ContactFooter';
 import WhatsAppWidget from './components/WhatsAppWidget';
 import Approaches from './components/Approaches';
@@ -38,6 +40,7 @@ export default function App() {
       
       <main>
         <Hero />
+        <CompanyStats />
         <Approaches />
         <Services />
         <Technologies />
@@ -49,6 +52,7 @@ export default function App() {
         <FAQ />
       </main>
 
+      <ProjectEstimator />
       <ContactFooter />
       <WhatsAppWidget />
       <BackToTop />
