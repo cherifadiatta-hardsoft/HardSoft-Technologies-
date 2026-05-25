@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Mail, Shield, Zap, Target, Flame, Lightbulb, GraduationCap, ChevronRight, CheckCircle2, Award, Calendar, Layers, Activity, X, Clock, Check, Video, Phone } from 'lucide-react';
 import LazyImage from './LazyImage';
-import cherifImg from '../assets/images/Gemini_Generated_Image_91w8jc91w8jc91w8.png';
+import cherifImg from '../assets/images/founder_profile_cherif_1779706726535.png';
+import { useLanguage } from './LanguageProvider';
 
 export default function About() {
+  const { language, t } = useLanguage();
   const [activeTab, setActiveTab] = useState<'enterprise' | 'methods' | 'founder'>('enterprise');
 
   // Scheduler modal and form states
@@ -801,10 +803,15 @@ export default function About() {
                     </div>
                     <div className="space-y-2">
                       <h4 className="font-display font-extrabold text-xl text-slate-900 dark:text-white">
-                        Rendez-vous planifié !
+                        {t('about.booking.success_title')}
                       </h4>
                       <p className="text-sm text-slate-600 dark:text-slate-400 max-w-sm mx-auto leading-relaxed">
-                        Félicitations <strong>{bookingName}</strong>, Chérif Alioune Diatta se fera un plaisir de vous rencontrer.
+                        {t('about.booking.success_desc', {
+                          name: bookingName,
+                          type: meetingType === 'intro' ? (language === 'fr' ? 'Café Virtuel' : 'Virtual Coffee') : meetingType === 'tech' ? (language === 'fr' ? 'Démo Technique' : 'Tech Demo') : (language === 'fr' ? 'Session de Cadrage' : 'Scoping Call'),
+                          date: workingDays.find(d => d.dateStr === selectedDate)?.label || selectedDate,
+                          time: selectedTime
+                        })}
                       </p>
                     </div>
 
@@ -812,20 +819,23 @@ export default function About() {
                     <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-800 text-left max-w-sm mx-auto space-y-2.5">
                       <div className="flex items-center gap-2 text-xs font-bold text-slate-700 dark:text-slate-300">
                         <span className="text-emerald-500 text-sm">📅</span>
-                        <span>Date : {workingDays.find(d => d.dateStr === selectedDate)?.label || selectedDate}</span>
+                        <span>{language === 'fr' ? 'Date : ' : 'Date: '} {workingDays.find(d => d.dateStr === selectedDate)?.label || selectedDate}</span>
                       </div>
                       <div className="flex items-center gap-2 text-xs font-bold text-slate-700 dark:text-slate-300 border-t border-slate-150/50 dark:border-slate-800/50 pt-2">
                         <span className="text-emerald-500 text-sm">🕰️</span>
-                        <span>Heure : {selectedTime} (GMT / Heure du Sénégal)</span>
+                        <span>{language === 'fr' ? 'Heure : ' : 'Time: '} {selectedTime} (GMT {language === 'fr' ? '/ Heure du Sénégal' : '/ Dakar Time'})</span>
                       </div>
                       <div className="flex items-center gap-2 text-xs font-bold text-slate-700 dark:text-slate-300 border-t border-slate-150/50 dark:border-slate-800/50 pt-2">
                         <span className="text-indigo-500 text-sm">📹</span>
-                        <span>Canal : Visioconférence Google Meet (Lien inclus dans l'invitation)</span>
+                        <span>{language === 'fr' ? 'Canal : Visioconférence Google Meet (Lien inclus dans l\'invitation)' : 'Meeting Channel: Google Meet Videoconference (Link included in invite)'}</span>
                       </div>
                     </div>
 
                     <p className="text-xs text-slate-550 dark:text-slate-400 max-w-sm mx-auto">
-                      Un email de confirmation contenant l'invitation de calendrier et le lien Google Meet vous a été envoyé à <strong>{bookingEmail}</strong>.
+                      {language === 'fr' 
+                        ? <>Un email de confirmation contenant l'invitation de calendrier et le lien Google Meet vous a été envoyé à <strong>{bookingEmail}</strong>.</>
+                        : <>A confirmation email containing the calendar invite and Google Meet link has been sent to <strong>{bookingEmail}</strong>.</>
+                      }
                     </p>
 
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4">
@@ -836,14 +846,14 @@ export default function About() {
                         className="w-full sm:w-auto px-5 py-2.5 bg-[#4285F4] hover:bg-[#357ae8] text-white font-extrabold rounded-xl text-xs border border-blue-400/20 transition-all duration-300 flex items-center justify-center gap-1.5 shadow-md hover:shadow-xl hover:shadow-blue-500/30 hover:scale-105 hover:-translate-y-0.5 cursor-pointer active:scale-95 group"
                       >
                         <Calendar size={14} className="text-white shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300" />
-                        <span>Ajouter à mon agenda</span>
+                        <span>{language === 'fr' ? 'Ajouter à mon agenda' : 'Add to Calendar'}</span>
                       </a>
                       <a
                         href={getShareEmailUrl()}
                         className="w-full sm:w-auto px-5 py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-extrabold rounded-xl text-xs border border-slate-200 dark:border-slate-700/60 transition-all duration-300 flex items-center justify-center gap-1.5 shadow-sm hover:shadow-md hover:scale-105 hover:-translate-y-0.5 cursor-pointer active:scale-95 group"
                       >
                         <Mail size={14} className="text-slate-500 dark:text-slate-400 shrink-0 group-hover:scale-110 transition-transform duration-300" />
-                        <span>Partager par e-mail</span>
+                        <span>{language === 'fr' ? 'Partager par e-mail' : 'Share via Email'}</span>
                       </a>
                       <a
                         href="https://wa.me/221774249333"
