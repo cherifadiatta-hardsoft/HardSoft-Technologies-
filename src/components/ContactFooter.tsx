@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MapPin, Phone, Mail, Send, MessageCircle, CheckCircle, Loader2, Copy, Check } from 'lucide-react';
+import { MapPin, Phone, Mail, Send, MessageCircle, CheckCircle, Loader2, Copy, Check, Code2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { WHATSAPP_URL } from '../config';
 
@@ -489,11 +489,18 @@ export default function ContactFooter() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 pt-16 border-t border-slate-200 dark:border-slate-800 mb-8">
           {/* Section 1: Logo & À propos */}
           <div className="flex flex-col gap-6">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-indigo-600 flex items-center justify-center shrink-0">
-                <span className="text-white font-bold text-xl">H</span>
+            <div className="flex items-center gap-2.5">
+              <div className="w-10 h-10 rounded-lg bg-indigo-600 flex items-center justify-center text-white shadow-md">
+                <Code2 size={20} className="text-white" />
               </div>
-              <span className="text-xl font-bold text-slate-900 dark:text-white">HardSoft Technologies</span>
+              <div className="flex flex-col text-left">
+                <span className="text-lg font-black tracking-tight text-slate-900 dark:text-white leading-none">
+                  HardSoft
+                </span>
+                <span className="text-[11px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 leading-none mt-1">
+                  Technologies
+                </span>
+              </div>
             </div>
             <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
               Votre partenaire technologique de confiance pour des solutions digitales innovantes et sur mesure.
