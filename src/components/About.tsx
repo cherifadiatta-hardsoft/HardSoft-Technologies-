@@ -840,9 +840,9 @@ export default function About() {
                       </a>
                       <a
                         href={getShareEmailUrl()}
-                        className="w-full sm:w-auto px-5 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-extrabold rounded-xl text-xs border border-slate-200 dark:border-slate-700 transition-all flex items-center justify-center gap-1.5 shadow-sm cursor-pointer active:scale-95"
+                        className="w-full sm:w-auto px-5 py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-extrabold rounded-xl text-xs border border-slate-200 dark:border-slate-700/60 transition-all duration-300 flex items-center justify-center gap-1.5 shadow-sm hover:shadow-md hover:scale-105 hover:-translate-y-0.5 cursor-pointer active:scale-95 group"
                       >
-                        <Mail size={14} className="text-slate-500 dark:text-slate-400 shrink-0" />
+                        <Mail size={14} className="text-slate-500 dark:text-slate-400 shrink-0 group-hover:scale-110 transition-transform duration-300" />
                         <span>Partager par e-mail</span>
                       </a>
                       <a
