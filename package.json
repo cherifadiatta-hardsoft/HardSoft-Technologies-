@@ -9,7 +9,9 @@
   "scripts": {
     "dev": "tsx server.ts",
     "build": "vite build && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs",
+    "build:legacy": "NODE_OPTIONS=--openssl-legacy-provider vite build && NODE_OPTIONS=--openssl-legacy-provider esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs",
     "start": "node dist/server.cjs",
+    "start:legacy": "NODE_OPTIONS=--openssl-legacy-provider node dist/server.cjs",
     "preview": "vite preview",
     "lint": "tsc --noEmit"
   },

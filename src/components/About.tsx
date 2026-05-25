@@ -77,6 +77,37 @@ export default function About() {
     }
   };
 
+  const getGoogleCalendarUrl = () => {
+    try {
+      if (!selectedDate || !selectedTime) return '';
+      
+      // selectedDate is in YYYY-MM-DD format, remove dashes to get YYYYMMDD
+      const dateParts = selectedDate.replace(/-/g, '');
+      const times = selectedTime.split(' - ');
+      if (times.length !== 2) return '';
+      
+      const startTimeRaw = times[0].replace(':', '');
+      const endTimeRaw = times[1].replace(':', '');
+      
+      const startDateTime = `${dateParts}T${startTimeRaw}00Z`;
+      const endDateTime = `${dateParts}T${endTimeRaw}00Z`;
+      
+      const title = encodeURIComponent("Cadrage Projet Logique & Technique - HardSoft");
+      const details = encodeURIComponent(
+        `Session de cadrage de projet avec Chérif Alioune Diatta.\n\n` +
+        `Client : ${bookingName} (${bookingEmail})\n` +
+        `Type : ${meetingType === 'intro' ? 'Café Virtuel (15m)' : meetingType === 'tech' ? 'Démo Technique (30m)' : 'Cadrage Logiciel (45m)'}\n` +
+        `Notes : ${bookingNotes || 'Aucune note spécifiée.'}\n\n` +
+        `Visioconférence Google Meet`
+      );
+      const location = encodeURIComponent("Google Meet (En ligne)");
+      
+      return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startDateTime}/${endDateTime}&details=${details}&location=${location}`;
+    } catch (e) {
+      return '';
+    }
+  };
+
   const expertises = [
     {
       title: "Applications Web & Platformes SaaS",
@@ -753,21 +784,30 @@ export default function About() {
                     </p>
 
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4">
-                      <button
-                        onClick={() => setIsBookingModalOpen(false)}
-                        className="w-full sm:w-auto px-6 py-2.5 bg-slate-900 hover:bg-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 text-white font-extrabold rounded-xl text-xs cursor-pointer transition-all shadow-md"
+                      <a
+                        href={getGoogleCalendarUrl()}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full sm:w-auto px-5 py-2.5 bg-[#4285F4] hover:bg-[#357ae8] text-white font-extrabold rounded-xl text-xs border border-blue-400/20 transition-all flex items-center justify-center gap-1.5 shadow-md hover:shadow-blue-500/25 cursor-pointer active:scale-95"
                       >
-                        Super, merci !
-                      </button>
+                        <Calendar size={14} className="text-white shrink-0" />
+                        <span>Ajouter à mon agenda</span>
+                      </a>
                       <a
                         href="https://wa.me/221774249333"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-full sm:w-auto px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold rounded-xl text-xs border border-emerald-400/20 transition-all flex items-center justify-center gap-1.5"
+                        className="w-full sm:w-auto px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold rounded-xl text-xs border border-emerald-400/20 transition-all flex items-center justify-center gap-1.5 cursor-pointer active:scale-95"
                       >
-                        <Phone size={14} />
-                        <span>Me connecter par WhatsApp</span>
+                        <Phone size={14} className="shrink-0" />
+                        <span>WhatsApp</span>
                       </a>
+                      <button
+                        onClick={() => setIsBookingModalOpen(false)}
+                        className="w-full sm:w-auto px-5 py-2.5 bg-slate-900 hover:bg-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 text-white font-extrabold rounded-xl text-xs cursor-pointer transition-all shadow-md active:scale-95"
+                      >
+                        Fermer
+                      </button>
                     </div>
                   </motion.div>
                 )}

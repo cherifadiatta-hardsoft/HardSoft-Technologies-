@@ -130,9 +130,38 @@ export default function FAQ() {
               </div>
             ))
           ) : (
-            <div className="text-center py-10 text-slate-500 dark:text-slate-400">
-              <p>Aucun résultat trouvé pour "{searchQuery}".</p>
-            </div>
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-center py-16 px-6 bg-slate-50 dark:bg-slate-900/45 border border-dashed border-slate-200 dark:border-slate-800 rounded-3xl"
+            >
+              <div className="text-4xl mb-4 select-none">🔍</div>
+              <h3 className="font-display font-bold text-lg text-slate-800 dark:text-white mb-2">
+                Aucune question ne correspond à votre recherche
+              </h3>
+              <p className="text-sm text-slate-600 dark:text-slate-400 max-w-md mx-auto mb-6">
+                Nous n'avons trouvé aucun résultat pour « <strong className="text-indigo-500">{searchQuery}</strong> » dans la catégorie « <strong className="text-indigo-500">{selectedCategory}</strong> ». Essayez d'utiliser des termes différents ou de réinitialiser la recherche.
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                {(searchQuery || selectedCategory !== 'Toutes') && (
+                  <button
+                    onClick={() => {
+                      setSearchQuery('');
+                      setSelectedCategory('Toutes');
+                    }}
+                    className="px-5 py-2.5 bg-indigo-600/10 hover:bg-indigo-600/20 text-indigo-600 dark:text-indigo-400 font-bold rounded-xl text-xs transition-all border border-indigo-200 dark:border-indigo-900/40 cursor-pointer active:scale-95"
+                  >
+                    Réinitialiser les filtres
+                  </button>
+                )}
+                <a
+                  href="#contact"
+                  className="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 dark:bg-slate-850 dark:hover:bg-slate-800 text-white font-bold rounded-xl text-xs transition-all cursor-pointer active:scale-95 shadow-sm"
+                >
+                  Nous poser votre question
+                </a>
+              </div>
+            </motion.div>
           )}
         </div>
       </div>
