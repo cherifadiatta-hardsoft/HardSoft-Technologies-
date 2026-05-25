@@ -112,19 +112,30 @@ export default function About() {
 
   const getShareEmailUrl = () => {
     try {
-      const subject = encodeURIComponent("Confirmation de Rendez-vous - HardSoft Technologies");
+      const isFr = language === 'fr';
+      const subject = encodeURIComponent(
+        isFr 
+          ? "Confirmation de Rendez-vous - HardSoft Technologies" 
+          : "Meeting Confirmation - HardSoft Technologies"
+      );
       const dateLabel = workingDays.find(d => d.dateStr === selectedDate)?.label || selectedDate;
       const typeLabel = meetingType === 'intro' 
-        ? '☕ Café Virtuel - Introduction & Prise de contact (15 minutes)' 
+        ? (isFr 
+            ? '☕ Café Virtuel - Introduction & Prise de contact (15 minutes)' 
+            : '☕ Virtual Coffee - Introduction & First contact (15 minutes)')
         : meetingType === 'tech' 
-          ? '💻 Démo Technique - Avis commercial & Technique (30 minutes)' 
-          : '🚀 Session de Cadrage de Projet Logiciel (45 minutes)';
+          ? (isFr 
+              ? '💻 Démo Technique - Avis commercial & Technique (30 minutes)' 
+              : '💻 Tech Demo - Commercial & Technical Overview (30 minutes)') 
+          : (isFr 
+              ? '🚀 Session de Cadrage de Projet Logiciel (45 minutes)' 
+              : '🚀 Software Project Scoping Session (45 minutes)');
       
       const formattedNotes = bookingNotes?.trim() 
         ? `« ${bookingNotes.trim()} »` 
-        : 'Aucune description ou note particulière fournie.';
+        : (isFr ? 'Aucune description ou note particulière fournie.' : 'No description or specific notes provided.');
       
-      const emailBody = 
+      const emailBody = isFr ? (
         `Bonjour,\n\n` +
         `Voici le récapitulatif complet de la session de cadrage planifiée avec Chérif Alioune Diatta :\n\n` +
         `==================================================\n` +
@@ -147,8 +158,33 @@ export default function About() {
         `Cordialement,\n` +
         `Chérif Alioune Diatta\n` +
         `HardSoft Technologies\n` +
-        `https://hardsoft-technologies.net`;
-
+        `https://hardsoft-technologies.net`
+      ) : (
+        `Hello,\n\n` +
+        `Here is the complete summary of the scoping session planned with Chérif Alioune Diatta :\n\n` +
+        `==================================================\n` +
+        ` 📅 RESERVATION DETAILS\n` +
+        `==================================================\n` +
+        `• Meeting Subject: ${typeLabel}\n` +
+        `• Selected Date   : ${dateLabel}\n` +
+        `• Local Time      : ${selectedTime} (GMT / Dakar Time)\n` +
+        `• Platform        : Google Meet Videoconference (Link included in calendar invite)\n\n` +
+        `👤 VISITOR INFORMATION\n` +
+        `--------------------------------------------------\n` +
+        `• Main Client : ${bookingName}\n` +
+        `• Email       : ${bookingEmail}\n\n` +
+        `📝 PROJECT NOTES & RECAP\n` +
+        `--------------------------------------------------\n` +
+        `${formattedNotes}\n\n` +
+        `==================================================\n\n` +
+        `An invitation email with secure access to the videoconference (Google Meet) has been automatically generated for ${bookingEmail}.\n\n` +
+        `For any emergency or follow-up question, you can contact us via WhatsApp or directly by replying to this email.\n\n` +
+        `Best regards,\n` +
+        `Chérif Alioune Diatta\n` +
+        `HardSoft Technologies\n` +
+        `https://hardsoft-technologies.net`
+      );
+ 
       return `mailto:?subject=${subject}&body=${encodeURIComponent(emailBody)}`;
     } catch (e) {
       return '';
@@ -730,14 +766,14 @@ export default function About() {
                     {/* Direct forms inputs */}
                     <div className="space-y-3 pt-2 border-t border-slate-100 dark:border-slate-800">
                       <label className="block text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
-                        4. Vos coordonnées
+                        {language === 'fr' ? '4. Vos coordonnées' : '4. Your contact details'}
                       </label>
-                      <div className="grid grid-cols-2 gap-3">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div className="space-y-1">
                           <input
                             type="text"
                             required
-                            placeholder="Nom complet *"
+                            placeholder={language === 'fr' ? "Nom complet *" : "Full name *"}
                             value={bookingName}
                             onChange={(e) => setBookingName(e.target.value)}
                             className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 focus:border-emerald-500 focus:ring-emerald-500 rounded-lg px-3 py-2.5 text-slate-900 dark:text-white focus:outline-none focus:ring-1 text-xs placeholder:text-slate-400"
@@ -747,7 +783,7 @@ export default function About() {
                           <input
                             type="email"
                             required
-                            placeholder="Adresse email *"
+                            placeholder={language === 'fr' ? "Adresse email *" : "Business email *"}
                             value={bookingEmail}
                             onChange={(e) => setBookingEmail(e.target.value)}
                             className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 focus:border-emerald-500 focus:ring-emerald-500 rounded-lg px-3 py-2.5 text-slate-900 dark:text-white focus:outline-none focus:ring-1 text-xs placeholder:text-slate-400"
@@ -756,7 +792,7 @@ export default function About() {
                       </div>
                       <textarea
                         rows={2}
-                        placeholder="Quels sont les détails importants de votre projet ?"
+                        placeholder={language === 'fr' ? "Quels sont les détails importants de votre projet ?" : "What are the important details or goals of your project?"}
                         value={bookingNotes}
                         onChange={(e) => setBookingNotes(e.target.value)}
                         className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 focus:border-emerald-500 focus:ring-emerald-555 rounded-lg p-3 text-slate-900 dark:text-white focus:outline-none focus:ring-1 text-xs placeholder:text-slate-400 resize-none"
@@ -773,12 +809,12 @@ export default function About() {
                         {bookingLoading ? (
                           <>
                             <div className="w-4 h-4 border-2 border-white/35 border-t-white rounded-full animate-spin"></div>
-                            <span>Prise de rendez-vous...</span>
+                            <span>{language === 'fr' ? 'Prise de rendez-vous...' : 'Booking meeting...'}</span>
                           </>
                         ) : (
                           <>
                             <Check size={16} />
-                            <span>Confirmer le rendez-vous</span>
+                            <span>{language === 'fr' ? 'Confirmer le rendez-vous' : 'Confirm reservation'}</span>
                           </>
                         )}
                       </button>
@@ -787,7 +823,7 @@ export default function About() {
                         onClick={scrollToContact}
                         className="w-full sm:w-auto px-4 py-3.5 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-605 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-bold rounded-xl text-xs text-center cursor-pointer transition-all"
                       >
-                        Utiliser le formulaire classique
+                        {language === 'fr' ? 'Utiliser le formulaire classique' : 'Use standard message form'}
                       </button>
                     </div>
                   </form>

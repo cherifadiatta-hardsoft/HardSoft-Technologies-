@@ -78,13 +78,18 @@ export default function Header() {
 
       <div className={`max-w-[1400px] mx-auto px-4 sm:px-6 flex items-center justify-between transition-all duration-300 ${isScrolled ? 'h-16' : 'h-20'}`}>
         {/* Logo */}
-        <a href="#accueil" className="flex items-center gap-2 group shrink-0">
-          <div className="w-9 h-9 rounded-lg bg-indigo-600 flex items-center justify-center text-slate-900 dark:text-white group-hover:scale-105 transition-transform">
-            <Code2 size={20} />
+        <a href="#accueil" className="flex items-center gap-2 sm:gap-2.5 group shrink-0">
+          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-indigo-600 flex items-center justify-center text-white group-hover:scale-105 transition-transform shadow-md">
+            <Code2 size={18} className="sm:size-5 text-white" />
           </div>
-          <span className="text-lg font-bold tracking-tight hidden sm:block">
-            HardSoft <span className="text-indigo-400">Tech</span>
-          </span>
+          <div className="flex flex-col">
+            <span className="text-sm sm:text-lg font-black tracking-tight text-slate-900 dark:text-white leading-none">
+              HardSoft
+            </span>
+            <span className="text-[9px] sm:text-[11px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 leading-none mt-0.5 sm:mt-1">
+              Technologies
+            </span>
+          </div>
         </a>
 
         {/* Desktop Primary Nav */}
