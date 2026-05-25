@@ -495,7 +495,7 @@ export default function About() {
                     <LazyImage 
                       src={cherifImg} 
                       alt="Photo de profil de Chérif Alioune Diatta"
-                      containerClassName="absolute inset-0 w-full h-full grayscale hover:grayscale-0 transition-all duration-700"
+                      containerClassName="absolute inset-0 w-full h-full transition-all duration-700"
                     />
                     <div className="absolute inset-0 bg-gradient-to-tr from-slate-50 dark:from-slate-900 via-transparent to-indigo-900/30 mix-blend-multiply pointer-events-none"></div>
                     
