@@ -41,13 +41,13 @@ export default function Header() {
   }, []);
 
   const navLinks = [
-    { name: 'Accueil', href: '#accueil' },
+    { name: t('nav.accueil'), href: '#accueil' },
     { name: t('nav.services'), href: '#services' },
-    { name: 'Logiciel POS', href: '#pos' },
+    { name: t('nav.pos'), href: '#pos' },
     { name: t('nav.formations'), href: '#formations' },
     { name: t('nav.portfolio'), href: '#portfolio' },
     { name: t('nav.apropos'), href: '#about' },
-    { name: 'FAQ', href: '#faq' },
+    { name: t('nav.faq'), href: '#faq' },
     { name: t('nav.contact'), href: '#contact' },
   ];
 
@@ -166,7 +166,7 @@ export default function Header() {
             href="#contact"
             className="ml-2 px-4 py-1.5 bg-indigo-600 text-white dark:bg-white dark:text-slate-950 text-xs font-semibold rounded-full hover:bg-indigo-700 dark:hover:bg-indigo-50 transition-colors whitespace-nowrap shadow-sm hover:shadow-md"
           >
-            Devis
+            {language === 'fr' ? 'Devis' : 'Quote'}
           </a>
         </div>
 
@@ -270,7 +270,7 @@ export default function Header() {
                 className="mt-4 px-6 py-3 bg-indigo-600 text-white text-center font-semibold rounded-lg hover:bg-indigo-700 transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Demander un devis
+                {language === 'fr' ? 'Demander un devis' : 'Get a free quote'}
               </a>
             </nav>
           </motion.div>

@@ -1,18 +1,22 @@
 import { motion } from 'motion/react';
 import { CheckCircle2, TrendingUp, Laptop, HeadphonesIcon } from 'lucide-react';
+import { useLanguage } from './LanguageProvider';
 
 export default function POS() {
+  const { language } = useLanguage();
+  const isFr = language === 'fr';
+
   const highlights = [
-    { icon: <Laptop size={20} />, text: 'Facile à prendre en main' },
-    { icon: <TrendingUp size={20} />, text: 'Rapports détaillés' },
-    { icon: <HeadphonesIcon size={20} />, text: 'Support technique local' },
+    { icon: <Laptop size={20} />, text: isFr ? 'Facile à prendre en main' : 'Intuitive & easy to learn' },
+    { icon: <TrendingUp size={20} />, text: isFr ? 'Rapports détaillés' : 'Detailed analytics' },
+    { icon: <HeadphonesIcon size={20} />, text: isFr ? 'Support technique local' : 'Local technical support' },
   ];
 
   return (
     <section 
       id="pos" 
-      data-seo-title="Solution POS & Caisse Enregistreuse | HardSoft Technologies" 
-      data-seo-description="Simplifiez la gestion de votre point de vente, gérez les stocks et analysez vos ventes en temps réel." 
+      data-seo-title={isFr ? "Solution POS & Caisse Enregistreuse | HardSoft Technologies" : "POS Solution & Cash Registers | HardSoft Technologies"} 
+      data-seo-description={isFr ? "Simplifiez la gestion de votre point de vente, gérez les stocks et analysez vos ventes en temps réel." : "Simplify point of sale management, oversee inventory, and optimize real-time receipts."} 
       className="py-24 bg-slate-50 dark:bg-slate-900"
     >
       <div className="max-w-7xl 2xl:max-w-[1400px] 3xl:max-w-[1600px] mx-auto px-6">
@@ -71,13 +75,15 @@ export default function POS() {
             className="order-1 lg:order-2"
           >
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-600 dark:text-violet-300 text-xs sm:text-sm font-semibold mb-6 tracking-wide select-none">
-              Notre Solution Phare
+              {isFr ? "Notre Solution Phare" : "Our Flagship Solution"}
             </div>
             <h2 className="font-display text-3xl md:text-5xl 2xl:text-6xl font-bold mb-6 text-slate-900 dark:text-white tracking-tight leading-[1.1]">
-              Simplifiez la gestion de votre commerce avec notre Logiciel POS.
+              {isFr ? "Simplifiez la gestion de votre commerce avec notre Logiciel POS." : "Simplify business management with our custom POS Software."}
             </h2>
             <p className="text-base sm:text-lg 2xl:text-xl text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
-              Une solution complète de Point de Vente pour gérer vos stocks, suivre vos ventes en temps réel et piloter votre entreprise en toute simplicité. Conçu pour s'adapter à votre activité.
+              {isFr 
+                ? "Une solution complète de Point de Vente pour gérer vos stocks, suivre vos ventes en temps réel et piloter votre entreprise en toute simplicité. Conçu pour s'adapter à votre activité."
+                : "A complete Point of Sale solution to track stock, monitor remote sales in real-time, and run your retail or wholesale store with peace of mind. Highly adaptable."}
             </p>
 
             <ul className="space-y-4 mb-8">
@@ -95,7 +101,7 @@ export default function POS() {
               href="#contact"
               className="inline-flex items-center gap-2 px-6 py-3.5 bg-indigo-600 dark:bg-white text-white dark:text-slate-950 font-bold rounded-lg hover:bg-indigo-700 dark:hover:bg-slate-200 transition-colors shadow-md hover:shadow-lg text-sm sm:text-base cursor-pointer"
             >
-              Demander une démo
+              {isFr ? "Demander une démo" : "Request a Demo"}
             </a>
           </motion.div>
         </div>

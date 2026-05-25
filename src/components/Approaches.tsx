@@ -1,30 +1,40 @@
 import { motion } from 'motion/react';
 import { Lightbulb, Code2, Rocket } from 'lucide-react';
-
-const approaches = [
-  {
-    icon: <Lightbulb size={32} className="text-amber-400" />,
-    title: 'Sur-Mesure (Custom Code)',
-    description: 'Une conception à partir de zéro avec des technologies modernes (React, Node.js) pour répondre exactement à vos spécifications les plus complexes.',
-  },
-  {
-    icon: <Code2 size={32} className="text-blue-400" />,
-    title: 'No-Code / Low-Code',
-    description: 'L\'utilisation d\'outils agiles et d\'automatisation (n8n, WordPress) pour un déploiement rapide et des coûts maîtrisés, idéal pour les lancements rapides.',
-  },
-  {
-    icon: <Rocket size={32} className="text-rose-400" />,
-    title: 'Écosystème HardSoft',
-    description: 'L\'intégration de nos propres solutions prêtes à l\'emploi (Logiciel POS, Plateformes) adaptées et personnalisées à votre image.',
-  },
-];
+import { useLanguage } from './LanguageProvider';
 
 export default function Approaches() {
+  const { language } = useLanguage();
+  const isFr = language === 'fr';
+
+  const approaches = [
+    {
+      icon: <Lightbulb size={32} className="text-amber-400" />,
+      title: isFr ? 'Sur-Mesure (Custom Code)' : 'Bespoke (Custom Code)',
+      description: isFr 
+        ? 'Une conception à partir de zéro avec des technologies modernes (React, Node.js) pour répondre exactement à vos spécifications les plus complexes.'
+        : 'Full ground-up software design built around modern tech (React, Node.js) to accurately meet your custom and complex workflow needs.',
+    },
+    {
+      icon: <Code2 size={32} className="text-blue-400" />,
+      title: 'No-Code / Low-Code',
+      description: isFr
+        ? 'L\'utilisation d\'outils agiles et d\'automatisation (n8n, WordPress) pour un déploiement rapide et des coûts maîtrisés, idéal pour les lancements rapides.'
+        : 'Leveraging agile visual tools and automations (n8n, WordPress) for rapid market deployment and budget-optimized validation loops.',
+    },
+    {
+      icon: <Rocket size={32} className="text-rose-400" />,
+      title: isFr ? 'Écosystème HardSoft' : 'HardSoft Ecosystem',
+      description: isFr
+        ? 'L\'intégration de nos propres solutions prêtes à l\'emploi (Logiciel POS, Plateformes) adaptées et personnalisées à votre image.'
+        : 'Turnkey software solutions (POS Systems, dynamic admin setups) ready to deploy and instantly customized to fit your brand identity.',
+    },
+  ];
+
   return (
     <section 
       id="approches"
-      data-seo-title="Nos Approches de Développement | HardSoft Technologies" 
-      data-seo-description="Sur-mesure, Low-Code/No-Code ou intégration de solutions existantes, nous choisissons la meilleure approche pour votre projet." 
+      data-seo-title={isFr ? "Nos Approches de Développement | HardSoft Technologies" : "Our Development Approaches | HardSoft Technologies"} 
+      data-seo-description={isFr ? "Sur-mesure, Low-Code/No-Code ou intégration de solutions existantes, nous choisissons la meilleure approche pour votre projet." : "Custom engineering, low-code automations, or turnkey solutions: we deploy the most optimal strategy for your digital launch."} 
       className="py-24 bg-white dark:bg-slate-950 relative overflow-hidden"
     >
       {/* Background elements */}
@@ -32,9 +42,13 @@ export default function Approaches() {
       
       <div className="max-w-7xl 2xl:max-w-[1400px] 3xl:max-w-[1600px] mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="font-display text-3xl md:text-5xl 2xl:text-6xl font-bold mb-4 tracking-tight text-slate-900 dark:text-white">Nos 3 Approches de Développement</h2>
+          <h2 className="font-display text-3xl md:text-5xl 2xl:text-6xl font-bold mb-4 tracking-tight text-slate-900 dark:text-white">
+            {isFr ? "Nos 3 Approches de Développement" : "Our 3 Development Approaches"}
+          </h2>
           <p className="text-slate-600 dark:text-slate-400 text-base md:text-lg 2xl:text-xl">
-            Nous adaptons notre méthodologie en fonction de vos besoins, de votre budget et de vos délais.
+            {isFr 
+              ? "Nous adaptons notre méthodologie en fonction de vos besoins, de votre budget et de vos délais."
+              : "We adapt our methodology based on your exact needs, budget requirements, and specific timelines."}
           </p>
         </div>
 
@@ -46,7 +60,7 @@ export default function Approaches() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.2, duration: 0.5 }}
-              className="relative p-8 2xl:p-10 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-indigo-500/30 dark:hover:border-indigo-500/20 hover:bg-slate-100 dark:hover:bg-slate-800/20 transition-all duration-300 group"
+              className="relative p-8 2xl:p-10 rounded-3xl bg-slate-50 dark:bg-slate-900/30 border border-slate-200 dark:border-slate-800 hover:border-indigo-500/30 dark:hover:border-indigo-500/20 hover:bg-slate-100 dark:hover:bg-slate-800/20 transition-all duration-300 group"
             >
               <div className="absolute top-0 right-8 -translate-y-1/2 text-8xl font-black text-slate-800/20 group-hover:text-slate-800/40 dark:text-slate-600/10 dark:group-hover:text-slate-600/30 transition-colors z-0 select-none">
                 {index + 1}

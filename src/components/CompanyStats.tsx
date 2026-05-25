@@ -1,39 +1,43 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { CheckCircle2, Users, Award, Briefcase } from 'lucide-react';
-
-const stats = [
-  {
-    id: 1,
-    name: 'Projets Réalisés',
-    value: '50+',
-    icon: Briefcase,
-    description: 'Livrés avec succès',
-  },
-  {
-    id: 2,
-    name: 'Clients Satisfaits',
-    value: '100%',
-    icon: Users,
-    description: 'Notre priorité absolue',
-  },
-  {
-    id: 3,
-    name: 'Années d\'Expérience',
-    value: '5+',
-    icon: Award,
-    description: 'Expertise technique',
-  },
-  {
-    id: 4,
-    name: 'Technologies Maîtrisées',
-    value: '12+',
-    icon: CheckCircle2,
-    description: 'Solutions sur mesure',
-  },
-];
+import { useLanguage } from './LanguageProvider';
 
 export default function CompanyStats() {
+  const { language } = useLanguage();
+  const isFr = language === 'fr';
+
+  const stats = [
+    {
+      id: 1,
+      name: isFr ? 'Projets Réalisés' : 'Completed Projects',
+      value: '50+',
+      icon: Briefcase,
+      description: isFr ? 'Livrés avec succès' : 'Delivered successfully',
+    },
+    {
+      id: 2,
+      name: isFr ? 'Clients Satisfaits' : 'Satisfied Clients',
+      value: '100%',
+      icon: Users,
+      description: isFr ? 'Notre priorité absolue' : 'Our top priority',
+    },
+    {
+      id: 3,
+      name: isFr ? "Années d'Expérience" : 'Years of Experience',
+      value: '5+',
+      icon: Award,
+      description: isFr ? 'Expertise technique' : 'Technical expertise',
+    },
+    {
+      id: 4,
+      name: isFr ? 'Technologies Maîtrisées' : 'Mastered Technologies',
+      value: '12+',
+      icon: CheckCircle2,
+      description: isFr ? 'Solutions sur mesure' : 'Tailored solutions',
+    },
+  ];
+
   return (
     <section className="py-12 bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800">
       <div className="max-w-7xl 2xl:max-w-[1400px] 3xl:max-w-[1600px] mx-auto px-6 sm:px-8 lg:px-12">

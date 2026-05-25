@@ -2,8 +2,36 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Mail, Shield, Zap, Target, Flame, Lightbulb, GraduationCap, ChevronRight, CheckCircle2, Award, Calendar, Layers, Activity, X, Clock, Check, Video, Phone } from 'lucide-react';
 import LazyImage from './LazyImage';
-import cherifImg from '../assets/images/founder_profile_cherif_1779706726535.png';
+import cherifImg from '../assets/images/cherif_diatta_profile_1779710074650.png';
 import { useLanguage } from './LanguageProvider';
+
+const getNextWorkingDays = () => {
+  const days = [];
+  const options: Intl.DateTimeFormatOptions = { weekday: 'short', day: 'numeric', month: 'short' };
+  const current = new Date();
+  let added = 0;
+  
+  while (added < 5) {
+    const dayOfWeek = current.getDay();
+    if (dayOfWeek !== 0 && dayOfWeek !== 6) { // Exclude Sunday (0) and Saturday (6)
+      const dateStr = current.toISOString().split('T')[0];
+      const label = current.toLocaleDateString('fr-FR', options);
+      days.push({ dateStr, label });
+      added++;
+    }
+    current.setDate(current.getDate() + 1);
+  }
+  return days;
+};
+
+const timeSlots = [
+  "09:30 - 10:00",
+  "10:30 - 11:00",
+  "11:30 - 12:00",
+  "14:30 - 15:00",
+  "15:30 - 16:00",
+  "16:30 - 17:00"
+];
 
 export default function About() {
   const { language, t } = useLanguage();
@@ -12,53 +40,14 @@ export default function About() {
   // Scheduler modal and form states
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [meetingType, setMeetingType] = useState<'intro' | 'tech' | 'architecture'>('intro');
-  const [selectedDate, setSelectedDate] = useState<string>('');
-  const [selectedTime, setSelectedTime] = useState<string>('');
+  const workingDays = getNextWorkingDays();
+  const [selectedDate, setSelectedDate] = useState<string>(() => workingDays[0]?.dateStr || '');
+  const [selectedTime, setSelectedTime] = useState<string>(() => timeSlots[0] || '');
   const [bookingName, setBookingName] = useState('');
   const [bookingEmail, setBookingEmail] = useState('');
   const [bookingNotes, setBookingNotes] = useState('');
   const [bookingSubmitted, setBookingSubmitted] = useState(false);
   const [bookingLoading, setBookingLoading] = useState(false);
-
-  // Get dynamic working days helper (next 5 working days excluding Sunday/Saturday)
-  const getNextWorkingDays = () => {
-    const days = [];
-    const options: Intl.DateTimeFormatOptions = { weekday: 'short', day: 'numeric', month: 'short' };
-    const current = new Date();
-    let added = 0;
-    
-    while (added < 5) {
-      const dayOfWeek = current.getDay();
-      if (dayOfWeek !== 0 && dayOfWeek !== 6) { // Exclude Sunday (0) and Saturday (6)
-        const dateStr = current.toISOString().split('T')[0];
-        const label = current.toLocaleDateString('fr-FR', options);
-        days.push({ dateStr, label });
-        added++;
-      }
-      current.setDate(current.getDate() + 1);
-    }
-    return days;
-  };
-
-  const workingDays = getNextWorkingDays();
-
-  // Set default selected date once when working days are available, but don't cause infinite updates
-  if (!selectedDate && workingDays.length > 0) {
-    setSelectedDate(workingDays[0].dateStr);
-  }
-
-  const timeSlots = [
-    "09:30 - 10:00",
-    "10:30 - 11:00",
-    "11:30 - 12:00",
-    "14:30 - 15:00",
-    "15:30 - 16:00",
-    "16:30 - 17:00"
-  ];
-
-  if (!selectedTime) {
-    setSelectedTime(timeSlots[0]);
-  }
 
   const handleBookMeeting = (e: React.FormEvent) => {
     e.preventDefault();
@@ -622,10 +611,10 @@ export default function About() {
                   </div>
                   <div>
                     <h3 className="font-display font-bold text-slate-900 dark:text-white text-base sm:text-lg">
-                      Planifier une session de cadrage
+                      {language === 'fr' ? 'Planifier une session de cadrage' : 'Schedule a scoping session'}
                     </h3>
                     <p className="text-xs text-slate-500 dark:text-slate-400">
-                      Avec Chérif Alioune Diatta
+                      {language === 'fr' ? 'Avec Chérif Alioune Diatta' : 'With Chérif Alioune Diatta'}
                     </p>
                   </div>
                 </div>
@@ -645,7 +634,7 @@ export default function About() {
                     {/* Meeting Type / Duration Selection */}
                     <div>
                       <label className="block text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-2">
-                        1. Type de rendez-vous
+                        {language === 'fr' ? '1. Type de rendez-vous' : '1. Select meeting type'}
                       </label>
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
                         <button
@@ -662,7 +651,9 @@ export default function About() {
                             {meetingType === 'intro' && <Check size={14} className="text-emerald-500" />}
                           </div>
                           <div>
-                            <p className="text-xs font-bold text-slate-900 dark:text-white">Café Virtuel</p>
+                            <p className="text-xs font-bold text-slate-900 dark:text-white">
+                              {language === 'fr' ? 'Café Virtuel' : 'Virtual Coffee'}
+                            </p>
                             <p className="text-[10px] text-slate-500 dark:text-slate-400">15 minutes</p>
                           </div>
                         </button>
@@ -681,7 +672,9 @@ export default function About() {
                             {meetingType === 'tech' && <Check size={14} className="text-emerald-500" />}
                           </div>
                           <div>
-                            <p className="text-xs font-bold text-slate-900 dark:text-white">Démo Technique</p>
+                            <p className="text-xs font-bold text-slate-900 dark:text-white">
+                              {language === 'fr' ? 'Démo Technique' : 'Tech Review'}
+                            </p>
                             <p className="text-[10px] text-slate-500 dark:text-slate-400">30 minutes</p>
                           </div>
                         </button>
@@ -700,7 +693,9 @@ export default function About() {
                             {meetingType === 'architecture' && <Check size={14} className="text-emerald-500" />}
                           </div>
                           <div>
-                            <p className="text-xs font-bold text-slate-900 dark:text-white font-sans">Cadrage Logiciel</p>
+                            <p className="text-xs font-bold text-slate-900 dark:text-white font-sans">
+                              {language === 'fr' ? 'Cadrage Logiciel' : 'Software Scoping'}
+                            </p>
                             <p className="text-[10px] text-slate-500 dark:text-slate-400">45 minutes</p>
                           </div>
                         </button>
@@ -710,8 +705,10 @@ export default function About() {
                     {/* Date picker dynamic carousel */}
                     <div>
                       <label className="block text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-2 flex items-center justify-between">
-                        <span>2. Choisir une date disponible</span>
-                        <span className="text-[10px] text-indigo-550 dark:text-indigo-400 font-mono capitalize">UTC / Heure du Sénégal</span>
+                        <span>{language === 'fr' ? '2. Choisir une date disponible' : '2. Choose available date'}</span>
+                        <span className="text-[10px] text-indigo-550 dark:text-indigo-400 font-mono capitalize">
+                          {language === 'fr' ? 'UTC / Heure du Sénégal' : 'UTC / Senegal Time'}
+                        </span>
                       </label>
                       <div className="grid grid-cols-5 gap-2">
                         {workingDays.map((day) => (
@@ -743,7 +740,7 @@ export default function About() {
                     <div>
                       <label className="block text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-2 flex items-center gap-1">
                         <Clock size={12} className="text-slate-455" />
-                        <span>3. Sélection de l'heure</span>
+                        <span>{language === 'fr' ? "3. Sélection de l'heure" : "3. Select your time slot"}</span>
                       </label>
                       <div className="grid grid-cols-3 gap-2">
                         {timeSlots.map((slot) => (
@@ -904,7 +901,7 @@ export default function About() {
                         onClick={() => setIsBookingModalOpen(false)}
                         className="w-full sm:w-auto px-5 py-2.5 bg-slate-900 hover:bg-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 text-white font-extrabold rounded-xl text-xs cursor-pointer transition-all shadow-md active:scale-95"
                       >
-                        Fermer
+                        {language === 'fr' ? 'Fermer' : 'Close'}
                       </button>
                     </div>
                   </motion.div>

@@ -1,35 +1,47 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronLeft, ChevronRight, Quote } from 'lucide-react';
-
-const testimonials = [
-  {
-    id: 1,
-    quote: "L'équipe de HardSoft a transformé notre gestion avec leur logiciel POS. Un gain de temps incroyable et un support toujours réactif.",
-    name: "Marie Ndiaye",
-    company: "Gérante, Boutique Élégance",
-  },
-  {
-    id: 2,
-    quote: "Notre nouveau site web e-commerce est devenu notre premier canal de vente. Très professionnel et design épuré, exactement ce que nous voulions.",
-    name: "Amadou Fall",
-    company: "Directeur, Teranga Shop",
-  },
-  {
-    id: 3,
-    quote: "L'automatisation de nos processus avec n8n nous a permis de diviser notre temps administratif par deux. Merci pour l'accompagnement complet !",
-    name: "Sophie Diallo",
-    company: "Opérations, TechVision SN",
-  },
-  {
-    id: 4,
-    quote: "Excellente formation sur les outils numériques. Nos équipes sont désormais plus autonomes. Un grand professionnalisme.",
-    name: "Cheikh Diop",
-    company: "RH, Groupe Horizon",
-  }
-];
+import { useLanguage } from './LanguageProvider';
 
 export default function Testimonials() {
+  const { language } = useLanguage();
+  const isFr = language === 'fr';
+
+  const testimonials = [
+    {
+      id: 1,
+      quote: isFr 
+        ? "L'équipe de HardSoft a transformé notre gestion avec leur logiciel POS. Un gain de temps incroyable et un support toujours réactif."
+        : "The HardSoft team transformed our workflow with their POS software. Incredible time savings and always-reactive support.",
+      name: "Marie Ndiaye",
+      company: isFr ? "Gérante, Boutique Élégance" : "Manager, Elegance Boutique",
+    },
+    {
+      id: 2,
+      quote: isFr
+        ? "Notre nouveau site web e-commerce est devenu notre premier canal de vente. Très professionnel et design épuré, exactement ce que nous voulions."
+        : "Our new e-commerce web platform became our top sales channel. Very professional and sleek design, exactly what we wanted.",
+      name: "Amadou Fall",
+      company: isFr ? "Directeur, Teranga Shop" : "Director, Teranga Shop",
+    },
+    {
+      id: 3,
+      quote: isFr
+        ? "L'automatisation de nos processus avec n8n nous a permis de diviser notre temps administratif par deux. Merci pour l'accompagnement complet !"
+        : "Automating our workflows with n8n allowed us to divide our administration hours by half. Thank you for the full implementation support!",
+      name: "Sophie Diallo",
+      company: isFr ? "Opérations, TechVision SN" : "Operations, TechVision SN",
+    },
+    {
+      id: 4,
+      quote: isFr
+        ? "Excellente formation sur les outils numériques. Nos équipes sont désormais plus autonomes. Un grand professionnalisme."
+        : "Outstanding course on professional digital tools. Our teams are now completely autonomous. Truly professional work.",
+      name: "Cheikh Diop",
+      company: isFr ? "RH, Groupe Horizon" : "HR, Horizon Group",
+    }
+  ];
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
 
@@ -76,15 +88,19 @@ export default function Testimonials() {
   return (
     <section 
       id="temoignages" 
-      data-seo-title="Témoignages | HardSoft Technologies" 
-      data-seo-description="Découvrez les avis et retours d'expérience de nos clients partenaires sur nos solutions." 
+      data-seo-title={isFr ? "Témoignages | HardSoft Technologies" : "Testimonials | HardSoft Technologies"} 
+      data-seo-description={isFr ? "Découvrez les avis et retours d'expérience de nos clients partenaires sur nos solutions." : "Discover client reviews and testimonials about our customized digital products."} 
       className="py-24 bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Ce que disent nos clients</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            {isFr ? "Ce que disent nos clients" : "What Our Clients Say"}
+          </h2>
           <p className="text-slate-600 dark:text-slate-400">
-            La satisfaction de nos partenaires est notre meilleure preuve de l'efficacité de nos solutions.
+            {isFr 
+              ? "La satisfaction de nos partenaires est notre meilleure preuve de l'efficacité de nos solutions."
+              : "The feedback and satisfaction of our premium business partners highlights our daily commitment."}
           </p>
         </div>
 
@@ -129,16 +145,16 @@ export default function Testimonials() {
 
           {/* Navigation Buttons */}
           <button
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 sm:-translate-x-6 w-12 h-12 bg-slate-100 dark:bg-slate-800 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-900 dark:text-white rounded-full flex items-center justify-center shadow-lg transition-colors z-10"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 sm:-translate-x-6 w-12 h-12 bg-slate-100 dark:bg-slate-800 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-900 dark:text-white rounded-full flex items-center justify-center shadow-lg transition-colors z-10 cursor-pointer"
             onClick={() => paginate(-1)}
-            aria-label="Témoignage précédent"
+            aria-label={isFr ? "Témoignage précédent" : "Previous testimonial"}
           >
             <ChevronLeft size={24} />
           </button>
           <button
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 sm:translate-x-6 w-12 h-12 bg-slate-100 dark:bg-slate-800 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-900 dark:text-white rounded-full flex items-center justify-center shadow-lg transition-colors z-10"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 sm:translate-x-6 w-12 h-12 bg-slate-100 dark:bg-slate-800 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-900 dark:text-white rounded-full flex items-center justify-center shadow-lg transition-colors z-10 cursor-pointer"
             onClick={() => paginate(1)}
-            aria-label="Témoignage suivant"
+            aria-label={isFr ? "Témoignage suivant" : "Next testimonial"}
           >
             <ChevronRight size={24} />
           </button>
@@ -153,9 +169,9 @@ export default function Testimonials() {
                 setDirection(index > currentIndex ? 1 : -1);
                 setCurrentIndex(index);
               }}
-              aria-label={`Aller au témoignage ${index + 1}`}
+              aria-label={isFr ? `Aller au témoignage ${index + 1}` : `Go to testimonial ${index + 1}`}
               aria-current={index === currentIndex ? "true" : "false"}
-              className={`h-2 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-slate-900 transition-all ${
+              className={`h-2 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-slate-900 transition-all cursor-pointer ${
                 index === currentIndex ? 'w-8 bg-indigo-500' : 'w-2 bg-slate-200 dark:bg-slate-700 hover:bg-slate-500'
               }`}
             />

@@ -1,4 +1,5 @@
 import { motion } from 'motion/react';
+import { useLanguage } from './LanguageProvider';
 
 const frontendFrameworks = [
   'Angular', 'Astro', 'Next.js', 'Nuxt', 'Parcel', 'React', 'React Router', 'Svelte', 'SvelteKit', 'Vite', 'Vue.js'
@@ -9,18 +10,25 @@ const backendFrameworks = [
 ];
 
 export default function Technologies() {
+  const { language } = useLanguage();
+  const isFr = language === 'fr';
+
   return (
     <section 
       id="technologies"
-      data-seo-title="Nos Technologies & Frameworks | HardSoft Technologies" 
-      data-seo-description="Découvrez les frameworks que nous maitrisons : React, Angular, Vue, Next.js, Express, NestJS et bien plus." 
+      data-seo-title={isFr ? "Nos Technologies & Frameworks | HardSoft Technologies" : "Our Technologies & Frameworks | HardSoft Technologies"} 
+      data-seo-description={isFr ? "Découvrez les frameworks que nous maitrisons : React, Angular, Vue, Next.js, Express, NestJS et bien plus." : "Discover the production-tested frameworks we master: React, Next.js, Angular, NestJS, Express and more."} 
       className="py-24 bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800"
     >
       <div className="max-w-7xl 2xl:max-w-[1400px] 3xl:max-w-[1600px] mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="font-display text-3xl md:text-5xl 2xl:text-6xl font-bold mb-4 tracking-tight text-slate-900 dark:text-white">Frameworks préconisés</h2>
-          <p className="text-slate-600 dark:text-slate-400 text-base md:text-lg 2xl:text-xl">
-            Nous utilisons et déployons les frameworks JavaScript les plus robustes pour garantir des performances optimales et une compatibilité maximale.
+          <h2 className="font-display text-3xl md:text-5xl 2xl:text-6xl font-bold mb-4 tracking-tight text-slate-900 dark:text-white">
+            {isFr ? "Frameworks préconisés" : "Recommended Tech Stacks"}
+          </h2>
+          <p className="text-slate-600 dark:text-slate-400 text-base md:text-lg 2xl:text-xl leading-relaxed">
+            {isFr 
+              ? "Nous utilisons et déployons les frameworks JavaScript les plus robustes pour garantir des performances optimales et une compatibilité maximale."
+              : "We leverage and deploy the most robust and secure technology frameworks to guarantee optimal speed and highly scalable architectures."}
           </p>
         </div>
 

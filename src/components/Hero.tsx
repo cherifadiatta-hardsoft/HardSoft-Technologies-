@@ -1,13 +1,17 @@
 import { motion } from 'motion/react';
 import { ArrowRight, Terminal, MessageCircle } from 'lucide-react';
 import { WHATSAPP_URL } from '../config';
+import { useLanguage } from './LanguageProvider';
 
 export default function Hero() {
+  const { language } = useLanguage();
+  const isFr = language === 'fr';
+
   return (
     <section 
       id="accueil" 
-      data-seo-title="HardSoft Technologies | Accueil" 
-      data-seo-description="Découvrez nos solutions logicielles et nos services de développement pour la transformation digitale." 
+      data-seo-title={isFr ? "HardSoft Technologies | Accueil" : "HardSoft Technologies | Home"} 
+      data-seo-description={isFr ? "Découvrez nos solutions logicielles et nos services de développement pour l'innovation technologique." : "Discover our premium custom software and digitalization solutions for modern business innovation."} 
       className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden"
     >
       {/* Abstract Background */}
@@ -24,15 +28,21 @@ export default function Hero() {
           transition={{ duration: 0.6 }}
           className="max-w-2xl"
         >
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-600 dark:text-indigo-300 text-xs sm:text-sm font-semibold mb-6 tracking-wide">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-650 dark:text-indigo-300 text-xs sm:text-sm font-semibold mb-6 tracking-wide">
             <Terminal size={14} className="sm:w-4 sm:h-4 text-indigo-500" />
-            <span>Digitalisation & Logiciel sur mesure</span>
+            <span>{isFr ? "Digitalisation & Logiciel sur mesure" : "Custom Software & Digitalization"}</span>
           </div>
           <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl 2xl:text-8xl font-bold tracking-tight mb-6 leading-[1.1] text-slate-900 dark:text-white">
-            Propulsez votre entreprise grâce au <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-violet-500 dark:from-indigo-400 dark:to-violet-400">digital sur mesure.</span>
+            {isFr ? (
+              <>Propulsez votre entreprise grâce au <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-violet-500 dark:from-indigo-400 dark:to-violet-400">digital sur mesure.</span></>
+            ) : (
+              <>Propel your business with <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-violet-500 dark:from-indigo-400 dark:to-violet-400">tailored digital solutions.</span></>
+            )}
           </h1>
           <p className="text-base sm:text-lg 2xl:text-xl text-slate-600 dark:text-slate-400 mb-10 leading-relaxed max-w-xl 2xl:max-w-2xl">
-            De la création de votre site web à l'automatisation de vos processus, HardSoft Technologies conçoit les solutions logicielles qui feront grandir votre activité.
+            {isFr 
+              ? "De la création de votre site web à l'automatisation de vos processus, HardSoft Technologies conçoit les solutions logicielles qui feront grandir votre activité."
+              : "From creating your website to automating your internal business processes, HardSoft Technologies designs software that scales your operations."}
           </p>
 
           <div className="flex flex-col sm:flex-row flex-wrap gap-4 2xl:gap-6">
@@ -40,7 +50,7 @@ export default function Hero() {
               href="#services"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 2xl:px-10 2xl:py-5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-full transition-all duration-300 shadow-lg shadow-indigo-600/25 hover:shadow-indigo-600/40 transform hover:-translate-y-0.5 group shrink-0 text-sm sm:text-base"
             >
-              <span className="whitespace-nowrap">Découvrir nos services</span>
+              <span className="whitespace-nowrap">{isFr ? "Découvrir nos services" : "Discover our services"}</span>
               <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform shrink-0" />
             </a>
             <a
@@ -49,7 +59,7 @@ export default function Hero() {
               className="inline-flex items-center justify-center gap-2 px-8 py-4 2xl:px-10 2xl:py-5 bg-[#25D366]/10 hover:bg-[#25D366]/20 text-[#25D366] font-bold rounded-full border border-[#25D366]/30 transition-all duration-300 transform hover:-translate-y-0.5 group shrink-0 text-sm sm:text-base"
             >
               <MessageCircle size={20} className="shrink-0" />
-              <span className="whitespace-nowrap">Demander un devis sur WhatsApp</span>
+              <span className="whitespace-nowrap">{isFr ? "Demander un devis sur WhatsApp" : "Request a quote on WhatsApp"}</span>
             </a>
           </div>
         </motion.div>

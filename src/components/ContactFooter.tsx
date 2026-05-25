@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { MapPin, Phone, Mail, Send, MessageCircle, CheckCircle, Loader2, Copy, Check, Code2 } from 'lucide-react';
+import { MapPin, Phone, Mail, MessageCircle, CheckCircle, Loader2, Copy, Check, Code2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { WHATSAPP_URL } from '../config';
+import { useLanguage } from './LanguageProvider';
 
 function CopyButton({ text }: { text: string }) {
+  const { language } = useLanguage();
+  const isFr = language === 'fr';
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -20,7 +23,7 @@ function CopyButton({ text }: { text: string }) {
     <button
       type="button"
       onClick={handleCopy}
-      title="Copier le numéro"
+      title={isFr ? "Copier le numéro" : "Copy number"}
       className="inline-flex p-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all cursor-pointer active:scale-90"
     >
       {copied ? <Check size={12} className="text-emerald-500 shrink-0" /> : <Copy size={12} className="shrink-0" />}
@@ -44,6 +47,9 @@ const getSenegalOperator = (normalizedPhone: string) => {
 };
 
 export default function ContactFooter() {
+  const { language } = useLanguage();
+  const isFr = language === 'fr';
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [showNewsletterToast, setShowNewsletterToast] = useState(false);
@@ -73,24 +79,27 @@ export default function ContactFooter() {
     }
     
     if (!normalized) {
-      return "Le numéro de téléphone est requis";
+      return isFr ? "Le numéro de téléphone est requis" : "Phone number is required";
     }
 
     if (!/^\d+$/.test(normalized)) {
-      return "Le numéro ne doit contenir que des chiffres";
+      return isFr ? "Le numéro ne doit de contenir que des chiffres" : "The number must contain digits only";
     }
 
     if (normalized.length !== 9) {
-      return "Le numéro doit comporter exactement 9 chiffres (ex: 771234567)";
+      return isFr 
+        ? "Le numéro doit comporter exactement 9 chiffres (ex: 771234567)" 
+        : "The number must be exactly 9 digits (e.g. 771234567)";
     }
 
     const validPrefixes = ['77', '78', '76', '75', '70', '72', '33'];
     const prefix = normalized.substring(0, 2);
     if (!validPrefixes.includes(prefix)) {
-      return "Préfixe invalide pour le Sénégal (utilisez 77, 78, 76, 75, 70 ou 33)";
+      return isFr 
+        ? "Préfixe invalide pour le Sénégal (utilisez 77, 78, 76, 75, 70 ou 33)" 
+        : "Invalid Senegalese prefix (use 77, 78, 76, 75, 70 or 33)";
     }
 
-    // Simulate an operator validation query delays to demonstrate UX state changes
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(''); // empty means valid
@@ -101,16 +110,16 @@ export default function ContactFooter() {
   const validateField = (name: string, value: string) => {
     switch (name) {
       case 'name':
-        return !value.trim() ? 'Le nom est requis' : '';
+        return !value.trim() ? (isFr ? 'Le nom est requis' : 'Name is required') : '';
       case 'email':
-        if (!value.trim()) return 'L\'email est requis';
-        return !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? 'Format d\'email invalide' : '';
+        if (!value.trim()) return isFr ? "L'email est requis" : "Email is required";
+        return !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? (isFr ? "Format d'email invalide" : "Invalid email format") : '';
       case 'service':
-        return !value ? 'Veuillez sélectionner un service' : '';
+        return !value ? (isFr ? 'Veuillez sélectionner un service' : 'Please select a service') : '';
       case 'contactMethod':
-        return !value ? 'Veuillez sélectionner une méthode de contact' : '';
+        return !value ? (isFr ? 'Veuillez sélectionner une méthode de contact' : 'Please select a contact option') : '';
       case 'projectDescription':
-        return !value.trim() ? 'La description est requise' : '';
+        return !value.trim() ? (isFr ? 'La description est requise' : 'Description is required') : '';
       default:
         return '';
     }
@@ -129,7 +138,12 @@ export default function ContactFooter() {
           setErrors(prev => ({ ...prev, phone: err }));
         });
       } else if (touched.phone) {
-        setErrors(prev => ({ ...prev, phone: value ? 'Le numéro doit comporter 9 chiffres' : 'Le numéro est requis' }));
+        setErrors(prev => ({ 
+          ...prev, 
+          phone: value 
+            ? (isFr ? 'Le numéro doit comporter 9 chiffres' : 'Number must be 9 digits') 
+            : (isFr ? 'Le numéro est requis' : 'Number is required') 
+        }));
       }
     } else if (touched[name]) {
       setErrors(prev => ({ ...prev, [name]: validateField(name, value) }));
@@ -156,7 +170,6 @@ export default function ContactFooter() {
     const newErrors: Record<string, string> = {};
     let isValid = true;
     
-    // Validate non-phone fields
     Object.keys(formData).forEach(key => {
       if (key !== 'phone') {
         const error = validateField(key, formData[key as keyof typeof formData]);
@@ -167,7 +180,6 @@ export default function ContactFooter() {
       }
     });
 
-    // Validate phone asynchronously
     setIsPhoneValidating(true);
     const phoneError = await validatePhoneAsync(formData.phone);
     setIsPhoneValidating(false);
@@ -187,18 +199,15 @@ export default function ContactFooter() {
     const { name, email, phone, service, contactMethod, projectDescription } = formData;
 
     const mailtoLink = `mailto:contact@hardsoft-technologies.net?subject=${encodeURIComponent(
-      'Nouvelle demande de projet'
+      isFr ? 'Nouvelle demande de projet' : 'New Project Inquiry'
     )}&body=${encodeURIComponent(
-      `Nom : ${name}\nEmail : ${email}\nTéléphone : +221${phone}\nService souhaité : ${service}\nMéthode de contact : ${contactMethod}\n\nDescription du projet :\n${projectDescription}`
+      `Nom/Name : ${name}\nEmail : ${email}\nTéléphone/Phone : +221${phone}\nService : ${service}\nMéthode de contact / Contact preference : ${contactMethod}\n\nDescription du projet / Description :\n${projectDescription}`
     )}`;
 
-    // Simulation de délai de traitement
     setTimeout(() => {
       window.location.href = mailtoLink;
       setIsSubmitting(false);
       setShowToast(true);
-      
-      // Retirer le message de succès après 5 secondes
       setTimeout(() => setShowToast(false), 5000);
     }, 1500);
   };
@@ -217,9 +226,13 @@ export default function ContactFooter() {
           
           {/* Contact Form */}
           <div className="w-full">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-slate-900 dark:text-white text-center">Lancer votre projet</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-slate-900 dark:text-white text-center">
+              {isFr ? "Lancer votre projet" : "Launch Your Project"}
+            </h2>
             <p className="text-slate-600 dark:text-slate-400 mb-8 text-center max-w-2xl mx-auto">
-              Parlez-nous de votre projet. Choisissez vos services et vos préférences de contact pour démarrer.
+              {isFr 
+                ? "Parlez-nous de votre projet. Choisissez vos services et vos préférences de contact pour démarrer."
+                : "Tell us about your venture. Choose your options and custom contact parameters to bootstrap."}
             </p>
 
             <form className="space-y-6 max-w-3xl mx-auto" onSubmit={handleSubmit} noValidate>
@@ -233,7 +246,7 @@ export default function ContactFooter() {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     className={`w-full bg-slate-50 dark:bg-slate-900 border ${errors.name && touched.name ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-slate-200 dark:border-slate-800 focus:border-indigo-500 focus:ring-indigo-500'} rounded-lg px-4 py-3 text-slate-900 dark:text-white focus:outline-none focus:ring-1 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm`} 
-                    placeholder="Nom complet" 
+                    placeholder={isFr ? "Nom complet" : "Full name"} 
                   />
                   {errors.name && touched.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
                 </div>
@@ -246,7 +259,7 @@ export default function ContactFooter() {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     className={`w-full bg-slate-50 dark:bg-slate-900 border ${errors.email && touched.email ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-slate-200 dark:border-slate-800 focus:border-indigo-500 focus:ring-indigo-500'} rounded-lg px-4 py-3 text-slate-900 dark:text-white focus:outline-none focus:ring-1 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm`} 
-                    placeholder="Email" 
+                    placeholder={isFr ? "Email" : "Email address"} 
                   />
                   {errors.email && touched.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
                 </div>
@@ -258,13 +271,13 @@ export default function ContactFooter() {
                     </div>
                     <input 
                       type="tel" 
-                      id="phone" 
+                       id="phone" 
                       name="phone" 
                       value={formData.phone}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       className={`w-full bg-slate-50 dark:bg-slate-900 border ${errors.phone && touched.phone ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-slate-200 dark:border-slate-800 focus:border-indigo-500 focus:ring-indigo-500'} rounded-lg pl-24 pr-10 py-3 text-slate-900 dark:text-white focus:outline-none focus:ring-1 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm`} 
-                      placeholder="Numéro de téléphone" 
+                      placeholder={isFr ? "Numéro de téléphone" : "Phone number"} 
                     />
                     <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                       {isPhoneValidating && <Loader2 size={16} className="animate-spin text-indigo-500" />}
@@ -286,13 +299,13 @@ export default function ContactFooter() {
                       if (op) {
                         return (
                           <p className={`text-xs mt-1 ${op.color} font-bold flex items-center gap-1`}>
-                            <span>{op.icon}</span> Réseau : {op.name} (Format sénégalais valide)
+                            <span>{op.icon}</span> {isFr ? `Réseau : ${op.name} (Format sénégalais valide)` : `Carrier: ${op.name} (Valid Senegalese Format)`}
                           </p>
                         );
                       }
                       return (
                         <p className="text-emerald-500 text-xs mt-1 font-bold flex items-center gap-1">
-                          ✓ Format sénégalais valide
+                          ✓ {isFr ? "Format sénégalais valide" : "Valid Senegalese format"}
                         </p>
                       );
                     })()
@@ -311,13 +324,13 @@ export default function ContactFooter() {
                       onBlur={handleBlur}
                       className={`w-full bg-slate-50 dark:bg-slate-900 border ${errors.service && touched.service ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-slate-200 dark:border-slate-800 focus:border-indigo-500 focus:ring-indigo-500'} rounded-lg px-4 py-3 text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-1 transition-all appearance-none text-sm`} 
                     >
-                       <option value="" disabled>Sélectionnez un service principal</option>
-                       <option value="developpement-web">Développement Web (Site, E-commerce, Sur mesure)</option>
-                       <option value="application-mobile">Application Mobile (iOS & Android)</option>
-                       <option value="logiciel-pos">Logiciel de Caisse (POS)</option>
-                       <option value="ui-ux-design">Design UI/UX & Maquettage</option>
-                       <option value="formation">Formation en développement</option>
-                       <option value="autre">Autre demande</option>
+                       <option value="" disabled>{isFr ? "Sélectionnez un service principal" : "Select a main service"}</option>
+                       <option value="developpement-web">{isFr ? "Développement Web (Site, E-commerce, Sur mesure)" : "Web Development (Portal, E-commerce, Tailored)"}</option>
+                       <option value="application-mobile">{isFr ? "Application Mobile (iOS & Android)" : "Mobile Development (iOS & Android)"}</option>
+                       <option value="logiciel-pos">{isFr ? "Logiciel de Caisse (POS)" : "Point of Sale Software (POS)"}</option>
+                       <option value="ui-ux-design">{isFr ? "Design UI/UX & Maquettage" : "UI/UX & Maquette Design"}</option>
+                       <option value="formation">{isFr ? "Formation en développement" : "Software Training Tracks"}</option>
+                       <option value="autre">{isFr ? "Autre demande" : "Other technical query"}</option>
                     </select>
                     <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                        <span className="text-slate-500 dark:text-slate-400 text-sm">▾</span>
@@ -336,11 +349,11 @@ export default function ContactFooter() {
                       onBlur={handleBlur}
                       className={`w-full bg-slate-50 dark:bg-slate-900 border ${errors.contactMethod && touched.contactMethod ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-slate-200 dark:border-slate-800 focus:border-indigo-500 focus:ring-indigo-500'} rounded-lg px-4 py-3 text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-1 transition-all appearance-none text-sm`} 
                     >
-                       <option value="" disabled>Comment souhaitez-vous procéder ?</option>
-                       <option value="video-call">Réserver un appel vidéo</option>
-                       <option value="whatsapp">Discuter via WhatsApp</option>
-                       <option value="email">Décrire le projet par e-mail</option>
-                       <option value="rendez-vous">Planifier un rendez-vous physique</option>
+                       <option value="" disabled>{isFr ? "Comment souhaitez-vous procéder ?" : "How would you like to connect?"}</option>
+                       <option value="video-call">{isFr ? "Réserver un appel vidéo" : "Schedule a video call session"}</option>
+                       <option value="whatsapp">{isFr ? "Discuter via WhatsApp" : "Discuss on WhatsApp messenger"}</option>
+                       <option value="email">{isFr ? "Décrire le projet par e-mail" : "Draft parameters via e-mail"}</option>
+                       <option value="rendez-vous">{isFr ? "Planifier un rendez-vous physique" : "Book an in-person meeting"}</option>
                     </select>
                     <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                        <span className="text-slate-500 dark:text-slate-400 text-sm">▾</span>
@@ -359,7 +372,7 @@ export default function ContactFooter() {
                   onBlur={handleBlur}
                   rows={4} 
                   className={`w-full bg-slate-50 dark:bg-slate-900 border ${errors.projectDescription && touched.projectDescription ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-slate-200 dark:border-slate-800 focus:border-indigo-500 focus:ring-indigo-500'} rounded-lg px-4 py-3 text-slate-900 dark:text-white focus:outline-none focus:ring-1 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm resize-none`} 
-                  placeholder="Décrivez brièvement votre projet, vos objectifs et vos attentes..."
+                  placeholder={isFr ? "Décrivez brièvement votre projet, vos objectifs et vos attentes..." : "Briefly outline your venture, your core objectives and timing specifications..."}
                 ></textarea>
                 {errors.projectDescription && touched.projectDescription && <p className="text-red-500 text-xs mt-1">{errors.projectDescription}</p>}
               </div>
@@ -368,15 +381,15 @@ export default function ContactFooter() {
                 <button 
                   type="submit" 
                   disabled={isSubmitting}
-                  className={`bg-[#0047a5] hover:bg-[#003882] text-white font-medium rounded-full px-8 py-3 transition-colors shadow-md flex items-center justify-center gap-2 min-w-[280px] w-full sm:w-auto ${isSubmitting ? 'opacity-80 cursor-not-allowed' : ''}`}
+                  className={`bg-[#0047a5] hover:bg-[#003882] text-white font-medium rounded-full px-8 py-3 transition-colors shadow-md flex items-center justify-center gap-2 min-w-[280px] w-full sm:w-auto cursor-pointer ${isSubmitting ? 'opacity-80 cursor-not-allowed' : ''}`}
                 >
                   {isSubmitting ? (
                     <>
                       <Loader2 size={18} className="animate-spin" />
-                      Traitement en cours...
+                      {isFr ? "Traitement en cours..." : "Processing submission..."}
                     </>
                   ) : (
-                    'Obtenir votre rendez-vous avec Chérif'
+                    isFr ? "Obtenir votre rendez-vous avec Chérif" : "Book your call with Chérif"
                   )}
                 </button>
               </div>
@@ -386,7 +399,9 @@ export default function ContactFooter() {
           {/* Contact Info & Map */}
           <div className="grid md:grid-cols-2 gap-12 border-t border-slate-200 dark:border-slate-800 pt-16">
             <div className="flex flex-col">
-              <h3 className="text-2xl font-bold mb-6 text-slate-900 dark:text-white">Nos Coordonnées</h3>
+              <h3 className="text-2xl font-bold mb-6 text-slate-900 dark:text-white">
+                {isFr ? "Nos Coordonnées" : "Our Contact Details"}
+              </h3>
               
               <div className="flex flex-col gap-6 mb-8">
                 <div className="flex items-start gap-4">
@@ -394,7 +409,9 @@ export default function ContactFooter() {
                     <MapPin size={24} />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-slate-900 dark:text-white mb-1">Adresse</h4>
+                    <h4 className="font-semibold text-slate-900 dark:text-white mb-1">
+                      {isFr ? "Adresse" : "Address"}
+                    </h4>
                     <p className="text-slate-600 dark:text-slate-400">Nord Foire Yoff<br/>Dakar - Sénégal</p>
                   </div>
                 </div>
@@ -404,7 +421,9 @@ export default function ContactFooter() {
                     <Phone size={24} />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-slate-900 dark:text-white mb-1">Téléphone</h4>
+                    <h4 className="font-semibold text-slate-900 dark:text-white mb-1">
+                      {isFr ? "Téléphone" : "Phone"}
+                    </h4>
                     <div className="flex items-center gap-1.5 mb-1 bg-slate-50/50 dark:bg-slate-900/50 px-2 py-0.5 rounded-lg border border-slate-100 dark:border-slate-800/60 w-fit">
                       <span className="text-slate-600 dark:text-slate-400 text-sm font-semibold font-mono">+221 78 146 64 21</span>
                       <CopyButton text="+221781466421" />
@@ -433,14 +452,16 @@ export default function ContactFooter() {
                 href={WHATSAPP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#25D366] hover:bg-[#128C7E] text-slate-900 dark:text-white font-semibold rounded-lg transition-colors max-w-full"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#25D366] hover:bg-[#128C7E] text-slate-900 dark:text-white font-semibold rounded-lg transition-colors max-w-full cursor-pointer"
               >
                 <MessageCircle size={20} className="shrink-0" />
-                <span className="whitespace-nowrap overflow-hidden text-ellipsis">Demander un devis sur WhatsApp</span>
+                <span className="whitespace-nowrap overflow-hidden text-ellipsis">
+                  {isFr ? "Demander un devis sur WhatsApp" : "Get a tailored quote on WhatsApp"}
+                </span>
               </a>
             </div>
 
-            {/* Simple Map Placeholder (Gray box to keep minimalism and privacy, or generic Google Map embed) */}
+            {/* Simple Map Placeholder */}
             <div className="w-full h-full min-h-[300px] bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden relative">
                <iframe 
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15433.024501305417!2d-17.472918!3d14.755252!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTTCsDQ1JzE4LjkiTiAxN8KwMjgnMjIuNSJX!5e0!3m2!1sen!2ssn!4v1600000000000!5m2!1sen!2ssn" 
@@ -449,7 +470,7 @@ export default function ContactFooter() {
                 style={{ border: 0, opacity: 0.8, filter: 'grayscale(1) invert(0.9) contrast(1.2)' }} 
                 allowFullScreen={false} 
                 loading="lazy" 
-                title="Google Maps Nord Foire"
+                title={isFr ? "Google Maps Nord Foire" : "Google Maps Nord Foire Dakar"}
                ></iframe>
             </div>
           </div>
@@ -460,9 +481,13 @@ export default function ContactFooter() {
           <div className="absolute inset-0 bg-gradient-to-r from-indigo-900/20 via-transparent to-indigo-900/20 pointer-events-none"></div>
           <div className="relative z-10 max-w-2xl mx-auto">
             <Mail className="w-12 h-12 text-indigo-400 mx-auto mb-6" />
-            <h3 className="text-2xl md:text-3xl font-bold mb-4 text-slate-900 dark:text-white">Abonnez-vous à notre Newsletter</h3>
+            <h3 className="text-2xl md:text-3xl font-bold mb-4 text-slate-900 dark:text-white">
+              {isFr ? "Abonnez-vous à notre Newsletter" : "Subscribe to Our Newsletter"}
+            </h3>
             <p className="text-slate-600 dark:text-slate-400 mb-8">
-              Restez à l'affût des dernières tendances technologiques, de nos nouvelles offres et de nos conseils en développement web.
+              {isFr 
+                ? "Restez à l'affût des dernières tendances technologiques, de nos nouvelles offres et de nos conseils en développement web."
+                : "Stay updated on custom software trends, startup guides, and our exclusive tech consulting insights."}
             </p>
             <form 
               className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
@@ -472,14 +497,14 @@ export default function ContactFooter() {
                 type="email" 
                 name="email" 
                 required 
-                placeholder="Votre adresse e-mail" 
+                placeholder={isFr ? "Votre adresse e-mail" : "Your email address"} 
                 className="flex-1 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-full px-6 py-3 text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all text-sm"
               />
               <button 
                 type="submit" 
-                className="bg-indigo-600 hover:bg-indigo-700 text-slate-900 dark:text-white font-medium rounded-full px-8 py-3 transition-colors shadow-md text-sm whitespace-nowrap"
+                className="bg-indigo-600 hover:bg-indigo-700 text-slate-900 dark:text-white font-medium rounded-full px-8 py-3 transition-colors shadow-md text-sm whitespace-nowrap cursor-pointer"
               >
-                S'inscrire
+                {isFr ? "S'inscrire" : "Subscribe"}
               </button>
             </form>
           </div>
@@ -489,8 +514,8 @@ export default function ContactFooter() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 pt-16 border-t border-slate-200 dark:border-slate-800 mb-8">
           {/* Section 1: Logo & À propos */}
           <div className="flex flex-col gap-6">
-            <div className="flex items-center gap-2.5">
-              <div className="w-10 h-10 rounded-lg bg-indigo-600 flex items-center justify-center text-white shadow-md">
+            <a href="#accueil" className="flex items-center gap-2.5 group shrink-0 w-fit">
+              <div className="w-10 h-10 rounded-lg bg-indigo-600 flex items-center justify-center text-white hover:scale-105 transition-transform shadow-md">
                 <Code2 size={20} className="text-white" />
               </div>
               <div className="flex flex-col text-left">
@@ -501,9 +526,11 @@ export default function ContactFooter() {
                   Technologies
                 </span>
               </div>
-            </div>
+            </a>
             <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-              Votre partenaire technologique de confiance pour des solutions digitales innovantes et sur mesure.
+              {isFr 
+                ? "Votre partenaire technologique de confiance pour des solutions digitales innovantes et sur mesure."
+                : "Your trusty long-term technology partner tailoring custom high-performance digital ecosystems."}
             </p>
             <div className="flex items-center gap-4 mt-2">
               <a href="#" className="text-slate-400 hover:text-indigo-500 transition-colors">
@@ -523,12 +550,14 @@ export default function ContactFooter() {
           
           {/* Section 2: Liens Rapides */}
           <div className="flex flex-col gap-6 md:pl-8">
-            <h4 className="text-lg font-bold text-slate-900 dark:text-white">Liens Rapides</h4>
+            <h4 className="text-lg font-bold text-slate-900 dark:text-white">
+              {isFr ? "Liens Rapides" : "Quick Links"}
+            </h4>
             <ul className="flex flex-col gap-3">
-              <li><a href="#services" className="text-slate-600 dark:text-slate-400 hover:text-indigo-500 transition-colors text-sm">Nos Services</a></li>
-              <li><a href="#portfolio" className="text-slate-600 dark:text-slate-400 hover:text-indigo-500 transition-colors text-sm">Nos Réalisations</a></li>
-              <li><a href="#formations" className="text-slate-600 dark:text-slate-400 hover:text-indigo-500 transition-colors text-sm">Formations</a></li>
-              <li><a href="#apropos" className="text-slate-600 dark:text-slate-400 hover:text-indigo-500 transition-colors text-sm">À Propos de nous</a></li>
+              <li><a href="#services" className="text-slate-600 dark:text-slate-400 hover:text-indigo-500 transition-colors text-sm">{isFr ? "Nos Services" : "Our Services"}</a></li>
+              <li><a href="#portfolio" className="text-slate-600 dark:text-slate-400 hover:text-indigo-500 transition-colors text-sm">{isFr ? "Nos Réalisations" : "Our Realizations"}</a></li>
+              <li><a href="#formations" className="text-slate-600 dark:text-slate-400 hover:text-indigo-500 transition-colors text-sm">{isFr ? "Formations" : "Training Programs"}</a></li>
+              <li><a href="#apropos" className="text-slate-600 dark:text-slate-400 hover:text-indigo-500 transition-colors text-sm">{isFr ? "À Propos de nous" : "About Us"}</a></li>
               <li><a href="#contact" className="text-slate-600 dark:text-slate-400 hover:text-indigo-500 transition-colors text-sm">Contact</a></li>
             </ul>
           </div>
@@ -556,17 +585,21 @@ export default function ContactFooter() {
               </li>
               <li className="flex items-start gap-3">
                 <Mail size={18} className="text-indigo-500 shrink-0 mt-0.5" />
-                <a href="mailto:contact@hardsoft-technologies.net" className="text-slate-600 dark:text-slate-400 hover:text-indigo-500 transition-colors text-sm break-all">contact@hardsoft-technologies.net</a>
+                <a href="mailto:contact@hardsoft-technologies.net" className="text-slate-600 dark:text-slate-400 hover:text-indigo-500 transition-colors text-sm break-all font-mono">contact@hardsoft-technologies.net</a>
               </li>
             </ul>
           </div>
         </div>
 
         <div className="flex flex-col md:flex-row items-center justify-between pt-8 border-t border-slate-200 dark:border-slate-800 text-sm text-slate-500 dark:text-slate-400">
-          <p>© {new Date().getFullYear()} HardSoft Technologies. Tous droits réservés.</p>
+          <p>
+            {isFr 
+              ? `© ${new Date().getFullYear()} HardSoft Technologies. Tous droits réservés.` 
+              : `© ${new Date().getFullYear()} HardSoft Technologies. All rights reserved.`}
+          </p>
           <div className="flex items-center gap-4 mt-4 md:mt-0">
-             <a href="#" className="hover:text-slate-700 dark:text-slate-300">Mentions Légales</a>
-             <a href="#" className="hover:text-slate-700 dark:text-slate-300">Confidentialité</a>
+             <a href="#" className="hover:text-slate-700 dark:text-slate-300">{isFr ? "Mentions Légales" : "Legal Notice"}</a>
+             <a href="#" className="hover:text-slate-700 dark:text-slate-300">{isFr ? "Confidentialité" : "Privacy Policy"}</a>
           </div>
         </div>
       </div>
@@ -582,8 +615,14 @@ export default function ContactFooter() {
           >
             <CheckCircle size={24} className="shrink-0" />
             <div>
-              <p className="font-semibold text-sm">Demande en cours d'envoi</p>
-              <p className="text-emerald-100 text-xs">Votre client de messagerie s'est ouvert pour l'envoi final de votre demande.</p>
+              <p className="font-semibold text-sm">
+                {isFr ? "Demande en cours d'envoi" : "Inquiry Submitting"}
+              </p>
+              <p className="text-emerald-100 text-xs">
+                {isFr 
+                  ? "Votre client de messagerie s'est ouvert pour l'envoi final de votre demande." 
+                  : "Your native mail workspace has been triggered to dispatch this custom inquiry form."}
+              </p>
             </div>
           </motion.div>
         )}
@@ -597,8 +636,14 @@ export default function ContactFooter() {
           >
             <CheckCircle size={24} className="shrink-0" />
             <div>
-              <p className="font-semibold text-sm">Inscription réussie !</p>
-              <p className="text-indigo-100 text-xs">Merci de vous être abonné à notre newsletter.</p>
+              <p className="font-semibold text-sm">
+                {isFr ? "Inscription réussie !" : "Inscribed Successfully!"}
+              </p>
+              <p className="text-indigo-100 text-xs">
+                {isFr 
+                  ? "Merci de vous être abonné à notre newsletter."
+                  : "Many thanks for subscribing to our professional tech trends mailing list."}
+              </p>
             </div>
           </motion.div>
         )}
