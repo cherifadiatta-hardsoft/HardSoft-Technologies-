@@ -108,6 +108,51 @@ export default function About() {
     }
   };
 
+  const getShareEmailUrl = () => {
+    try {
+      const subject = encodeURIComponent("Confirmation de Rendez-vous - HardSoft Technologies");
+      const dateLabel = workingDays.find(d => d.dateStr === selectedDate)?.label || selectedDate;
+      const typeLabel = meetingType === 'intro' 
+        ? '☕ Café Virtuel - Introduction & Prise de contact (15 minutes)' 
+        : meetingType === 'tech' 
+          ? '💻 Démo Technique - Avis commercial & Technique (30 minutes)' 
+          : '🚀 Session de Cadrage de Projet Logiciel (45 minutes)';
+      
+      const formattedNotes = bookingNotes?.trim() 
+        ? `« ${bookingNotes.trim()} »` 
+        : 'Aucune description ou note particulière fournie.';
+      
+      const emailBody = 
+        `Bonjour,\n\n` +
+        `Voici le récapitulatif complet de la session de cadrage planifiée avec Chérif Alioune Diatta :\n\n` +
+        `==================================================\n` +
+        ` 📅 DÉTAILS DE LA RÉSERVATION\n` +
+        `==================================================\n` +
+        `• Objet du RDV : ${typeLabel}\n` +
+        `• Date retenue : ${dateLabel}\n` +
+        `• Heure locale : ${selectedTime} (GMT / Heure de Dakar)\n` +
+        `• Plateforme  : Google Meet Visioconférence (Lien inclus dans l'invitation/agenda)\n\n` +
+        `👤 INFORMATIONS VISITEUR\n` +
+        `--------------------------------------------------\n` +
+        `• Client principal : ${bookingName}\n` +
+        `• Adresse E-mail   : ${bookingEmail}\n\n` +
+        `📝 NOTES & PRÉCISIONS DU PROJET\n` +
+        `--------------------------------------------------\n` +
+        `${formattedNotes}\n\n` +
+        `==================================================\n\n` +
+        `Un e-mail d'invitation avec les accès sécurisés à la visioconférence (Google Meet) a été automatiquement généré pour l'adresse ${bookingEmail}.\n\n` +
+        `Pour toute urgence ou question complémentaire, vous pouvez nous contacter via WhatsApp ou directement en répondant à ce courriel.\n\n` +
+        `Cordialement,\n` +
+        `Chérif Alioune Diatta\n` +
+        `HardSoft Technologies\n` +
+        `https://hardsoft-technologies.net`;
+
+      return `mailto:?subject=${subject}&body=${encodeURIComponent(emailBody)}`;
+    } catch (e) {
+      return '';
+    }
+  };
+
   const expertises = [
     {
       title: "Applications Web & Platformes SaaS",
@@ -788,10 +833,17 @@ export default function About() {
                         href={getGoogleCalendarUrl()}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-full sm:w-auto px-5 py-2.5 bg-[#4285F4] hover:bg-[#357ae8] text-white font-extrabold rounded-xl text-xs border border-blue-400/20 transition-all flex items-center justify-center gap-1.5 shadow-md hover:shadow-blue-500/25 cursor-pointer active:scale-95"
+                        className="w-full sm:w-auto px-5 py-2.5 bg-[#4285F4] hover:bg-[#357ae8] text-white font-extrabold rounded-xl text-xs border border-blue-400/20 transition-all duration-300 flex items-center justify-center gap-1.5 shadow-md hover:shadow-xl hover:shadow-blue-500/30 hover:scale-105 hover:-translate-y-0.5 cursor-pointer active:scale-95 group"
                       >
-                        <Calendar size={14} className="text-white shrink-0" />
+                        <Calendar size={14} className="text-white shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300" />
                         <span>Ajouter à mon agenda</span>
+                      </a>
+                      <a
+                        href={getShareEmailUrl()}
+                        className="w-full sm:w-auto px-5 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-extrabold rounded-xl text-xs border border-slate-200 dark:border-slate-700 transition-all flex items-center justify-center gap-1.5 shadow-sm cursor-pointer active:scale-95"
+                      >
+                        <Mail size={14} className="text-slate-500 dark:text-slate-400 shrink-0" />
+                        <span>Partager par e-mail</span>
                       </a>
                       <a
                         href="https://wa.me/221774249333"

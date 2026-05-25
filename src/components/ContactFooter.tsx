@@ -1,7 +1,32 @@
 import React, { useState } from 'react';
-import { MapPin, Phone, Mail, Send, MessageCircle, CheckCircle, Loader2 } from 'lucide-react';
+import { MapPin, Phone, Mail, Send, MessageCircle, CheckCircle, Loader2, Copy, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { WHATSAPP_URL } from '../config';
+
+function CopyButton({ text }: { text: string }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy: ', err);
+    }
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={handleCopy}
+      title="Copier le numéro"
+      className="inline-flex p-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all cursor-pointer active:scale-90"
+    >
+      {copied ? <Check size={12} className="text-emerald-500 shrink-0" /> : <Copy size={12} className="shrink-0" />}
+    </button>
+  );
+}
 
 const getSenegalOperator = (normalizedPhone: string) => {
   if (normalizedPhone.startsWith('77') || normalizedPhone.startsWith('78')) {
@@ -380,8 +405,14 @@ export default function ContactFooter() {
                   </div>
                   <div>
                     <h4 className="font-semibold text-slate-900 dark:text-white mb-1">Téléphone</h4>
-                    <p className="text-slate-600 dark:text-slate-400">+221 78 146 64 21</p>
-                    <p className="text-slate-600 dark:text-slate-400">+221 78 262 29 77</p>
+                    <div className="flex items-center gap-1.5 mb-1 bg-slate-50/50 dark:bg-slate-900/50 px-2 py-0.5 rounded-lg border border-slate-100 dark:border-slate-800/60 w-fit">
+                      <span className="text-slate-600 dark:text-slate-400 text-sm font-semibold font-mono">+221 78 146 64 21</span>
+                      <CopyButton text="+221781466421" />
+                    </div>
+                    <div className="flex items-center gap-1.5 bg-slate-50/50 dark:bg-slate-900/50 px-2 py-0.5 rounded-lg border border-slate-100 dark:border-slate-800/60 w-fit">
+                      <span className="text-slate-600 dark:text-slate-400 text-sm font-semibold font-mono">+221 78 262 29 77</span>
+                      <CopyButton text="+221782622977" />
+                    </div>
                   </div>
                 </div>
 
@@ -505,9 +536,15 @@ export default function ContactFooter() {
               </li>
               <li className="flex items-start gap-3">
                 <Phone size={18} className="text-indigo-500 shrink-0 mt-0.5" />
-                <div className="flex flex-col">
-                  <a href="tel:+221781466421" className="text-slate-600 dark:text-slate-400 hover:text-indigo-500 transition-colors text-sm">+221 78 146 64 21</a>
-                  <a href="tel:+221782622977" className="text-slate-600 dark:text-slate-400 hover:text-indigo-500 transition-colors text-sm">+221 78 262 29 77</a>
+                <div className="flex flex-col gap-1.5">
+                  <div className="flex items-center gap-1.5 bg-slate-50/50 dark:bg-slate-900/50 px-2 py-0.5 rounded-lg border border-slate-100 dark:border-slate-800/60 w-fit">
+                    <a href="tel:+221781466421" className="text-slate-600 dark:text-slate-400 hover:text-indigo-500 transition-colors text-sm font-mono">+221 78 146 64 21</a>
+                    <CopyButton text="+221781466421" />
+                  </div>
+                  <div className="flex items-center gap-1.5 bg-slate-50/50 dark:bg-slate-900/50 px-2 py-0.5 rounded-lg border border-slate-100 dark:border-slate-800/60 w-fit">
+                    <a href="tel:+221782622977" className="text-slate-600 dark:text-slate-400 hover:text-indigo-500 transition-colors text-sm font-mono">+221 78 262 29 77</a>
+                    <CopyButton text="+221782622977" />
+                  </div>
                 </div>
               </li>
               <li className="flex items-start gap-3">
