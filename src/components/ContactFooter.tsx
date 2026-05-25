@@ -3,6 +3,21 @@ import { MapPin, Phone, Mail, Send, MessageCircle, CheckCircle, Loader2 } from '
 import { motion, AnimatePresence } from 'motion/react';
 import { WHATSAPP_URL } from '../config';
 
+const getSenegalOperator = (normalizedPhone: string) => {
+  if (normalizedPhone.startsWith('77') || normalizedPhone.startsWith('78')) {
+    return { name: 'Orange', color: 'text-orange-600 dark:text-orange-400', icon: '🧡' };
+  } else if (normalizedPhone.startsWith('76')) {
+    return { name: 'Free', color: 'text-red-600 dark:text-red-400', icon: '🔴' };
+  } else if (normalizedPhone.startsWith('70')) {
+    return { name: 'Expresso', color: 'text-sky-600 dark:text-sky-450', icon: '🔵' };
+  } else if (normalizedPhone.startsWith('75')) {
+    return { name: 'Promobile', color: 'text-purple-600 dark:text-purple-400', icon: '🟣' };
+  } else if (normalizedPhone.startsWith('33')) {
+    return { name: 'Téléphone Fixe / Sonatel', color: 'text-emerald-600 dark:text-emerald-400', icon: '📞' };
+  }
+  return null;
+};
+
 export default function ContactFooter() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showToast, setShowToast] = useState(false);
@@ -19,6 +34,44 @@ export default function ContactFooter() {
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const [isPhoneValidating, setIsPhoneValidating] = useState(false);
+
+  const validatePhoneAsync = async (phoneValue: string): Promise<string> => {
+    const rawVal = phoneValue.replace(/[\s\-\(\)]/g, '');
+    let normalized = rawVal;
+    if (rawVal.startsWith('+221')) {
+      normalized = rawVal.slice(4);
+    } else if (rawVal.startsWith('221') && rawVal.length > 9) {
+      normalized = rawVal.slice(3);
+    } else if (rawVal.startsWith('00221')) {
+      normalized = rawVal.slice(5);
+    }
+    
+    if (!normalized) {
+      return "Le numéro de téléphone est requis";
+    }
+
+    if (!/^\d+$/.test(normalized)) {
+      return "Le numéro ne doit contenir que des chiffres";
+    }
+
+    if (normalized.length !== 9) {
+      return "Le numéro doit comporter exactement 9 chiffres (ex: 771234567)";
+    }
+
+    const validPrefixes = ['77', '78', '76', '75', '70', '72', '33'];
+    const prefix = normalized.substring(0, 2);
+    if (!validPrefixes.includes(prefix)) {
+      return "Préfixe invalide pour le Sénégal (utilisez 77, 78, 76, 75, 70 ou 33)";
+    }
+
+    // Simulate an operator validation query delays to demonstrate UX state changes
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(''); // empty means valid
+      }, 600);
+    });
+  };
 
   const validateField = (name: string, value: string) => {
     switch (name) {
@@ -41,29 +94,63 @@ export default function ContactFooter() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    if (touched[name]) {
+    
+    if (name === 'phone') {
+      const rawVal = value.replace(/[\s\-\(\)]/g, '');
+      if (rawVal.length >= 9) {
+        setIsPhoneValidating(true);
+        validatePhoneAsync(value).then(err => {
+          setIsPhoneValidating(false);
+          setErrors(prev => ({ ...prev, phone: err }));
+        });
+      } else if (touched.phone) {
+        setErrors(prev => ({ ...prev, phone: value ? 'Le numéro doit comporter 9 chiffres' : 'Le numéro est requis' }));
+      }
+    } else if (touched[name]) {
       setErrors(prev => ({ ...prev, [name]: validateField(name, value) }));
     }
   };
 
-  const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleBlur = async (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setTouched(prev => ({ ...prev, [name]: true }));
-    setErrors(prev => ({ ...prev, [name]: validateField(name, value) }));
+    
+    if (name === 'phone') {
+      setIsPhoneValidating(true);
+      const phoneError = await validatePhoneAsync(value);
+      setIsPhoneValidating(false);
+      setErrors(prev => ({ ...prev, phone: phoneError }));
+    } else {
+      setErrors(prev => ({ ...prev, [name]: validateField(name, value) }));
+    }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
     const newErrors: Record<string, string> = {};
     let isValid = true;
+    
+    // Validate non-phone fields
     Object.keys(formData).forEach(key => {
-      const error = validateField(key, formData[key as keyof typeof formData]);
-      if (error) {
-        newErrors[key] = error;
-        isValid = false;
+      if (key !== 'phone') {
+        const error = validateField(key, formData[key as keyof typeof formData]);
+        if (error) {
+          newErrors[key] = error;
+          isValid = false;
+        }
       }
     });
+
+    // Validate phone asynchronously
+    setIsPhoneValidating(true);
+    const phoneError = await validatePhoneAsync(formData.phone);
+    setIsPhoneValidating(false);
+    
+    if (phoneError) {
+      newErrors['phone'] = phoneError;
+      isValid = false;
+    }
 
     setErrors(newErrors);
     setTouched(Object.keys(formData).reduce((acc, key) => ({ ...acc, [key]: true }), {}));
@@ -138,11 +225,11 @@ export default function ContactFooter() {
                   />
                   {errors.email && touched.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
                 </div>
-                <div className="space-y-1 relative">
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <div className="space-y-1 relative col-span-1">
+                  <div className="relative font-sans">
+                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none select-none">
                        <span className="text-xl">🇸🇳</span>
-                       <span className="text-slate-600 dark:text-slate-400 text-sm ml-2">+221 ▾</span>
+                       <span className="text-slate-500 dark:text-slate-400 text-sm ml-2 font-semibold">+221 ▾</span>
                     </div>
                     <input 
                       type="tel" 
@@ -151,10 +238,40 @@ export default function ContactFooter() {
                       value={formData.phone}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 focus:border-indigo-500 focus:ring-indigo-500 rounded-lg pl-24 pr-4 py-3 text-slate-900 dark:text-white focus:outline-none focus:ring-1 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm" 
+                      className={`w-full bg-slate-50 dark:bg-slate-900 border ${errors.phone && touched.phone ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-slate-200 dark:border-slate-800 focus:border-indigo-500 focus:ring-indigo-500'} rounded-lg pl-24 pr-10 py-3 text-slate-900 dark:text-white focus:outline-none focus:ring-1 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm`} 
                       placeholder="Numéro de téléphone" 
                     />
+                    <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                      {isPhoneValidating && <Loader2 size={16} className="animate-spin text-indigo-500" />}
+                      {!isPhoneValidating && touched.phone && !errors.phone && formData.phone && (
+                        <CheckCircle size={16} className="text-emerald-500" />
+                      )}
+                    </div>
                   </div>
+                  {errors.phone && touched.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
+                  {!isPhoneValidating && touched.phone && !errors.phone && formData.phone && (
+                    (() => {
+                      const rawVal = formData.phone.replace(/[\s\-\(\)]/g, '');
+                      let normalized = rawVal;
+                      if (rawVal.startsWith('+221')) normalized = rawVal.slice(4);
+                      else if (rawVal.startsWith('221') && rawVal.length > 9) normalized = rawVal.slice(3);
+                      else if (rawVal.startsWith('00221')) normalized = rawVal.slice(5);
+
+                      const op = getSenegalOperator(normalized);
+                      if (op) {
+                        return (
+                          <p className={`text-xs mt-1 ${op.color} font-bold flex items-center gap-1`}>
+                            <span>{op.icon}</span> Réseau : {op.name} (Format sénégalais valide)
+                          </p>
+                        );
+                      }
+                      return (
+                        <p className="text-emerald-500 text-xs mt-1 font-bold flex items-center gap-1">
+                          ✓ Format sénégalais valide
+                        </p>
+                      );
+                    })()
+                  )}
                 </div>
               </div>
 

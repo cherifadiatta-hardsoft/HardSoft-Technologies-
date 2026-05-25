@@ -30,15 +30,15 @@ export default function Approaches() {
       {/* Background elements */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent"></div>
       
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Nos 3 Approches de Développement</h2>
-          <p className="text-slate-600 dark:text-slate-400">
+      <div className="max-w-7xl 2xl:max-w-[1400px] 3xl:max-w-[1600px] mx-auto px-6">
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <h2 className="font-display text-3xl md:text-5xl 2xl:text-6xl font-bold mb-4 tracking-tight text-slate-900 dark:text-white">Nos 3 Approches de Développement</h2>
+          <p className="text-slate-600 dark:text-slate-400 text-base md:text-lg 2xl:text-xl">
             Nous adaptons notre méthodologie en fonction de vos besoins, de votre budget et de vos délais.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-3 gap-8 2xl:gap-12">
           {approaches.map((approach, index) => (
             <motion.div
               key={index}
@@ -46,18 +46,18 @@ export default function Approaches() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.2, duration: 0.5 }}
-              className="relative p-8 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:border-slate-700 transition-colors group"
+              className="relative p-8 2xl:p-10 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-indigo-500/30 dark:hover:border-indigo-500/20 hover:bg-slate-100 dark:hover:bg-slate-800/20 transition-all duration-300 group"
             >
-              <div className="absolute top-0 right-8 -translate-y-1/2 text-8xl font-black text-slate-800/30 group-hover:text-slate-800/50 transition-colors z-0">
+              <div className="absolute top-0 right-8 -translate-y-1/2 text-8xl font-black text-slate-800/20 group-hover:text-slate-800/40 dark:text-slate-600/10 dark:group-hover:text-slate-600/30 transition-colors z-0 select-none">
                 {index + 1}
               </div>
               
               <div className="relative z-10">
-                <div className="w-16 h-16 rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 flex items-center justify-center mb-6 group-hover:-translate-y-2 transition-transform">
+                <div className="w-16 h-16 2xl:w-18 2xl:h-18 rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 flex items-center justify-center mb-6 group-hover:-translate-y-2 transition-transform duration-300 shadow-sm">
                   {approach.icon}
                 </div>
-                <h3 className="text-xl font-bold mb-4">{approach.title}</h3>
-                <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
+                <h3 className="font-display text-xl 2xl:text-2xl font-bold mb-4 text-slate-900 dark:text-white">{approach.title}</h3>
+                <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-sm 2xl:text-base">
                   {approach.description}
                 </p>
               </div>

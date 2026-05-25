@@ -12,42 +12,42 @@ export default function Formations() {
     >
       <div className="absolute -top-1/2 -right-1/4 w-full h-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-indigo-900/20 via-transparent to-transparent -z-10 blur-3xl"></div>
       
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 md:p-16 flex flex-col md:flex-row items-center justify-between gap-12 backdrop-blur-sm">
+      <div className="max-w-7xl 2xl:max-w-[1400px] 3xl:max-w-[1600px] mx-auto px-6">
+        <div className="bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 md:p-16 2xl:p-20 flex flex-col md:flex-row items-center justify-between gap-12 2xl:gap-16 backdrop-blur-sm">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="flex-1"
           >
-            <div className="w-16 h-16 bg-indigo-500/20 text-indigo-400 rounded-2xl flex items-center justify-center mb-6">
+            <div className="w-16 h-16 bg-indigo-500/20 text-indigo-650 dark:text-indigo-400 rounded-2xl flex items-center justify-center mb-6">
               <BookOpen size={32} />
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Formations en Informatique</h2>
-            <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
+            <h2 className="font-display text-3xl md:text-5xl font-bold mb-4 tracking-tight text-slate-900 dark:text-white">Formations en Informatique</h2>
+            <p className="text-base sm:text-lg 2xl:text-xl text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
               Envie de monter en compétences ou de former vos équipes ? Nous proposons des modules de formation pratiques et adaptés au marché actuel : Développement, outils numériques et bureautique.
             </p>
-            <ul className="grid sm:grid-cols-2 gap-3 mb-8">
-               <li className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
+            <ul className="grid sm:grid-cols-2 gap-3 mb-8 text-sm sm:text-base">
+               <li className="flex items-center gap-2 text-slate-700 dark:text-slate-300 font-semibold">
                   <CheckIcon /> Cycle complet Développeur
                </li>
-               <li className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
+               <li className="flex items-center gap-2 text-slate-700 dark:text-slate-300 font-semibold">
                   <CheckIcon /> Outils d'Automatisation (n8n)
                </li>
-               <li className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
+               <li className="flex items-center gap-2 text-slate-700 dark:text-slate-300 font-semibold">
                   <CheckIcon /> Executive Education (Diplôme)
                </li>
-               <li className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
+               <li className="flex items-center gap-2 text-slate-700 dark:text-slate-300 font-semibold">
                   <CheckIcon /> Sessions Intra/Inter Entreprise
                </li>
             </ul>
-             <div className="mb-6 inline-flex items-center rounded-lg bg-yellow-500/10 px-4 py-2 border border-yellow-500/20">
-               <p className="text-yellow-400 text-sm italic">"Se recomienda ser independiente. Aplique para el diplomado de Executive Education."</p>
+             <div className="mb-6 inline-flex items-center rounded-xl bg-amber-500/10 px-4 py-2.5 border border-amber-500/20 max-w-full">
+               <p className="text-amber-600 dark:text-amber-400 text-xs sm:text-sm font-semibold italic">"Se recommande d'être indépendant. Postulez pour le programme d'Executive Education."</p>
              </div>
              <br />
              <a
               href="#contact"
-              className="inline-flex items-center gap-2 px-6 py-3 border border-indigo-500/50 text-indigo-400 hover:bg-indigo-500 hover:text-slate-900 dark:text-white font-semibold rounded-lg transition-all"
+              className="inline-flex items-center gap-2 px-6 py-3.5 border border-indigo-550 text-indigo-650 dark:text-indigo-300 hover:bg-indigo-600 hover:text-white dark:hover:text-slate-950 font-bold rounded-lg transition-all duration-300 transform hover:-translate-y-0.5 text-sm sm:text-base shadow-sm cursor-pointer"
             >
               Voir le programme
             </a>

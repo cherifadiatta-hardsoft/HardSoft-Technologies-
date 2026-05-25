@@ -15,8 +15,8 @@ export default function POS() {
       data-seo-description="Simplifiez la gestion de votre point de vente, gérez les stocks et analysez vos ventes en temps réel." 
       className="py-24 bg-slate-50 dark:bg-slate-900"
     >
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+      <div className="max-w-7xl 2xl:max-w-[1400px] 3xl:max-w-[1600px] mx-auto px-6">
+        <div className="grid lg:grid-cols-2 gap-16 2xl:gap-24 items-center">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -70,30 +70,30 @@ export default function POS() {
             viewport={{ once: true }}
             className="order-1 lg:order-2"
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-300 text-sm font-medium mb-6">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-600 dark:text-violet-300 text-xs sm:text-sm font-semibold mb-6 tracking-wide select-none">
               Notre Solution Phare
             </div>
-            <h2 className="text-3xl md:text-5xl font-bold mb-6 text-slate-900 dark:text-white">
+            <h2 className="font-display text-3xl md:text-5xl 2xl:text-6xl font-bold mb-6 text-slate-900 dark:text-white tracking-tight leading-[1.1]">
               Simplifiez la gestion de votre commerce avec notre Logiciel POS.
             </h2>
-            <p className="text-lg text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
+            <p className="text-base sm:text-lg 2xl:text-xl text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
               Une solution complète de Point de Vente pour gérer vos stocks, suivre vos ventes en temps réel et piloter votre entreprise en toute simplicité. Conçu pour s'adapter à votre activité.
             </p>
 
             <ul className="space-y-4 mb-8">
               {highlights.map((item, index) => (
-                <li key={index} className="flex items-center gap-3 text-slate-700 dark:text-slate-300 font-medium">
-                  <div className="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-indigo-400 border border-slate-300 dark:border-slate-700">
+                <li key={index} className="flex items-center gap-3 text-slate-700 dark:text-slate-300 font-semibold text-sm sm:text-base">
+                  <div className="p-2 rounded-xl bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 border border-slate-200 dark:border-slate-800 shadow-sm shrink-0">
                     {item.icon}
                   </div>
-                  {item.text}
+                  <span>{item.text}</span>
                 </li>
               ))}
             </ul>
 
             <a
               href="#contact"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-white text-slate-900 font-semibold rounded-lg hover:bg-slate-200 transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3.5 bg-indigo-600 dark:bg-white text-white dark:text-slate-950 font-bold rounded-lg hover:bg-indigo-700 dark:hover:bg-slate-200 transition-colors shadow-md hover:shadow-lg text-sm sm:text-base cursor-pointer"
             >
               Demander une démo
             </a>
