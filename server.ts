@@ -8,7 +8,7 @@ async function startServer() {
 
   // Serve static files in production / fallback to index.html for SPA router
   if (process.env.NODE_ENV === "production") {
-    const distPath = path.join(process.cwd(), "dist");
+    const distPath = path.join(process.cwd(), "build");
     app.use(express.static(distPath));
     app.get("*all", (req, res) => {
       res.sendFile(path.join(distPath, "index.html"));
