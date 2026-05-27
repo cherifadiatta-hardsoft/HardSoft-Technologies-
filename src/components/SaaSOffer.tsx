@@ -1,7 +1,7 @@
 import { motion } from 'motion/react';
 import { useLanguage } from './LanguageProvider';
 import { 
-  Smartphone, Globe, Zap, Package, Activity, Building, GraduationCap, ArrowRight, MessageSquare 
+  Smartphone, Globe, Zap, Package, Activity, Building, GraduationCap, ArrowRight, MessageSquare, TrendingUp 
 } from 'lucide-react';
 
 export default function SaaSOffer() {
@@ -246,7 +246,7 @@ export default function SaaSOffer() {
         </div>
 
         {/* Static Tech Stack Badges */}
-        <div className="text-center mb-16 bg-[#0e1422] py-8 rounded-2xl border border-gray-800/60">
+        <div className="text-center mb-16 bg-[#0e1422] py-8 rounded-2xl border border-gray-800/60 font-sans">
           <p className="text-xs uppercase font-bold tracking-widest text-slate-500 mb-4 font-display">
             {isFr ? "Notre Stack Technologique de Pointe" : "Our Modern Technology Stack"}
           </p>
@@ -260,6 +260,152 @@ export default function SaaSOffer() {
             <span className="bg-[#161f32] px-3.5 py-1.5 rounded-lg border border-gray-800/85 font-medium font-bold text-indigo-400">WhatsApp Cloud API</span>
           </div>
         </div>
+
+        {/* SaaS Success Case: Pharma24 Spotlight */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="bg-[#121826]/70 border border-indigo-500/10 rounded-3xl p-6 md:p-10 mb-16 relative overflow-hidden text-left font-sans"
+        >
+          {/* Ambient light streak */}
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-500/5 rounded-full blur-3xl" />
+          
+          <div className="relative flex flex-col lg:flex-row items-stretch gap-8">
+            
+            {/* Left Column: Success Overview and Context */}
+            <div className="flex-1 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="inline-flex items-center gap-1 bg-emerald-500/10 text-emerald-400 text-[10px] font-extrabold tracking-wider uppercase px-3 py-1 rounded-full border border-emerald-500/20 font-mono">
+                    <TrendingUp className="w-3.5 h-3.5" />
+                    {isFr ? "Étude de Cas Réel" : "Real Case Study"}
+                  </span>
+                  <span className="text-xs font-mono text-slate-550">Pharma24</span>
+                </div>
+                
+                <h3 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight font-display mb-3">
+                  {isFr ? "Pharma24 : Automatisation de la Santé d'Urgence" : "Pharma24: Emergency Healthcare Automation"}
+                </h3>
+                
+                <p className="text-slate-400 text-sm md:text-base leading-relaxed mb-6 font-sans">
+                  {isFr 
+                    ? "Déployé en partenariat avec les officines locales au Sénégal, Pharma24 est un système SaaS intelligent qui centralise la disponibilité des médicaments critiques en direct et automatise les réservations via un assistant WhatsApp autonome connecté aux API de paiements locaux."
+                    : "Deployed in collaboration with West African health hubs, Pharma24 is an automated cloud SaaS that centralizes real-time distribution charts for critical pharmaceuticals, managing bookings via an autonomous WhatsApp bot synced to local payment gateways."}
+                </p>
+                
+                {/* Visual stats panel in mini layout */}
+                <div className="grid grid-cols-2 gap-4 mt-6">
+                  <div className="bg-[#161f32]/60 p-4 rounded-xl border border-slate-800">
+                    <div className="text-2xl font-black text-indigo-400 font-display">320+</div>
+                    <div className="text-[11px] text-slate-400 uppercase font-mono mt-1">
+                      {isFr ? "Pharmacies connectées" : "Connected Pharmacies"}
+                    </div>
+                  </div>
+                  <div className="bg-[#161f32]/60 p-4 rounded-xl border border-slate-800">
+                    <div className="text-2xl font-black text-emerald-400 font-display font-bold">45,000+</div>
+                    <div className="text-[11px] text-slate-400 uppercase font-mono mt-1">
+                      {isFr ? "Vérifications / Mois" : "Monthly Live Matches"}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Stack items linked */}
+              <div className="mt-6 flex flex-wrap items-center gap-2 pt-6 border-t border-slate-800/60 text-xs text-slate-500">
+                <span className="text-slate-400 font-mono text-[10px] uppercase font-bold tracking-wider">{isFr ? "MOTEURS INTÉGRÉS :" : "INTEGRATED ENGINES:"}</span>
+                <span className="bg-slate-900 px-2 py-0.5 rounded border border-slate-800 text-slate-400">n8n Flows</span>
+                <span className="bg-slate-900 px-2 py-0.5 rounded border border-slate-800 text-slate-400">Wave API</span>
+                <span className="bg-slate-900 px-2 py-0.5 rounded border border-slate-800 text-slate-400">Orange Money</span>
+                <span className="bg-slate-900 px-2 py-0.5 rounded border border-slate-800 text-slate-400">WhatsApp API</span>
+              </div>
+            </div>
+
+            {/* Right Column: Visual Interactive Progress Bars of Efficiency Gains */}
+            <div className="w-full lg:w-[420px] bg-[#0e1422] border border-slate-800 p-6 rounded-2xl flex flex-col justify-center">
+              <div className="mb-6">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs font-bold text-slate-400 uppercase tracking-wider font-display">
+                    {isFr ? "Gain Global d'Efficacité" : "Overall Automation Yield"}
+                  </span>
+                  <span className="text-xs font-bold text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded border border-indigo-500/20 font-mono">
+                    +92%
+                  </span>
+                </div>
+                {/* Master Progress Bar */}
+                <div className="w-full h-3.5 bg-slate-900 rounded-full overflow-hidden p-[2px] border border-slate-800">
+                  <motion.div 
+                    initial={{ width: 0 }}
+                    whileInView={{ width: "92%" }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1.2, ease: "easeOut" }}
+                    className="h-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 rounded-full"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-5">
+                <div className="p-3 bg-[#121826]/50 rounded-xl border border-slate-800/40">
+                  <div className="flex items-center justify-between text-xs mb-1">
+                    <span className="text-slate-300 font-bold">{isFr ? "Mise à Jour des Stocks" : "Live Inventory Updates"}</span>
+                    <span className="font-mono text-emerald-400 font-bold">94% {isFr ? "Auto" : "Auto"}</span>
+                  </div>
+                  <div className="h-1.5 bg-slate-900 rounded-full overflow-hidden">
+                    <motion.div 
+                      initial={{ width: 0 }}
+                      whileInView={{ width: "94%" }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 1, delay: 0.1, ease: "easeOut" }}
+                      className="h-full bg-emerald-500 rounded-full"
+                    />
+                  </div>
+                  <p className="text-[10px] text-slate-500 mt-1">
+                    {isFr ? "Remplacement complet de l'encaissement manuel fastidieux." : "Saves pharmacies hours of daily manual status updates."}
+                  </p>
+                </div>
+
+                <div className="p-3 bg-[#121826]/50 rounded-xl border border-slate-800/40">
+                  <div className="flex items-center justify-between text-xs mb-1">
+                    <span className="text-slate-300 font-bold">{isFr ? "Réduction des Appels Urgents" : "Support Load Reduction"}</span>
+                    <span className="font-mono text-blue-400 font-bold">85% {isFr ? "Résolu" : "Solved"}</span>
+                  </div>
+                  <div className="h-1.5 bg-slate-900 rounded-full overflow-hidden">
+                    <motion.div 
+                      initial={{ width: 0 }}
+                      whileInView={{ width: "85%" }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
+                      className="h-full bg-blue-500 rounded-full"
+                    />
+                  </div>
+                  <p className="text-[10px] text-slate-500 mt-1">
+                    {isFr ? "Routage instantané vers le bot WhatsApp automatisé." : "Over 85% of medicine availability queries resolved via AI bot."}
+                  </p>
+                </div>
+
+                <div className="p-3 bg-[#121826]/50 rounded-xl border border-slate-800/40">
+                  <div className="flex items-center justify-between text-xs mb-1">
+                    <span className="text-slate-300 font-bold">{isFr ? "Sécurisation des Réserves" : "Pre-booking Secure Payments"}</span>
+                    <span className="font-mono text-purple-400 font-bold">99.2% {isFr ? "Précis" : "Accurate"}</span>
+                  </div>
+                  <div className="h-1.5 bg-slate-900 rounded-full overflow-hidden">
+                    <motion.div 
+                      initial={{ width: 0 }}
+                      whileInView={{ width: "99.2%" }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
+                      className="h-full bg-purple-500 rounded-full"
+                    />
+                  </div>
+                  <p className="text-[10px] text-slate-500 mt-1">
+                    {isFr ? "Validation cryptographique Wave & OM temps réel." : "Live algorithmic validations prevent pharmacy over-bookings."}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </motion.div>
 
         {/* Ultimate Call To Action Gradient Card */}
         <div className="bg-gradient-to-br from-indigo-950 via-[#121826] to-[#0b0f19] border border-indigo-500/30 rounded-3xl p-8 text-center relative overflow-hidden">
