@@ -114,8 +114,29 @@ const translations: Record<Language, Translations> = {
 
     // FAQ Section
     'faq.badge': 'FAQ',
-    'faq.title': 'Des réponses claires à vos questions',
-    'faq.descr': 'Tout ce que vous devez savoir pour démarrer sereinement votre projet avec notre agence.',
+    'faq.title': 'Foire Aux Questions',
+    'faq.descr': 'Trouvez les réponses à vos questions concernant nos services, nos tarifs et notre méthodologie.',
+    'faq.search_placeholder': 'Rechercher une question...',
+    'faq.no_results_title': 'Aucune question ne correspond à votre recherche',
+    'faq.no_results_desc': 'Nous n\'avons trouvé aucun résultat pour « {query} » dans la catégorie « {category} ». Essayez d\'utiliser des termes différents ou de réinitialiser la recherche.',
+    'faq.reset_filters': 'Réinitialiser les filtres',
+    'faq.ask_question': 'Nous poser votre question',
+    'faq.categories.all': 'Toutes',
+    'faq.categories.services': 'Services',
+    'faq.categories.tarifs': 'Tarifs',
+    'faq.categories.processus': 'Processus',
+    'faq.categories.support': 'Support',
+    
+    'faq.q1.question': 'Quels types de solutions logicielles développez-vous ?',
+    'faq.q1.answer': 'Nous concevons des sites web vitrines, des plateformes e-commerce, des applications web complexes (SaaS), des applications mobiles (iOS et Android) ainsi que des logiciels de point de vente (POS) personnalisés. Nous avons également des compétences en automatisation avec n8n.',
+    'faq.q2.question': 'Comment déterminez-vous le prix d\'un projet ?',
+    'faq.q2.answer': 'La tarification dépend de la complexité du projet, des fonctionnalités requises et du temps de développement estimé. Nous privilégions une approche transparente : après un premier échange pour comprendre vos besoins (cahier des charges), nous vous fournissons un devis détaillé, personnalisé et gratuit.',
+    'faq.q3.question': 'Quelle est votre méthodologie de développement ?',
+    'faq.q3.answer': 'Nous utilisons des méthodes agiles pour garantir une flexibilité et une excellente qualité technique. Le processus inclut : l\'analyse des besoins, la conception graphique (maquettes UI/UX), le développement itératif (avec des points réguliers), les tests poussés, et enfin le déploiement de la solution.',
+    'faq.q4.question': 'Combien de temps faut-il pour créer une application ?',
+    'faq.q4.answer': 'Un site vitrine peut être finalisé entre 2 et 4 semaines, tandis qu\'une application sur mesure ou un SaaS complexe demande généralement de 2 à 6 mois selon sa complexité. Nos solutions "No-Code / Low-Code" peuvent permettre des lancements express en quelques jours ou semaines.',
+    'faq.q5.question': 'Proposez-vous un support et une maintenance après le lancement ?',
+    'faq.q5.answer': 'Absolument. Nous proposons différents forfaits de maintenance pour garantir que votre application reste sécurisée, de fonctionner correctement avec de bonnes performances et s\'enrichisse de nouvelles fonctionnalités sur le long terme.',
 
     // Estimator Section
     'estimator.badge': 'Budget Estimator',
@@ -244,8 +265,29 @@ const translations: Record<Language, Translations> = {
 
     // FAQ Section
     'faq.badge': 'FAQ',
-    'faq.title': 'Clear answers to standard client questions',
-    'faq.descr': 'Everything you need to know about setting up a successful partnership with our technical team.',
+    'faq.title': 'Frequently Asked Questions',
+    'faq.descr': 'Find instant, clear answers regarding our customized services, project budget estimators, and delivery processes.',
+    'faq.search_placeholder': 'Search for questions...',
+    'faq.no_results_title': 'No results match your search parameters',
+    'faq.no_results_desc': 'We couldn\'t locate any matching FAQs for “{query}” under the “{category}” section. Try using alternate keywords or reset filters.',
+    'faq.reset_filters': 'Reset Filters',
+    'faq.ask_question': 'Contact Our Engineers',
+    'faq.categories.all': 'All',
+    'faq.categories.services': 'Services',
+    'faq.categories.tarifs': 'Pricing',
+    'faq.categories.processus': 'Process',
+    'faq.categories.support': 'Support',
+    
+    'faq.q1.question': 'What types of software solutions do you develop?',
+    'faq.q1.answer': 'We design showcase websites, e-commerce platforms, complex web applications (SaaS), mobile applications (iOS and Android) as well as custom-tailored point of sale (POS) systems. We also possess verified automation capabilities with n8n.',
+    'faq.q2.question': 'How do you determine the price of a project?',
+    'faq.q2.answer': 'Pricing depends on the complexity of the project, the requested features, and the estimated development time. We favor a fully transparent approach: after an initial exchange to understand your requirements, we provide a detailed, customized, and free estimate.',
+    'faq.q3.question': 'What is your development methodology?',
+    'faq.q3.answer': 'We utilize Agile workflows to ensure peak flexibility and outstanding technical delivery. The process includes: requirements analysis, UI/UX mockups, iterative sprint builds (with weekly updates), rigorous quality assurance, and deployment.',
+    'faq.q4.question': 'How long does it take to build an application?',
+    'faq.q4.answer': 'A showcase website can be completed within 2 to 4 weeks, whereas a bespoke application or complex SaaS typically takes between 2 to 6 months. Our No-Code / Low-Code strategies can enable express launches within just days or weeks.',
+    'faq.q5.question': 'Do you offer support and maintenance after launch?',
+    'faq.q5.answer': 'Absolutely. We offer several post-launch maintenance tiers to ensure your application remains highly secure, performs efficiently, and receives periodic feature updates over time.',
 
     // Estimator Section
     'estimator.badge': 'Pricing Estimator',
