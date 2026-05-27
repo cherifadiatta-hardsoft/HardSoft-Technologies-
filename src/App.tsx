@@ -10,6 +10,7 @@ import Testimonials from './components/Testimonials';
 import About from './components/About';
 import Partners from './components/Partners';
 import ProjectEstimator from './components/ProjectEstimator';
+import SaaSOffer from './components/SaaSOffer';
 import ContactFooter from './components/ContactFooter';
 import WhatsAppWidget from './components/WhatsAppWidget';
 import Approaches from './components/Approaches';
@@ -89,9 +90,10 @@ export default function App() {
         <About />
         <Testimonials />
         <FAQSection />
+        <SaaSOffer />
+        <ProjectEstimator />
       </main>
 
-      <ProjectEstimator />
       <ContactFooter />
       <WhatsAppWidget />
       <BackToTop />

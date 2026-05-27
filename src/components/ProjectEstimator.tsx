@@ -76,7 +76,7 @@ const ProjectEstimator = () => {
   const maxBudget = Math.round(estimatedBudget * 1.25);
 
   return (
-    <section id="pos-estimator" className="py-24 px-6 bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800">
+    <section id="estimateur" className="py-24 px-6 bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800">
       <div className="max-w-4xl mx-auto bg-white dark:bg-slate-800 rounded-3xl shadow-xl overflow-hidden border border-slate-100 dark:border-slate-700">
         
         {/* En-tête */}
