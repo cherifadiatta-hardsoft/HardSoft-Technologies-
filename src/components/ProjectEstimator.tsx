@@ -14,8 +14,27 @@ const ProjectEstimator = () => {
   const [service, setService] = useState('logiciel');
   const [companySize, setCompanySize] = useState('pme');
   const [techStack, setTechStack] = useState('standard');
+  const [selectedSubTechs, setSelectedSubTechs] = useState<string[]>([]);
   const [customFeatures, setCustomFeatures] = useState(false);
   const [estimatedBudget, setEstimatedBudget] = useState(0);
+
+  // Subtech definition with custom coefficient factors or flat cost additions in FCFA
+  const SUB_TECHS = [
+    { id: 'nextjs', labelFr: 'React / Next.js (Web Frontend)', labelEn: 'React / Next.js (Modern Web UI)', cost: 50000 },
+    { id: 'flutter', labelFr: 'Flutter (Mobile Multiplateforme)', labelEn: 'Flutter (Cross-platform Mobile)', cost: 90000 },
+    { id: 'python', labelFr: 'Python (Django, FastAPI - IA / Backend)', labelEn: 'Python (Django, FastAPI - AI / Backend)', cost: 70000 },
+    { id: 'laravel', labelFr: 'PHP (Laravel, Symfony - App Métier)', labelEn: 'PHP (Laravel, Symfony - Business Logic)', cost: 50000 },
+    { id: 'whatsapp', labelFr: 'WhatsApp Business Cloud API (Messagerie)', labelEn: 'WhatsApp Business Cloud API (Messaging)', cost: 85000 },
+    { id: 'n8n', labelFr: 'Automatisation n8n (Workflows & Bots)', labelEn: 'n8n Workflow Automation (Sync & Bots)', cost: 80000 },
+    { id: 'maps', labelFr: 'API Google Maps (Géolocalisation)', labelEn: 'Google Maps API (Geo-tracking)', cost: 40000 },
+  ];
+
+  // Reset selected subtechs when changing technology selection to standard
+  useEffect(() => {
+    if (techStack === 'standard') {
+      setSelectedSubTechs([]);
+    }
+  }, [techStack]);
 
   // Calcul dynamique du budget
   useEffect(() => {
@@ -31,17 +50,26 @@ const ProjectEstimator = () => {
     if (companySize === 'pme') companyMultiplier = 1.2;
     if (companySize === 'grand_compte') companyMultiplier = 1.6;
 
-    // 3. Multiplicateur selon le choix technologique (Solutions sur mesure complexes)
+    // 3. Multiplicateur selon le choix technologique
     let techMultiplier = 1.0;
-    if (techStack === 'avancee') techMultiplier = 1.3; // ex: Mobile multiplateforme, IA, Temps réel
+    if (techStack === 'avancee') techMultiplier = 1.35; // increased slightly for Whatsapp & n8n cloud hosting costs
 
     // 4. Besoins spécifiques / Fonctionnalités complexes
     let extraCost = customFeatures ? basePrice * 0.25 : 0; // +25% si besoins complexes
 
+    // 5. Ajout des sous-technologies sélectionnées
+    let subTechExtra = 0;
+    if (techStack === 'avancee') {
+      subTechExtra = selectedSubTechs.reduce((sum, techId) => {
+        const matchingTech = SUB_TECHS.find(t => t.id === techId);
+        return sum + (matchingTech ? matchingTech.cost : 0);
+      }, 0);
+    }
+
     // Calcul final
-    const total = (basePrice * companyMultiplier * techMultiplier) + extraCost;
+    const total = (basePrice * companyMultiplier * techMultiplier) + extraCost + subTechExtra;
     setEstimatedBudget(Math.round(total));
-  }, [service, companySize, techStack, customFeatures]);
+  }, [service, companySize, techStack, selectedSubTechs, customFeatures]);
 
   // Génération d'une fourchette (ex: -15% à +20%)
   const minBudget = Math.round(estimatedBudget * 0.85);
@@ -147,20 +175,75 @@ const ProjectEstimator = () => {
           {/* 3. Choix Technologique */}
           <div>
             <label className="block text-base font-semibold text-slate-900 dark:text-white mb-3">
-              {isFr ? "3. Préférence technologique" : "3. Technology preference"}
+              {isFr ? "3. Préférence technologique et architecture" : "3. Technology preference and architecture"}
             </label>
             <select
               value={techStack}
               onChange={(e) => setTechStack(e.target.value)}
-              className="w-full p-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full p-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-505 transition-all cursor-pointer font-medium"
             >
               <option value="standard">
-                {isFr ? "Standard (Technologies web efficaces, CMS ou stack optimisée)" : "Standard (Efficient web technologies, CMS or standard stack setup)"}
+                {isFr 
+                  ? "Standard (CMS, solutions low-code ou stacks classiques : WordPress, Shopify, HTML5 / CSS3, PHP / Laravel)" 
+                  : "Standard (CMS, low-code solutions or classic stacks: WordPress, Shopify, HTML5 / CSS3, PHP / Laravel)"}
               </option>
               <option value="avancee">
-                {isFr ? "Sur-mesure complexe (React, Next.js, Flutter, API dédiée, Cloud)" : "Complex Custom (React, Next.js, Flutter, Dedicated custom API, Distributed Cloud)"}
+                {isFr 
+                  ? "Sur-mesure complexe (React, Next.js, Flutter, API WhatsApp, Automatisation n8n, Cloud)" 
+                  : "Sur-mesure complexe (React, Next.js, Flutter, WhatsApp API, n8n Automation, Cloud)"}
               </option>
             </select>
+
+            {/* Micro-checkbox list that loads dynamically when advanced stack is chosen */}
+            {techStack === 'avancee' && (
+              <div className="mt-4 p-5 rounded-2xl bg-indigo-55/10 dark:bg-slate-900/60 border border-indigo-200/20 dark:border-slate-800 animate-fadeIn space-y-3.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold uppercase tracking-wider text-indigo-650 dark:text-indigo-400">
+                    {isFr ? "Spécifications technologiques de votre projet" : "Custom Technology Specifications"}
+                  </span>
+                  <span className="text-[10px] text-slate-400 font-medium">
+                    {isFr ? "Optionnel - cochez pour affiner" : "Optional - tick to refine"}
+                  </span>
+                </div>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                  {SUB_TECHS.map((tech) => {
+                    const isChecked = selectedSubTechs.includes(tech.id);
+                    return (
+                      <label 
+                        key={tech.id} 
+                        className={`flex items-start gap-3 p-3 rounded-xl border transition-all cursor-pointer ${
+                          isChecked 
+                            ? 'bg-white dark:bg-slate-950 border-indigo-500/30 shadow-sm' 
+                            : 'bg-transparent border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700'
+                        }`}
+                      >
+                        <input
+                          type="checkbox"
+                          className="mt-1 w-4 h-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-950 cursor-pointer"
+                          checked={isChecked}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setSelectedSubTechs([...selectedSubTechs, tech.id]);
+                            } else {
+                              setSelectedSubTechs(selectedSubTechs.filter(id => id !== tech.id));
+                            }
+                          }}
+                        />
+                        <div className="space-y-0.5">
+                          <span className="text-xs font-bold text-slate-850 dark:text-slate-200 block">
+                            {isFr ? tech.labelFr : tech.labelEn}
+                          </span>
+                          <span className="text-[10px] bg-slate-200/60 dark:bg-slate-950 text-indigo-600 dark:text-indigo-400 font-extrabold px-1 py-0.2 rounded inline-block">
+                            {isFr ? `+${tech.cost.toLocaleString()} FCFA est.` : `+${tech.cost.toLocaleString()} FCFA est.`}
+                          </span>
+                        </div>
+                      </label>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* 4. Besoins spécifiques additionnels */}

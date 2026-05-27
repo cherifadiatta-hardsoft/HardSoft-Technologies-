@@ -8,6 +8,7 @@ import Formations from './components/Formations';
 import Portfolio from './components/Portfolio';
 import Testimonials from './components/Testimonials';
 import About from './components/About';
+import Partners from './components/Partners';
 import ProjectEstimator from './components/ProjectEstimator';
 import ContactFooter from './components/ContactFooter';
 import WhatsAppWidget from './components/WhatsAppWidget';
@@ -84,6 +85,7 @@ export default function App() {
         <POS />
         <Formations />
         <Portfolio />
+        <Partners />
         <About />
         <Testimonials />
         <FAQSection />
