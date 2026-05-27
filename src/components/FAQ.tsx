@@ -45,10 +45,9 @@ const faqsKeys: FAQItemKeys[] = [
 
 const categories = [
   { id: 'Toutes', labelKey: 'faq.categories.all' },
-  { id: 'Services', labelKey: 'faq.categories.services' },
-  { id: 'Tarifs', labelKey: 'faq.categories.tarifs' },
-  { id: 'Processus', labelKey: 'faq.categories.processus' },
-  { id: 'Support', labelKey: 'faq.categories.support' }
+  ...Array.from(
+    new Map(faqsKeys.map(item => [item.category, item.categoryTranslationKey])).entries()
+  ).map(([id, labelKey]) => ({ id, labelKey }))
 ];
 
 export default function FAQ() {
@@ -196,7 +195,7 @@ export default function FAQ() {
               <p className="text-sm text-slate-500 dark:text-slate-450 max-w-md mx-auto mb-6">
                 {t('faq.no_results_desc', { 
                   query: searchQuery, 
-                  category: t(`faq.categories.${selectedCategory.toLowerCase()}`) 
+                  category: t(categories.find(cat => cat.id === selectedCategory)?.labelKey || 'faq.categories.all') 
                 })}
               </p>
               <div className="flex flex-wrap items-center justify-center gap-3">

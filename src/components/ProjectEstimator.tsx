@@ -17,6 +17,44 @@ const ProjectEstimator = () => {
   const [selectedSubTechs, setSelectedSubTechs] = useState<string[]>([]);
   const [customFeatures, setCustomFeatures] = useState(false);
   const [estimatedBudget, setEstimatedBudget] = useState(0);
+  const [copied, setCopied] = useState(false);
+
+  // Configuration copy summary generator to improve visitor conversions
+  const handleCopyConfig = () => {
+    const serviceName = service === 'logiciel' 
+      ? (isFr ? 'Logiciel / Application Mobile' : 'Software / Mobile App')
+      : service === 'siteweb'
+      ? (isFr ? 'Site Internet' : 'Website')
+      : (isFr ? 'Configuration / Autre' : 'Configuration / Other');
+      
+    const sizeName = companySize === 'startup'
+      ? (isFr ? 'Startup / Porteur de projet' : 'Individual / Startup')
+      : companySize === 'pme'
+      ? (isFr ? 'PME / Entreprise locale' : 'SME / Local Business')
+      : (isFr ? 'Grande Entreprise' : 'Enterprise');
+      
+    const stackName = techStack === 'standard'
+      ? (isFr ? 'Standard (CMS, PHP / Laravel)' : 'Standard (CMS, PHP / Laravel)')
+      : (isFr ? `Sur-mesure complexe (${selectedSubTechs.length > 0 ? selectedSubTechs.join(', ') : 'Next.js / Cloud'})` : `Bespoke (${selectedSubTechs.length > 0 ? selectedSubTechs.join(', ') : 'Next.js / Cloud'})`);
+
+    const textBrief = isFr 
+      ? `Estimation Projet HardSoft Technologies :
+• Solution : ${serviceName}
+• Profil client : ${sizeName}
+• Stack demandée : ${stackName}
+• Besoins complexes : ${customFeatures ? 'Oui' : 'Non'}
+• Budget estimé : ${minBudget.toLocaleString()} - ${maxBudget.toLocaleString()} FCFA`
+      : `Project Brief Estimation | HardSoft Technologies:
+• Requested Solution: ${serviceName}
+• Profile size: ${sizeName}
+• Technical stack: ${stackName}
+• Custom core complex needs: ${customFeatures ? 'Yes' : 'No'}
+• Total budget approximation: ${minBudget.toLocaleString()} - ${maxBudget.toLocaleString()} FCFA`;
+
+    navigator.clipboard.writeText(textBrief);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 3000);
+  };
 
   // Subtech definition with custom coefficient factors or flat cost additions in FCFA
   const SUB_TECHS = [
@@ -97,9 +135,14 @@ const ProjectEstimator = () => {
           
           {/* 1. Type de Service */}
           <div>
-            <label className="block text-base font-semibold text-slate-900 dark:text-white mb-4">
-              {isFr ? "1. De quel type de solution avez-vous besoin ?" : "1. What type of solution do you need?"}
-            </label>
+            <div className="flex items-center gap-3 mb-4">
+              <span className="w-7 h-7 rounded-lg bg-indigo-100 dark:bg-indigo-955/60 text-indigo-600 dark:text-indigo-400 font-extrabold flex items-center justify-center text-xs shadow-sm shadow-indigo-500/5">
+                1
+              </span>
+              <label className="block text-base font-bold text-slate-900 dark:text-white">
+                {isFr ? "De quel type de solution avez-vous besoin ?" : "What type of solution do you need?"}
+              </label>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <button
                 type="button"
@@ -152,9 +195,14 @@ const ProjectEstimator = () => {
 
           {/* 2. Taille de l'entreprise */}
           <div>
-            <label className="block text-base font-semibold text-slate-900 dark:text-white mb-3">
-              {isFr ? "2. Taille de votre structure / Envergure du projet" : "2. Scale of your company / Project scope"}
-            </label>
+            <div className="flex items-center gap-3 mb-3">
+              <span className="w-7 h-7 rounded-lg bg-indigo-100 dark:bg-indigo-955/60 text-indigo-600 dark:text-indigo-400 font-extrabold flex items-center justify-center text-xs shadow-sm shadow-indigo-500/5">
+                2
+              </span>
+              <label className="block text-base font-bold text-slate-900 dark:text-white">
+                {isFr ? "Taille de votre structure / Envergure du projet" : "Scale of your company / Project scope"}
+              </label>
+            </div>
             <select
               value={companySize}
               onChange={(e) => setCompanySize(e.target.value)}
@@ -174,9 +222,14 @@ const ProjectEstimator = () => {
 
           {/* 3. Choix Technologique */}
           <div>
-            <label className="block text-base font-semibold text-slate-900 dark:text-white mb-3">
-              {isFr ? "3. Préférence technologique et architecture" : "3. Technology preference and architecture"}
-            </label>
+            <div className="flex items-center gap-3 mb-3">
+              <span className="w-7 h-7 rounded-lg bg-indigo-100 dark:bg-indigo-955/60 text-indigo-600 dark:text-indigo-400 font-extrabold flex items-center justify-center text-xs shadow-sm shadow-indigo-500/5">
+                3
+              </span>
+              <label className="block text-base font-bold text-slate-900 dark:text-white">
+                {isFr ? "Préférence technologique et architecture" : "Technology preference and architecture"}
+              </label>
+            </div>
             <select
               value={techStack}
               onChange={(e) => setTechStack(e.target.value)}
@@ -247,24 +300,24 @@ const ProjectEstimator = () => {
           </div>
 
           {/* 4. Besoins spécifiques additionnels */}
-          <div className="flex items-start mt-6 p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700">
+          <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 flex items-start gap-4">
             <div className="flex items-center h-6">
               <input
                 id="customFeatures"
                 type="checkbox"
                 checked={customFeatures}
                 onChange={(e) => setCustomFeatures(e.target.checked)}
-                className="w-5 h-5 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500 dark:border-slate-600 dark:bg-slate-700 cursor-pointer"
+                className="w-5 h-5 text-indigo-600 border-slate-300 rounded focus:ring-indigo-505 dark:border-slate-705 dark:bg-slate-950 cursor-pointer"
               />
             </div>
-            <div className="ml-4 text-sm">
-              <label htmlFor="customFeatures" className="font-semibold text-slate-900 dark:text-white cursor-pointer">
-                {isFr ? "Mon projet nécessite des fonctionnalités sur mesure très complexes" : "My project requires highly complex custom functionalities"}
+            <div className="space-y-1">
+              <label htmlFor="customFeatures" className="font-bold text-sm md:text-base text-slate-900 dark:text-white cursor-pointer select-none">
+                {isFr ? "Optionnel : Besoins complexes ou fonctionnalités très spécifiques" : "Optional: Highly complex custom needs or specific requirements"}
               </label>
-              <p className="text-slate-500 dark:text-slate-400 mt-1 text-xs md:text-sm">
+              <p className="text-slate-500 dark:text-slate-400 text-xs md:text-sm leading-relaxed">
                 {isFr 
-                  ? "Ex: Intégrations de paiement locales multiples, géolocalisation avancée, temps réel, système de réservation massif..." 
-                  : "E.g. multiple local payment APIs, geo-tracking features, real-time sync, massive booking workflows..."}
+                  ? "Ex: Intégration de paiements locaux (Wave, OM), authentification complexe, géolocalisation ou workflows d'arrière-plan avancés." 
+                  : "E.g. Local payments api integration, complex user credentials, live geo-tracking or tailored background workflows."}
               </p>
             </div>
           </div>
@@ -278,7 +331,7 @@ const ProjectEstimator = () => {
               <h3 className="text-base sm:text-lg font-medium text-slate-700 dark:text-slate-300 mt-6 mb-2">
                 {isFr ? "Budget approximatif (Fourchette)" : "Approximate budget bracket"}
               </h3>
-              <div className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-2 flex items-center justify-center gap-2 flex-wrap">
+              <div className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-2 flex items-center justify-center gap-2 flex-wrap font-display">
                 <span>{minBudget.toLocaleString()}</span> 
                 <span className="text-lg md:text-xl text-slate-400 font-normal">{isFr ? "à" : "to"}</span> 
                 <span>{maxBudget.toLocaleString()}</span> 
@@ -291,10 +344,22 @@ const ProjectEstimator = () => {
               </p>
             </div>
             
-            <div className="p-6 bg-white dark:bg-slate-900 flex justify-center">
+            <div className="p-6 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800/60 flex flex-col sm:flex-row items-center justify-center gap-4">
+              <button
+                type="button"
+                onClick={handleCopyConfig}
+                className={`w-full sm:w-auto inline-flex justify-center items-center gap-2 px-6 py-3.5 rounded-xl text-sm font-extrabold border transition-all cursor-pointer select-none active:scale-95 ${
+                  copied 
+                    ? 'bg-emerald-500/10 border-emerald-555 text-emerald-600 dark:text-emerald-400' 
+                    : 'bg-slate-50 hover:bg-slate-100 dark:bg-slate-950 dark:hover:bg-slate-900 border-slate-250 dark:border-slate-800 text-slate-700 dark:text-slate-300 shadow-sm'
+                }`}
+              >
+                {copied ? (isFr ? '✓ Configuration Copiée !' : '✓ Brief Copied!') : (isFr ? '📋 Copier résumé du projet' : '📋 Copy Brief Summary')}
+              </button>
+              
               <a
                 href="#contact"
-                className="inline-flex justify-center items-center gap-2 w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-8 py-3.5 rounded-xl shadow-lg shadow-indigo-600/20 hover:shadow-xl hover:shadow-indigo-600/30 transition-all transform hover:-translate-y-0.5 text-sm md:text-base cursor-pointer"
+                className="w-full sm:w-auto inline-flex justify-center items-center gap-2 bg-indigo-650 hover:bg-indigo-700 text-white font-bold px-8 py-3.5 rounded-xl shadow-lg shadow-indigo-600/20 hover:shadow-xl hover:shadow-indigo-600/30 transition-all transform hover:-translate-y-0.5 text-sm md:text-base cursor-pointer text-center"
               >
                 {isFr ? "Discuter de ce budget avec un expert" : "Discuss this budget with an engineer"}
               </a>

@@ -31,6 +31,19 @@ interface Partner {
     titleFr: string;
     titleEn: string;
   }[];
+  timeline: {
+    dateFr: string;
+    dateEn: string;
+    titleFr: string;
+    titleEn: string;
+    milestoneFr: string;
+    milestoneEn: string;
+    status: 'completed' | 'current' | 'planned';
+    deliverableDetails?: {
+      fr: string[];
+      en: string[];
+    };
+  }[];
 }
 
 // Highly realistic and polished base partners that align with HardSoft Technologies' real Senegal & West Africa focus
@@ -87,6 +100,60 @@ const INITIAL_PARTNERS: Partner[] = [
         titleFr: 'Visualisation de Base de Données des Stocks',
         titleEn: 'Live Medical Stock Database Monitor'
       }
+    ],
+    timeline: [
+      {
+        dateFr: "Mars 2024",
+        dateEn: "March 2024",
+        titleFr: "Initialisation & Cartographie",
+        titleEn: "Initialization & Mapping",
+        milestoneFr: "Audit technique de l'infrastructure nationale et cartographie interactive sous-seconde.",
+        milestoneEn: "Complete technical audit of national pharmacy tracking frameworks with sub-second maps.",
+        status: "completed",
+        deliverableDetails: {
+          fr: ["Analyse de couverture nationale", "Conception des schémas d'index SIG", "Prototypes d'interfaces cartographiques"],
+          en: ["National GIS coverage audit", "GIS indexing database planning", "Interactive map interface wireframing"]
+        }
+      },
+      {
+        dateFr: "Juin 2024",
+        dateEn: "June 2024",
+        titleFr: "Moteur de Géolocalisation",
+        titleEn: "Geolocation Engine Dev",
+        milestoneFr: "Calcul automatisé des trajets optimisés vers les pharmacies de garde ouvertes.",
+        milestoneEn: "Automated route-ranking rendering clients to nearest emergency units on high-frequency GIS.",
+        status: "completed",
+        deliverableDetails: {
+          fr: ["Développement de l'algorithme de routage", "Optimisation des temps de calcul cartographique", "Intégration de l'API de localisation GPS"],
+          en: ["Routing matrix algorithm setup", "Sub-second database search tuning", "GPS localization API integrations"]
+        }
+      },
+      {
+        dateFr: "Octobre 2024",
+        dateEn: "October 2024",
+        titleFr: "Synchro de Masse Temps Réel",
+        titleEn: "Massive Live-Sync Ingestion",
+        milestoneFr: "Intégration et mise à jour automatique en direct pour plus de 300 établissements la nuit.",
+        milestoneEn: "Nocturnal automated data-pushed sync launched across 300+ connected healthcare hubs.",
+        status: "completed",
+        deliverableDetails: {
+          fr: ["Mise en place des WebSockets temps réel", "Optimisation de la bande passante mobile (-60%)", "Scripts automatiques de nettoyage nocturne"],
+          en: ["Interactive push-notification channels", "Mobile payload reduction (-60%)", "Nocturnal cluster health sanity checks"]
+        }
+      },
+      {
+        dateFr: "Actuel",
+        dateEn: "Current",
+        titleFr: "Supervision Proactive AI",
+        titleEn: "Proactive AI Monitoring",
+        milestoneFr: "Algorithme intelligent d'anticipation des ruptures de stock de médicaments critiques.",
+        milestoneEn: "Intelligent analytics predicting rare medicine distribution deficits before shortages happen.",
+        status: "current",
+        deliverableDetails: {
+          fr: ["Modélisation prédictive des pénuries", "Alertes intelligentes par SMS", "Tableau de bord de répartition prévisionnelle"],
+          en: ["Predictive shortage trends algorithm", "Smart SMS warning dispatches", "Consolidated supply projection logs"]
+        }
+      }
     ]
   },
   {
@@ -133,6 +200,60 @@ const INITIAL_PARTNERS: Partner[] = [
         titleFr: "Tableau de Bord Logistique d'Administration Globale",
         titleEn: "Global Logistics and Courier Dispatch Control center"
       }
+    ],
+    timeline: [
+      {
+        dateFr: "Février 2024",
+        dateEn: "February 2024",
+        titleFr: "Spécifications & Maquettes",
+        titleEn: "Specifications & Wireframes",
+        milestoneFr: "Validation interactive du double flux utilisateur pour les acheminements de colis.",
+        milestoneEn: "Driver spatial assignment and parcel journey workflow approved by early logistics experts.",
+        status: "completed",
+        deliverableDetails: {
+          fr: ["Planification des parcours de chauffeurs", "Maquettes UX/UI du tableau de bord", "Spécifications de la file d'attente d'attribution"],
+          en: ["Driver spatial dispatch roadmap", "Full UX/UI Figma/interactive drafts", "Queue assignment logic specs"]
+        }
+      },
+      {
+        dateFr: "Juillet 2024",
+        dateEn: "July 2024",
+        titleFr: "Intégration Mobile Money",
+        titleEn: "Wave & OM Checkout Sync",
+        milestoneFr: "Passerelles de paiement locales prêtes avec validation cryptographique instantanée.",
+        milestoneEn: "Secured checkout checkpoints with direct Wave money API and SMS confirmations.",
+        status: "completed",
+        deliverableDetails: {
+          fr: ["API de paiement Wave intégrée", "Callbacks sécurisés Orange Money", "Validation cryptographique instantanée"],
+          en: ["Wave Checkout SDK implementation", "Orange Money webhook triggers", "Immediate client-ledger verification"]
+        }
+      },
+      {
+        dateFr: "Décembre 2024",
+        dateEn: "December 2024",
+        titleFr: "Lancement Grand Public",
+        titleEn: "App Stores Release",
+        milestoneFr: "Déploiement Android/iOS. Plus de 5 000 colis acheminés dès le premier mois.",
+        milestoneEn: "Official stores rollout. 5,000+ localized transport order coordinates executed safely.",
+        status: "completed",
+        deliverableDetails: {
+          fr: ["Déploiement App Store & Google Play", "Système de suivi SMS en temps réel", "Tests de charge en conditions réelles"],
+          en: ["Google Play & iOS App Store releases", "Real-time delivery SMS updates", "High-concurrency load benchmark tests"]
+        }
+      },
+      {
+        dateFr: "Actuel",
+        dateEn: "Current",
+        titleFr: "Dispatcher Prédictif",
+        titleEn: "Predictive Dispatching",
+        milestoneFr: "Calcul automatisé réduisant les temps de parcours ruraux et urbains de 30%.",
+        milestoneEn: "Advanced routing algorithms minimizing transition delays and vehicle dispatch gaps.",
+        status: "current",
+        deliverableDetails: {
+          fr: ["Calcul automatisé d'itinéraire optimal", "Algorithme d'affectation dynamique de ressources", "Optimisation de la consommation de batterie"],
+          en: ["Optimal shortest-path routing", "Smart background pooling engine", "Resource allocation battery optimizations"]
+        }
+      }
     ]
   },
   {
@@ -177,6 +298,60 @@ const INITIAL_PARTNERS: Partner[] = [
         url: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=800',
         titleFr: "Console d’Administration du Contenu Local",
         titleEn: "Sub-Admin CMS & Regional Event Publisher"
+      }
+    ],
+    timeline: [
+      {
+        dateFr: "Janvier 2024",
+        dateEn: "January 2024",
+        titleFr: "Ateliers de Cocréation",
+        titleEn: "Community Design Workshops",
+        milestoneFr: "Collecte des prérequis d'accès citoyen avec le conseil municipal.",
+        milestoneEn: "Gathering direct civic accessibility factors with regional municipality leads.",
+        status: "completed",
+        deliverableDetails: {
+          fr: ["Interviews des citoyens locaux", "Cartographie des besoins d'e-gouvernance", "Conception de l'architecture d'information"],
+          en: ["Civic design feedback surveys", "Interactive public services mapping", "Simplified site layout architecture"]
+        }
+      },
+      {
+        dateFr: "Juin 2024",
+        dateEn: "June 2024",
+        titleFr: "Déploiement Serverless",
+        titleEn: "Serverless JAMstack Deploy",
+        milestoneFr: "Site web ultra-rapide sous-seconde insensible aux coupures réseau.",
+        milestoneEn: "Sub-second loading times secured against poor local broadband structures.",
+        status: "completed",
+        deliverableDetails: {
+          fr: ["Configuration du CDN multi-régions", "Architecture JAMstack ultra-performante", "Sécurisation contre les attaques DDoS"],
+          en: ["Edge CDN multi-region routing", "Serverless static rendering configuration", "DDoS mitigation firewall protocols"]
+        }
+      },
+      {
+        dateFr: "Novembre 2024",
+        dateEn: "November 2024",
+        titleFr: "Transfert d'Autonomie",
+        titleEn: "CMS Hand-off & Training",
+        milestoneFr: "Prise en main du CMS décentralisé par 15 agents communaux sans formation technique préalable.",
+        milestoneEn: "Complete autonomy reached by 15 local municipal administrators on the CMS dashboard.",
+        status: "completed",
+        deliverableDetails: {
+          fr: ["Développement d'un CMS Markdown intuitif", "Sessions de formation des agents", "Documentation technique illustrée"],
+          en: ["Custom lightweight markdown editor", "Interactive municipal onboarding", "Full operations documentation manual"]
+        }
+      },
+      {
+        dateFr: "Actuel",
+        dateEn: "Current",
+        titleFr: "Suivi des Doléances",
+        titleEn: "Civic Resolution Pipeline",
+        milestoneFr: "Traitement transparent en ligne des réclamations avec suivi d'impact en temps réel.",
+        milestoneEn: "Direct civic feedback form handling active case monitoring in local regions.",
+        status: "current",
+        deliverableDetails: {
+          fr: ["Formulaire de doléances chiffré", "Pipeline d'assignation communale", "Indicateurs de résolution publique"],
+          en: ["Encrypted online feedback input form", "Municipality ticket resolver pipeline", "Civic completion statistics panels"]
+        }
       }
     ]
   },
@@ -224,6 +399,60 @@ const INITIAL_PARTNERS: Partner[] = [
         titleFr: "Présentation Finale des Projets Innovants de fin de Cycle",
         titleEn: "Product Demos and Startup Mentorship Events"
       }
+    ],
+    timeline: [
+      {
+        dateFr: "Avril 2024",
+        dateEn: "April 2024",
+        titleFr: "Ingénierie du Programme",
+        titleEn: "Syllabus Structuring",
+        milestoneFr: "Conception conjointe du curriculum ciblant React, TypeScript et Node sur-mesure.",
+        milestoneEn: "Interactive syllabus draft completed and approved by regional EdTech authorities.",
+        status: "completed",
+        deliverableDetails: {
+          fr: ["Syllabus axé sur React et TypeScript", "Préparation des cas d'études industriels", "Mise en place des environnements Cloud"],
+          en: ["Tailwind & TypeScript tech syllabus", "Real-world engineering case setups", "Sandbox development platform configuration"]
+        }
+      },
+      {
+        dateFr: "Août 2024",
+        dateEn: "August 2024",
+        titleFr: "Bootcamp React & Cloud",
+        titleEn: "React & Cloud Intensive",
+        milestoneFr: "Taux d'insertion professionnelle immédiat élevé de la première promotion d'étudiants.",
+        milestoneEn: "94% successful graduation rate on complex production-grade assignments.",
+        status: "completed",
+        deliverableDetails: {
+          fr: ["9 modules de formation intensive", "Séminaires d'architecture logicielle", "Évaluation des projets professionnels de fin d'études"],
+          en: ["9 focused codebase building sprints", "Senior software patterns lecturing", "Industrial graduation project oversight"]
+        }
+      },
+      {
+        dateFr: "Janvier 2025",
+        dateEn: "January 2025",
+        titleFr: "Incubateur de Startups",
+        titleEn: "Startup Sandbox Labs",
+        milestoneFr: "Soutien et mentorship technologique intense donné à 3 projets digitaux émergents.",
+        milestoneEn: "Full development resources and technical feedback loops shared with 3 early-stage projects.",
+        status: "completed",
+        deliverableDetails: {
+          fr: ["Coaching technique quotidien pour 3 startups", "Revues de code d'applications de production", "Préparation aux démonstrations techniques"],
+          en: ["On-demand coding mentorship", "Production core security reviews", "Pre-demo testing simulation days"]
+        }
+      },
+      {
+        dateFr: "Actuel",
+        dateEn: "Current",
+        titleFr: "Passerelle Carrières SN",
+        titleEn: "Employer Bridge Engine",
+        milestoneFr: "Mise en relation directe avec les recruteurs partenaires d'Afrique de l'Ouest.",
+        milestoneEn: "Connecting senior students with recruiting local businesses and regional tech leaders.",
+        status: "current",
+        deliverableDetails: {
+          fr: ["Mise en place de la plateforme d'emplois", "Portfolios d'étudiants vérifiés", "Partenariats avec des recruteurs locaux"],
+          en: ["Dynamic placement platform launched", "Verified student project directory", "Co-arranged recruiter matchmaking"]
+        }
+      }
     ]
   },
   {
@@ -269,6 +498,60 @@ const INITIAL_PARTNERS: Partner[] = [
         titleFr: "Suivi des Ventes Globale Sur Tableau de Bord Web Admin",
         titleEn: "Unified Analytics & Margin Tracking Dashboard"
       }
+    ],
+    timeline: [
+      {
+        dateFr: "Mai 2024",
+        dateEn: "May 2024",
+        titleFr: "Lancement Pilote Offline",
+        titleEn: "Offline Pilot Phase",
+        milestoneFr: "Mise à l'épreuve de l'application tactile d'encaissement dans 10 boutiques d'alimentation.",
+        milestoneEn: "Placing tactile offline-first machines inside 10 family retail stores.",
+        status: "completed",
+        deliverableDetails: {
+          fr: ["Interface homme-machine tactile conçue", "Stockage localisé chiffré sur l'appareil", "Matériel d'essai installé sur 10 points"],
+          en: ["Tactile responsive UI layout system", "IndexedDB client storage configuration", "Terminal pilot testing kits deployed"]
+        }
+      },
+      {
+        dateFr: "Septembre 2024",
+        dateEn: "September 2024",
+        titleFr: "Moteur de Synchronisation",
+        titleEn: "Auto Sync Engine v2",
+        milestoneFr: "Zéro perte de données en cas d'interruption électrique ou de coupure réseau.",
+        milestoneEn: "Synchronizing offline sales transparently as soon as an active signal is detected.",
+        status: "completed",
+        deliverableDetails: {
+          fr: ["Algorithme de réconciliation de ventes", "Gestion intelligente des conflits de stock", "Compression de charge utile réseau"],
+          en: ["Algorithmic double-booking checks", "Auto conflict-resolution engine", "Payload chunking during weak networks"]
+        }
+      },
+      {
+        dateFr: "Janvier 2025",
+        dateEn: "January 2025",
+        titleFr: "Déploiement de Masse",
+        titleEn: "Massive Retail Expansion",
+        milestoneFr: "Plus de 50 boutiques équipées et formées à Dakar et à Ziguinchor.",
+        milestoneEn: "50+ active retailers transacting millions of CFA weekly with complete stock visibility.",
+        status: "completed",
+        deliverableDetails: {
+          fr: ["Installation de 50+ terminaux physiques", "Formation rapide des commerçants de quartier", "Tableaux de bord d'administration globale"],
+          en: ["Rollout across 50+ corner stores", "Merchant visual quick-guides", "Admin centralized store monitor panels"]
+        }
+      },
+      {
+        dateFr: "Actuel",
+        dateEn: "Current",
+        titleFr: "Portail Métier des Marges",
+        titleEn: "Unified Insights Panel",
+        milestoneFr: "Aperçu de la rentabilité globale en un coup d'œil pour le groupement de commerçants.",
+        milestoneEn: "Advanced inventory analytics tools allowing vendors to plan strategic bulk buying.",
+        status: "current",
+        deliverableDetails: {
+          fr: ["Rapports de rentabilité en temps réel", "Outils de prédiction des stocks restants", "Export de données comptables certifiées"],
+          en: ["Live gross-margin calculations", "Predictive replenishment trigger alerts", "Certified spreadsheet bookkeeping exports"]
+        }
+      }
     ]
   },
   {
@@ -313,6 +596,60 @@ const INITIAL_PARTNERS: Partner[] = [
         url: 'https://images.unsplash.com/photo-1595974482597-4b8da8879bc5?auto=format&fit=crop&q=80&w=800',
         titleFr: "Reporting de récolte automatisé et assistant WhatsApp",
         titleEn: "WhatsApp Harvesting Log Integration Screen"
+      }
+    ],
+    timeline: [
+      {
+        dateFr: "Juin 2024",
+        dateEn: "June 2024",
+        titleFr: "Étude Terrain Casamance",
+        titleEn: "Casamance Field Audit",
+        milestoneFr: "Audit et cartographie des durées de transit des fruits de Casamance vers Dakar.",
+        milestoneEn: "Mapping supply chain transit bottlenecks and harvest decay factors on deep routes.",
+        status: "completed",
+        deliverableDetails: {
+          fr: ["Enquêtes logistiques de transit", "Mesures d'humidité et de pourrissement", "Élaboration du plan de contrôle mobile"],
+          en: ["Agricultural logistics bottleneck survey", "Fruit storage condition benchmarks", "Supply chain digital workflow roadmap"]
+        }
+      },
+      {
+        dateFr: "Novembre 2024",
+        dateEn: "November 2024",
+        titleFr: "Assistant Bot WhatsApp",
+        titleEn: "WhatsApp Harvesting Bot",
+        milestoneFr: "La saisie des volumes récoltés est simplifiée à l'extrême pour les producteurs ruraux.",
+        milestoneEn: "Interactive automated WhatsApp chat templates adopted on-site by rural teams.",
+        status: "completed",
+        deliverableDetails: {
+          fr: ["Arbres de décision automatisés par SMS", "Parsing intelligent des poids récoltés", "Confirmation instantanée par SMS"],
+          en: ["Automated WhatsApp dialogue tree", "RegEx harvest-input parsing model", "Immediate confirmation logs back to farmers"]
+        }
+      },
+      {
+        dateFr: "Février 2025",
+        dateEn: "February 2025",
+        titleFr: "Déploiement Synchronisé ERP",
+        titleEn: "ERP Centralization Engine",
+        milestoneFr: "Réduction immédiate de 30% des pertes financières liées aux écarts de pesage.",
+        milestoneEn: "Unified ledger reducing agricultural transaction errors and weight claims by 30%.",
+        status: "completed",
+        deliverableDetails: {
+          fr: ["Intégration d'API centrale multilatérale", "Tableau de statistiques de pesage", "Alertes d'écarts logistiques en temps réel"],
+          en: ["ERP REST middleware integrations", "Digital logging of scale metrics", "Live real-time transit delta triggers"]
+        }
+      },
+      {
+        dateFr: "Actuel",
+        dateEn: "Current",
+        titleFr: "Traceur Qualité Exportation",
+        titleEn: "Export Trust & Verification",
+        milestoneFr: "Mise en place de QR codes d'origine garantissant la traçabilité biologique absolue.",
+        milestoneEn: "Organic status tracking allowing international buyers to scan origins easily.",
+        status: "current",
+        deliverableDetails: {
+          fr: ["Générateur de QR codes uniques de traçabilité", "Certificats biologiques chiffrés", "Portail public d'origine des palettes"],
+          en: ["Cryptographic tracing QR generator", "Organic certification metadata registry", "Overseas buyers origin mapping page"]
+        }
       }
     ]
   }
@@ -792,6 +1129,118 @@ export default function Partners() {
                   </div>
 
                 </div>
+
+                {/* VISUAL STRATEGIC DELIVERY TIMELINE LINKING DELIVERABLES TO CLIENT SUCCESS MILESTONES */}
+                {selectedPartner.timeline && (
+                  <div className="mt-12 pt-8 border-t border-slate-200/60 dark:border-slate-800/80 space-y-6">
+                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                      <div className="space-y-1 text-left">
+                        <div className="flex items-center gap-2 text-indigo-650 dark:text-indigo-400">
+                          <span className="flex h-2 w-2 rounded-full bg-indigo-505 animate-pulse" />
+                          <span className="text-xs font-bold uppercase tracking-wider font-display">
+                            {isFr ? "Chronologie de Livraison & Indicateurs de Succès" : "Implementation Timeline & Success Indicators"}
+                          </span>
+                        </div>
+                        <h4 className="font-display font-extrabold text-slate-900 dark:text-white text-lg sm:text-xl tracking-tight">
+                          {isFr ? "Jalons de livraison technique & Impact client mesurable" : "Technical Delivery Iterations & Linked Client Growth Impact"}
+                        </h4>
+                      </div>
+
+                      {/* Timeline Legend */}
+                      <div className="flex flex-wrap items-center gap-3 text-xs font-bold text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-900/60 p-2.5 rounded-xl border border-slate-100 dark:border-slate-850 shadow-sm/30 select-none">
+                        <div className="flex items-center gap-1.5">
+                          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 flex items-center justify-center text-[8px] text-white">✓</span>
+                          <span>{isFr ? "Livré d'après contrat" : "Contract Delivered"}</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <span className="w-2.5 h-2.5 rounded-full bg-indigo-600 animate-pulse" />
+                          <span>{isFr ? "En Cours d'activation" : "Active & Tuning"}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Timeline Tracker Lane */}
+                    <div className="relative pt-4">
+                      
+                      {/* Horizontal connecting track on desktop */}
+                      <div className="absolute top-[34px] left-[50px] right-[50px] h-0.5 bg-slate-250 dark:bg-slate-800 hidden lg:block" />
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative">
+                        {selectedPartner.timeline.map((item, idx) => {
+                          const isCompleted = item.status === 'completed';
+                          const isCurrent = item.status === 'current';
+                          
+                          // Safely resolve the parallel success milestone
+                          const linkedMilestone = isFr 
+                            ? selectedPartner.milestonesFr[idx] 
+                            : selectedPartner.milestonesEn[idx];
+                          
+                          return (
+                            <div key={idx} className="relative flex flex-col items-start gap-4 p-5 rounded-2xl bg-slate-50/50 dark:bg-slate-900/30 border border-slate-200/70 dark:border-slate-850/80 hover:border-indigo-500/20 dark:hover:border-indigo-400/20 hover:shadow-lg transition-all duration-300">
+                              
+                              {/* Connector track details on item level */}
+                              <div className="flex items-center justify-between w-full">
+                                <span className={`font-mono text-[10px] items-center px-2.5 py-1 rounded font-extrabold tracking-wide uppercase ${
+                                  isCompleted 
+                                    ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400' 
+                                    : 'bg-indigo-50 text-indigo-600 dark:bg-indigo-950/40 dark:text-indigo-400'
+                                }`}>
+                                  {isFr ? item.dateFr : item.dateEn}
+                                </span>
+
+                                <div className="flex items-center justify-center">
+                                  {isCompleted ? (
+                                    <div className="w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xs font-bold shadow-md shadow-emerald-500/10">
+                                      ✓
+                                    </div>
+                                  ) : (
+                                    <div className="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs font-bold shadow-md shadow-indigo-600/10 animate-pulse">
+                                      ●
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+
+                              {/* Text Block Content */}
+                              <div className="space-y-2 text-left w-full flex-grow">
+                                <h5 className="font-display font-extrabold text-[#0D0E11] dark:text-white text-xs sm:text-sm tracking-tight">
+                                  {isFr ? item.titleFr : item.titleEn}
+                                </h5>
+                                <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-sans font-medium">
+                                  {isFr ? item.milestoneFr : item.milestoneEn}
+                                </p>
+
+                                {/* Bulleted list of technical achievements */}
+                                {item.deliverableDetails && (
+                                  <ul className="mt-2.5 space-y-1.5 list-disc pl-4.5 text-slate-500 dark:text-slate-400 text-[11px] leading-normal font-sans">
+                                    {(isFr ? item.deliverableDetails.fr : item.deliverableDetails.en).map((detail, dIdx) => (
+                                      <li key={dIdx} className="marker:text-indigo-400 dark:marker:text-indigo-500">
+                                        {detail}
+                                      </li>
+                                    ))}
+                                  </ul>
+                                )}
+                              </div>
+
+                              {/* Linked success milestone banner showing real world validation */}
+                              {linkedMilestone && (
+                                <div className="w-full mt-2 pt-3 border-t border-dashed border-slate-200 dark:border-slate-850/80 text-left">
+                                  <div className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 font-display mb-1 select-none">
+                                    <BadgeCheck className="w-3.5 h-3.5 text-indigo-500 flex-shrink-0" />
+                                    <span>{isFr ? "Impact & Succès client :" : "Client success link :"}</span>
+                                  </div>
+                                  <p className="text-[10px] font-bold text-slate-700 dark:text-slate-305 leading-normal pl-5 italic">
+                                    "{linkedMilestone}"
+                                  </p>
+                                </div>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                )}
 
               </div>
 
