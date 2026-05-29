@@ -293,6 +293,51 @@ export default function Portfolio() {
   const [activeCategory, setActiveCategory] = useState('Tous');
   const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
   const [copySuccess, setCopySuccess] = useState(false);
+  const [mouseOffset, setMouseOffset] = useState(0);
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+  const [focusedIdx, setFocusedIdx] = useState(0);
+  const [scrollOffset, setScrollOffset] = useState(0);
+
+  // Local helper to map Tailwind colors to precise HSL values for 3D card borders & shadow glow
+  const getHueData = (accent: string) => {
+    switch (accent) {
+      case 'bg-emerald-500': return { h: 165, s: '82%', l: '51%', shadowColor: '16, 185, 129' };
+      case 'bg-green-600': return { h: 120, s: '80%', l: '45%', shadowColor: '22, 163, 74' };
+      case 'bg-blue-500': return { h: 210, s: '85%', l: '55%', shadowColor: '59, 130, 246' };
+      case 'bg-blue-600': return { h: 220, s: '90%', l: '50%', shadowColor: '37, 99, 235' };
+      case 'bg-blue-400': return { h: 195, s: '85%', l: '55%', shadowColor: '96, 165, 250' };
+      case 'bg-indigo-500': return { h: 235, s: '90%', l: '60%', shadowColor: '99, 102, 241' };
+      case 'bg-orange-500': return { h: 35, s: '90%', l: '55%', shadowColor: '249, 115, 22' };
+      case 'bg-amber-500': return { h: 45, s: '88%', l: '50%', shadowColor: '245, 158, 11' };
+      case 'bg-violet-500': return { h: 280, s: '85%', l: '60%', shadowColor: '139, 92, 246' };
+      case 'bg-rose-500': return { h: 340, s: '90%', l: '60%', shadowColor: '244, 63, 94' };
+      case 'bg-red-500': return { h: 10, s: '90%', l: '55%', shadowColor: '239, 68, 68' };
+      case 'bg-teal-500': return { h: 175, s: '80%', l: '50%', shadowColor: '20, 184, 166' };
+      default: return { h: 210, s: '50%', l: '50%', shadowColor: '100, 116, 139' };
+    }
+  };
+
+  const handleContainerMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const xPercent = (x / rect.width - 0.5) * 2; // from -1 to 1
+    setMouseOffset(xPercent);
+  };
+
+  const handleContainerMouseLeave = () => {
+    setMouseOffset(0);
+    setHoveredIdx(null);
+  };
+
+  const nextSlide = () => {
+    if (filteredProjects.length === 0) return;
+    setFocusedIdx((prev) => (prev + 1) % filteredProjects.length);
+  };
+
+  const prevSlide = () => {
+    if (filteredProjects.length === 0) return;
+    setFocusedIdx((prev) => (prev - 1 + filteredProjects.length) % filteredProjects.length);
+  };
 
   // Parse project parameters from URL query string on load
   useEffect(() => {
@@ -333,6 +378,37 @@ export default function Portfolio() {
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
+
+  // Reset focusedIdx to 0 when changing the active category
+  useEffect(() => {
+    setFocusedIdx(0);
+  }, [activeCategory]);
+
+  // Smooth parallax scroll tracking to achieve immersive 3D curvature and twisting
+  useEffect(() => {
+    const handleScroll = () => {
+      const element = document.getElementById('immersive-portfolio-slider');
+      if (!element) return;
+      const rect = element.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      
+      const elementCenter = rect.top + rect.height / 2;
+      const viewportCenter = viewportHeight / 2;
+      
+      const maxDistance = viewportHeight / 2 + rect.height / 2;
+      const distanceFromCenter = elementCenter - viewportCenter;
+      
+      // Calculate normalized scroll offset from -1 to 1 (0 is physically centered on screen)
+      const rawOffset = distanceFromCenter / maxDistance;
+      const clampedOffset = Math.max(-1.2, Math.min(1.2, rawOffset));
+      setScrollOffset(clampedOffset);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    // Run immediately for initial layout calibration
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [activeCategory]);
 
   const handleShare = async (e: React.MouseEvent, slug: string) => {
     e.stopPropagation();
@@ -413,86 +489,204 @@ export default function Portfolio() {
           ))}
         </div>
 
-        {/* Grid */}
-        <motion.div layout className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 2xl:gap-8">
-          <AnimatePresence mode="popLayout">
-            {filteredProjects.map((project) => (
-              <motion.div
-                key={project.slug}
-                layout
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.3, ease: 'easeInOut' }}
-                onClick={() => selectProject(project)}
-                className="group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden hover:border-indigo-500/50 hover:shadow-xl transition-all duration-300 flex flex-col cursor-pointer"
+        {/* Immersive 3D Curved Image Slider */}
+        <div id="immersive-portfolio-slider" className="relative py-12 md:py-20 flex flex-col items-center">
+          
+          {/* Main 3D Perspective Area with Trackpad Tilt */}
+          <div 
+            id="portfolio-slider-3d-frame"
+            onMouseMove={handleContainerMouseMove}
+            onMouseLeave={handleContainerMouseLeave}
+            className="relative w-full max-w-[1240px] h-[480px] flex items-center justify-center overflow-visible select-none px-4"
+            style={{ perspective: "1500px" }}
+          >
+            {/* Left Circular Nav Trigger button */}
+            {filteredProjects.length > 1 && (
+              <button 
+                id="portfolio-slider-btn-prev"
+                onClick={prevSlide}
+                className="absolute left-1 sm:left-6 z-40 bg-slate-900/90 dark:bg-slate-900 text-white hover:bg-indigo-600 dark:hover:bg-indigo-600 border border-slate-800 rounded-full w-12 h-12 flex items-center justify-center transition-all cursor-pointer shadow-xl active:scale-95 hover:scale-105"
+                title={isFr ? "Précédent" : "Previous"}
               >
-                <div className="relative h-48 sm:h-52 w-full border-b border-slate-100 dark:border-slate-800 overflow-hidden bg-slate-100 dark:bg-slate-950">
-                  <LazyImage 
-                    src={`https://picsum.photos/seed/${project.slug}/600/400`} 
-                    alt={project.name} 
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
-                  />
-                  {project.isNew && (
-                    <div className="absolute top-4 left-4">
-                      <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 bg-indigo-600 text-white shadow backdrop-blur rounded-full">
-                        {isFr ? "Nouveau" : "New"}
+                <ArrowLeft size={18} />
+              </button>
+            )}
+
+            {/* Simulated Cylinder Curve Inner Track */}
+            <div 
+              id="portfolio-slider-cylinder-track"
+              className="relative w-full h-full flex items-center justify-center transform-gpu"
+              style={{
+                transform: `rotateY(${mouseOffset * 15}deg) rotateX(${scrollOffset * -10}deg) translateY(${scrollOffset * -20}px)`,
+                transformStyle: "preserve-3d",
+                transition: "transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)",
+              }}
+            >
+              {filteredProjects.map((project, idx) => {
+                const hueObj = getHueData(project.accent);
+                const isHovered = hoveredIdx === idx;
+                
+                // Calculate position offsets relative to focused card
+                let offset = idx - focusedIdx;
+                
+                // Wrapper bounds wrap-around calculation
+                const total = filteredProjects.length;
+                if (total > 2) {
+                  if (offset > total / 2) offset -= total;
+                  else if (offset < -total / 2) offset += total;
+                }
+
+                const isActive = offset === 0;
+                
+                // Determine rotation angle and translation depths to map on 3D cylindrical shell geometry
+                const angle = offset * (total > 5 ? 20 : 25) + (scrollOffset * 4 * offset);
+                const translateZValue = isActive 
+                  ? 60 
+                  : -Math.abs(offset) * (total > 5 ? 40 : 50);
+                const translateXValue = offset * 210;
+                const translateYValue = scrollOffset * offset * -15; // Vertical depth shear relative to center
+                
+                // Inline styles driving the raw visual 3D transformation
+                const customStyleGrid = {
+                  '--hue': hueObj.h,
+                  '--saturation': hueObj.s,
+                  '--lightness': hueObj.l,
+                  transform: `translateX(${translateXValue}px) translateY(${translateYValue}px) rotateY(${angle}deg) translateZ(${translateZValue + (isHovered ? 25 : 0)}px) scale(${isActive ? (isHovered ? 1.08 : 1.03) : (isHovered ? 0.94 : 0.88)})`,
+                  transformOrigin: "center center -400px",
+                  borderColor: isHovered || isActive ? `hsl(${hueObj.h} ${hueObj.s} ${hueObj.l})` : 'rgba(148, 163, 184, 0.15)',
+                  boxShadow: isHovered || isActive 
+                    ? `0 15px 40px rgba(${hueObj.shadowColor}, ${isActive ? 0.25 : 0.15})` 
+                    : 'none',
+                  zIndex: isActive ? 30 : (10 - Math.abs(offset)),
+                  opacity: Math.abs(offset) > 2 ? 0.12 : (isActive ? 1 : 0.60),
+                  pointerEvents: Math.abs(offset) > 2 ? 'none' : 'auto',
+                } as React.CSSProperties;
+
+                return (
+                  <div
+                    key={project.slug}
+                    id={`portfolio-slider-card-${idx}`}
+                    onClick={() => {
+                      if (isActive) {
+                        selectProject(project);
+                      } else {
+                        setFocusedIdx(idx);
+                      }
+                    }}
+                    onMouseEnter={() => setHoveredIdx(idx)}
+                    onMouseLeave={() => setHoveredIdx(null)}
+                    style={customStyleGrid}
+                    className="absolute w-[210px] sm:w-[245px] h-[330px] sm:h-[370px] rounded-2xl overflow-hidden bg-slate-900/90 dark:bg-slate-950 border transition-all duration-600 ease-[cubic-bezier(0.25,1.15,0.45,1.02)] flex flex-col justify-end p-5 cursor-pointer group shadow-2xl"
+                  >
+                    {/* Background visual cover image */}
+                    <div 
+                      className="absolute inset-0 w-full h-full bg-cover bg-center transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
+                      style={{ 
+                        backgroundImage: `url('https://picsum.photos/seed/${project.slug}/400/600')`,
+                        filter: isActive ? 'grayscale(0%) brightness(0.95)' : 'grayscale(60%) brightness(0.55)'
+                      }}
+                      role="img"
+                      aria-label={project.name}
+                    />
+
+                    {/* Highly eye-safe dark back drop gradient overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent opacity-95 z-10" />
+
+                    {/* Floating pill categories style card tag */}
+                    <div 
+                      className="absolute top-4 left-4 z-20 flex"
+                      style={{ opacity: isActive ? 1 : 0.5 }}
+                    >
+                      <span 
+                        className="text-[9px] font-extrabold uppercase tracking-widest px-2.5 py-1 text-white bg-slate-950/80 backdrop-blur-md rounded-full shadow border"
+                        style={{ borderColor: `hsl(${hueObj.h} ${hueObj.s} ${hueObj.l} / 0.3)` }}
+                      >
+                        {isFr ? project.category : project.categoryEn}
                       </span>
                     </div>
-                  )}
-                  <div className="absolute top-4 right-4 z-10 flex gap-2">
-                     <button
-                       onClick={(e) => handleShare(e, project.slug)}
-                       title={isFr ? "Copier le lien de partage social" : "Copy social share link"}
-                       className="p-2 rounded-full bg-white/95 dark:bg-slate-900/95 text-slate-800 dark:text-slate-200 backdrop-blur shadow-sm hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-indigo-600 transition-colors cursor-pointer"
-                     >
-                       <Share2 size={13} />
-                     </button>
-                     <span className="text-[11px] font-bold px-2.5 py-1 bg-white/95 dark:bg-slate-900/95 text-slate-800 dark:text-slate-200 backdrop-blur rounded-full shadow-sm max-w-[140px] truncate">
-                        {isFr ? project.category : project.categoryEn}
-                     </span>
-                  </div>
-                </div>
-                
-                <div className="p-6 2xl:p-8 flex-1 flex flex-col">
-                  <div className="flex justify-between items-start mb-3">
-                     <div className="flex items-center gap-3">
-                        <div className={`w-10 h-10 rounded-xl ${project.accent} flex items-center justify-center text-white font-black text-lg select-none`}>
-                           {project.name.charAt(0)}
-                        </div>
-                     </div>
-                  </div>
-                  
-                  <h3 className="font-display text-xl sm:text-2xl font-bold mb-2 text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-405 transition-colors">
-                    {project.name}
-                  </h3>
-                  
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mb-6 flex-1 leading-relaxed">
-                    {isFr ? project.description : project.descriptionEn}
-                  </p>
-                  
-                  <div className="flex flex-wrap gap-1.5 mb-5">
-                    {project.tech.slice(0, 3).map((t) => (
-                      <span key={t} className="px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-slate-50 dark:bg-slate-950 border border-slate-200/60 dark:border-slate-800/80 text-slate-500 dark:text-slate-400">
-                        {t}
-                      </span>
-                    ))}
-                    {project.tech.length > 3 && (
-                      <span className="text-[10px] text-slate-400 font-bold self-center pl-1">+{project.tech.length - 3}</span>
-                    )}
-                  </div>
 
-                  <div className="flex justify-between items-center text-xs 2xl:text-sm text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 font-bold transition-colors">
-                    <span className="underline group-hover:text-indigo-700 dark:group-hover:text-indigo-300">
-                      {isFr ? "Inspecter le projet →" : "Inspect Case Study →"}
-                    </span>
-                    <span className="text-slate-400 dark:text-slate-500 text-[11px] font-semibold">{project.domain}</span>
+                    {/* Details content structure container */}
+                    <div className="relative z-20 flex flex-col h-full justify-between pt-10">
+                      
+                      {/* Accent color logo initials block */}
+                      <div className="flex justify-between items-start">
+                        <div className={`w-8 h-8 rounded-lg ${project.accent} flex items-center justify-center text-white font-black text-sm select-none shadow-md backdrop-blur`}>
+                          {project.name.charAt(0)}
+                        </div>
+                        {project.isNew && (
+                          <span className="text-[8px] font-sans font-extrabold uppercase tracking-widest px-2 py-0.5 bg-indigo-600 text-white rounded-full">
+                            {isFr ? "Nouveau" : "New"}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Info core text fields and slide reveal trigger */}
+                      <div className="space-y-1.5 mt-auto text-left">
+                        <h4 className="font-display text-base sm:text-lg font-black text-white leading-tight tracking-tight drop-shadow-md">
+                          {project.name}
+                        </h4>
+                        
+                        <p className="text-[11px] text-slate-350 leading-relaxed font-sans line-clamp-2" style={{ opacity: isActive ? 1 : 0.7 }}>
+                          {isFr ? project.description : project.descriptionEn}
+                        </p>
+
+                        <div className="text-[9.5px] text-indigo-300 font-mono font-medium tracking-tight">
+                          {project.domain}
+                        </div>
+
+                        {/* Interactive dynamic slide action CTA button */}
+                        <div 
+                          className="pt-2 overflow-hidden transition-all duration-300 ease-out flex"
+                          style={{ 
+                            height: isHovered && isActive ? '34px' : '0px', 
+                            opacity: isHovered && isActive ? 1 : 0 
+                          }}
+                        >
+                          <button 
+                            className="w-full text-[10px] font-extrabold uppercase tracking-widest text-slate-950 px-3 py-1.5 rounded-lg text-center transition-all shadow-md flex items-center justify-center gap-1 cursor-pointer"
+                            style={{ backgroundColor: `hsl(${hueObj.h} ${hueObj.s} ${hueObj.l})` }}
+                          >
+                            <span>{isFr ? "Inspecter le Projet" : "Inspect Case Study"}</span>
+                            <ArrowRight size={11} />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </motion.div>
+                );
+              })}
+            </div>
+
+            {/* Right Circular Nav Trigger button */}
+            {filteredProjects.length > 1 && (
+              <button 
+                id="portfolio-slider-btn-next"
+                onClick={nextSlide}
+                className="absolute right-1 sm:right-6 z-40 bg-slate-900/90 dark:bg-slate-900 text-white hover:bg-indigo-600 dark:hover:bg-indigo-600 border border-slate-800 rounded-full w-12 h-12 flex items-center justify-center transition-all cursor-pointer shadow-xl active:scale-95 hover:scale-105"
+                title={isFr ? "Suivant" : "Next"}
+              >
+                <ArrowRight size={18} />
+              </button>
+            )}
+          </div>
+
+          {/* Pagination bullet indicators */}
+          <div id="portfolio-slider-dots" className="flex items-center justify-center gap-2 mt-4">
+            {filteredProjects.map((_, index) => (
+              <button
+                key={index}
+                id={`portfolio-slider-dot-${index}`}
+                onClick={() => setFocusedIdx(index)}
+                className={`h-1.5 rounded-full cursor-pointer transition-all duration-300 ${
+                  index === focusedIdx 
+                    ? 'w-6 bg-indigo-600 dark:bg-indigo-500' 
+                    : 'w-1.5 bg-slate-300 dark:bg-slate-800 hover:bg-slate-400 dark:hover:bg-slate-700'
+                }`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
             ))}
-          </AnimatePresence>
-        </motion.div>
+          </div>
+        </div>
       </div>
 
       {/* Modern, Highly Custom Project Details Modal */}

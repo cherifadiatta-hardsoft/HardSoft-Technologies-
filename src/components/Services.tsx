@@ -1,12 +1,62 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Code, Globe, Workflow, Mail, MapPin, MessageCircle, Check } from 'lucide-react';
+import { Code, Globe, Workflow, Mail, MapPin, MessageCircle, Check, ChevronLeft, ChevronRight } from 'lucide-react';
 import { WHATSAPP_URL } from '../config';
 import { useLanguage } from './LanguageProvider';
+import cherifImg from '../assets/images/cherif_diatta_profile_1779710074650.png';
 
 export default function Services() {
   const { language } = useLanguage();
   const isFr = language === 'fr';
+
+  // Team Carousel Setup
+  const teamMembers = [
+    {
+      name: "Fatou Ndiaye",
+      roleFr: "DESIGNER UI/UX LEAD",
+      roleEn: "LEAD UI/UX DESIGNER",
+      img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=500"
+    },
+    {
+      name: "Amadou Sall",
+      roleFr: "DÉVELOPPEUR MOBILE SENIOR",
+      roleEn: "SENIOR MOBILE ENGINEER",
+      img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=500"
+    },
+    {
+      name: "Chérif Alioune Diatta",
+      roleFr: "FONDATEUR & INGENIEUR EN CHEF",
+      roleEn: "FOUNDER & CORE ARCHITECT",
+      img: cherifImg
+    },
+    {
+      name: "Ousmane Diop",
+      roleFr: "EXPERT CLOUD & AUTOMATISATION",
+      roleEn: "CLOUD & AUTOMATION EXPERT",
+      img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=500"
+    },
+    {
+      name: "Awa Cissé",
+      roleFr: "DIRECTRICE DES PROJETS (DELIVERY)",
+      roleEn: "DELIVERY & OPERATIONS MANAGER",
+      img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=500"
+    }
+  ];
+
+  const [carouselIndex, setCarouselIndex] = useState(2);
+  const totalCards = teamMembers.length;
+
+  const goToIndex = (index: number) => {
+    setCarouselIndex(index);
+  };
+
+  const nextCard = () => {
+    setCarouselIndex((prev) => (prev + 1) % totalCards);
+  };
+
+  const prevCard = () => {
+    setCarouselIndex((prev) => (prev - 1 + totalCards) % totalCards);
+  };
 
   const categories = isFr 
     ? ['Tous', 'Développement', 'Automatisation', 'Design & Identité', 'Marketing & Visibilité']
@@ -166,6 +216,133 @@ export default function Services() {
             ))}
           </AnimatePresence>
         </motion.div>
+
+        {/* Modern 3D Team Stack Carousel Section */}
+        <section id="team-carousel-section" className="mt-28 mb-16 relative w-full flex flex-col items-center">
+          <div className="text-center max-w-2xl mx-auto mb-14 px-4">
+            <span className="inline-flex items-center gap-1.5 bg-indigo-500/10 dark:bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 text-[11px] font-extrabold tracking-widest uppercase px-3.5 py-1.5 rounded-full border border-indigo-500/20 font-mono mb-4">
+              ✨ {isFr ? "NOTRE ÉQUIPE D'EXPERTS" : "OUR EXPERT TEAM"}
+            </span>
+            <h3 className="font-display text-2xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight mb-3">
+              {isFr ? "Des experts à votre service" : "High-Performance Talent at Your Service"}
+            </h3>
+            <p className="text-slate-500 dark:text-slate-400 text-sm sm:text-base leading-relaxed">
+              {isFr 
+                ? "Découvrez l'équipe d'ingénieurs et de concepteurs séniors qui conçoit, automatise et livre vos produits de classe mondiale."
+                : "Meet the engineers, designers, and systems architects behind our high-performance solutions and automations."}
+            </p>
+          </div>
+
+          {/* 3D Carousel Wrapper */}
+          <div 
+            id="team-carousel-wrapper" 
+            className="relative w-full max-w-[1000px] h-[450px] flex items-center justify-center overflow-visible select-none px-4"
+            style={{ perspective: "1000px" }}
+          >
+            {/* Nav Prev Button */}
+            <button 
+              id="team-carousel-btn-prev"
+              onClick={prevCard}
+              className="absolute left-2 sm:left-4 z-40 bg-slate-900/90 dark:bg-slate-900 text-white hover:bg-indigo-600 dark:hover:bg-indigo-600 border border-slate-800 rounded-full w-12 h-12 flex items-center justify-center transition-all cursor-pointer shadow-xl active:scale-90"
+              aria-label="Previous image"
+            >
+              <ChevronLeft size={20} />
+            </button>
+
+            {/* Carousel Tracks Containing Cards */}
+            <div className="relative w-full h-full flex items-center justify-center">
+              {teamMembers.map((member, index) => {
+                const isActive = index === carouselIndex;
+                const isPrev = index === (carouselIndex - 1 + totalCards) % totalCards;
+                const isNext = index === (carouselIndex + 1) % totalCards;
+                const isFarPrev = index === (carouselIndex - 2 + totalCards) % totalCards;
+                const isFarNext = index === (carouselIndex + 2) % totalCards;
+
+                // Determine transform offsets and classes dynamically with extreme precision
+                let transformClass = "opacity-0 scale-50 z-0 pointer-events-none translate-x-0";
+                let legacyClass = "card";
+
+                if (isActive) {
+                  transformClass = "opacity-100 scale-105 sm:scale-110 z-30 pointer-events-auto translate-x-0";
+                  legacyClass = "card active";
+                } else if (isPrev) {
+                  transformClass = "opacity-60 sm:opacity-75 scale-80 sm:scale-85 z-20 pointer-events-auto -translate-x-[90px] xs:-translate-x-[140px] sm:-translate-x-[220px]";
+                  legacyClass = "card prev";
+                } else if (isNext) {
+                  transformClass = "opacity-60 sm:opacity-75 scale-80 sm:scale-85 z-20 pointer-events-auto translate-x-[90px] xs:translate-x-[140px] sm:translate-x-[220px]";
+                  legacyClass = "card next";
+                } else if (isFarPrev) {
+                  transformClass = "opacity-25 sm:opacity-35 scale-65 sm:scale-70 z-10 pointer-events-auto -translate-x-[160px] xs:-translate-x-[240px] sm:-translate-x-[380px] hidden md:block";
+                  legacyClass = "card far-prev";
+                } else if (isFarNext) {
+                  transformClass = "opacity-25 sm:opacity-35 scale-65 sm:scale-70 z-10 pointer-events-auto translate-x-[160px] xs:translate-x-[240px] sm:translate-x-[380px] hidden md:block";
+                  legacyClass = "card far-next";
+                }
+
+                return (
+                  <div
+                    key={index}
+                    id={`team-card-${index}`}
+                    onClick={() => goToIndex(index)}
+                    className={`absolute w-[220px] sm:w-[240px] h-[320px] sm:h-[340px] rounded-2xl overflow-hidden shadow-2xl bg-white dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800 group transition-all duration-500 ease-[cubic-bezier(0.4, 0, 0.2, 1)] flex flex-col justify-end cursor-pointer ${transformClass} ${legacyClass}`}
+                  >
+                    {/* Background Grayscale Image to Colored Overlay */}
+                    <img 
+                      src={member.img} 
+                      alt={member.name}
+                      referrerPolicy="no-referrer"
+                      className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 group-hover:scale-105 ${isActive ? 'grayscale-0' : 'grayscale group-hover:grayscale-0'}`}
+                    />
+                    
+                    {/* Visual Vignette Radial Dark Overlay for active readability */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-80" />
+
+                    {/* Member Info Sliding in based on isActive */}
+                    <div 
+                      className={`absolute left-0 bottom-0 w-full p-6 text-center transition-all duration-500 ease-out z-20 flex flex-col items-center ${
+                        isActive ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                      }`}
+                    >
+                      <h4 className="font-display font-extrabold text-[#ffffff] text-base leading-snug tracking-tight">
+                        {member.name}
+                      </h4>
+                      <p className="text-[10px] font-semibold text-indigo-300 font-sans tracking-widest uppercase mt-1">
+                        {isFr ? member.roleFr : member.roleEn}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Nav Next Button */}
+            <button 
+              id="team-carousel-btn-next"
+              onClick={nextCard}
+              className="absolute right-2 sm:right-4 z-40 bg-slate-900/90 dark:bg-slate-900 text-white hover:bg-indigo-600 dark:hover:bg-indigo-600 border border-slate-800 rounded-full w-12 h-12 flex items-center justify-center transition-all cursor-pointer shadow-xl active:scale-90"
+              aria-label="Next image"
+            >
+              <ChevronRight size={20} />
+            </button>
+          </div>
+
+          {/* Carousel Dots Indicators */}
+          <div id="team-carousel-dots" className="flex items-center justify-center gap-2.5 mt-4 overflow-visible">
+            {teamMembers.map((_, index) => (
+              <button
+                key={index}
+                id={`team-dot-${index}`}
+                onClick={() => goToIndex(index)}
+                className={`h-2 rounded-full cursor-pointer transition-all duration-300 ${
+                  index === carouselIndex 
+                    ? 'w-6 bg-indigo-600 dark:bg-indigo-500' 
+                    : 'w-2 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700'
+                }`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
+        </section>
 
         <div className="mt-16 text-center">
             <a

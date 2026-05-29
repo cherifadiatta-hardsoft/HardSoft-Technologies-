@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Code2, Moon, Sun, Search, Languages, WifiOff } from 'lucide-react';
+import { Menu, X, Code2, Moon, Sun, Search, Languages, WifiOff, Home, Cpu, Store, GraduationCap, Briefcase, User, HelpCircle, Phone } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useSpring } from 'motion/react';
 import { useTheme } from './ThemeProvider';
 import { useLanguage } from './LanguageProvider';
+import { useSectionObserver } from '../hooks/useSectionObserver';
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -11,6 +12,8 @@ export default function Header() {
   const [isOnline, setIsOnline] = useState(typeof navigator !== 'undefined' ? navigator.onLine : true);
   const { theme, toggleTheme } = useTheme();
   const { language, toggleLanguage, t } = useLanguage();
+  const activeSection = useSectionObserver();
+  const [activeIdx, setActiveIdx] = useState(0);
 
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
@@ -41,15 +44,30 @@ export default function Header() {
   }, []);
 
   const navLinks = [
-    { name: t('nav.accueil'), href: '#accueil' },
-    { name: t('nav.services'), href: '#services' },
-    { name: t('nav.pos'), href: '#pos' },
-    { name: t('nav.formations'), href: '#formations' },
-    { name: t('nav.portfolio'), href: '#portfolio' },
-    { name: t('nav.apropos'), href: '#about' },
-    { name: t('nav.faq'), href: '#faq' },
-    { name: t('nav.contact'), href: '#contact' },
+    { name: t('nav.accueil'), href: '#accueil', icon: Home },
+    { name: t('nav.services'), href: '#services', icon: Cpu },
+    { name: t('nav.pos'), href: '#pos', icon: Store },
+    { name: t('nav.formations'), href: '#formations', icon: GraduationCap },
+    { name: t('nav.portfolio'), href: '#portfolio', icon: Briefcase },
+    { name: t('nav.apropos'), href: '#about', icon: User },
+    { name: t('nav.faq'), href: '#faq', icon: HelpCircle },
+    { name: t('nav.contact'), href: '#contact', icon: Phone },
   ];
+
+  useEffect(() => {
+    if (activeSection) {
+      const idx = navLinks.findIndex(link => link.href === `#${activeSection.id}`);
+      if (idx !== -1) {
+        setActiveIdx(idx);
+      }
+    } else if (typeof window !== 'undefined') {
+      const currentHash = window.location.hash;
+      const idx = navLinks.findIndex(link => link.href === currentHash);
+      if (idx !== -1) {
+        setActiveIdx(idx);
+      }
+    }
+  }, [activeSection]);
 
   const filteredLinks = searchQuery ? navLinks.filter(link => link.name.toLowerCase().includes(searchQuery.toLowerCase())) : [];
 
@@ -92,20 +110,59 @@ export default function Header() {
           </div>
         </a>
 
-        {/* Desktop Primary Nav */}
-        <nav className="hidden xl:flex items-center">
-          <ul className="flex items-center gap-5 2xl:gap-7">
-            {navLinks.map((link) => (
-               <li key={link.name}>
-                 <a
-                   href={link.href}
-                   className="text-[13px] font-semibold text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors whitespace-nowrap"
-                 >
-                   {link.name}
-                 </a>
-               </li>
-            ))}
-          </ul>
+        {/* Desktop Primary Nav: Magical Liquid Tab Bar */}
+        <nav className="hidden xl:flex items-center relative py-2">
+          <div className="relative bg-slate-100/90 dark:bg-slate-900/95 border border-slate-200/50 dark:border-slate-800/80 rounded-full flex items-center justify-center shadow-lg h-[56px] w-[576px] px-2 transition-all duration-300">
+            <ul className="relative flex items-center justify-between w-full h-full">
+              {navLinks.map((link, idx) => {
+                const isActive = idx === activeIdx;
+                const IconComponent = link.icon;
+                const isContact = link.href === '#contact';
+                return (
+                  <li key={link.name} className="relative z-10 flex-1 h-full flex items-center justify-center">
+                    <a
+                      href={link.href}
+                      onClick={() => setActiveIdx(idx)}
+                      className="relative flex flex-col items-center justify-center w-full h-full text-center text-decoration-none group cursor-pointer"
+                    >
+                      {/* Active raised icon or inactive centered icon */}
+                      <span className={`absolute flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.25,1.15,0.45,1.02)] ${
+                        isActive 
+                          ? 'text-white -translate-y-[26px] scale-110 z-20' 
+                          : isContact
+                            ? 'text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 translate-y-0 scale-100 font-extrabold'
+                            : 'text-slate-650 dark:text-slate-350 hover:text-indigo-600 dark:hover:text-indigo-400 translate-y-0 scale-100'
+                      }`}>
+                        {isContact && !isActive && (
+                          <span className="absolute -inset-2 rounded-full bg-indigo-500/15 dark:bg-indigo-400/10 animate-pulse border border-indigo-500/30 dark:border-indigo-400/20" />
+                        )}
+                        <IconComponent size={isActive ? 18 : 16} />
+                      </span>
+                      
+                      {/* Slid-up navigation item title */}
+                      <span className={`absolute text-[8.5px] font-extrabold uppercase tracking-widest transition-all duration-500 font-sans ${
+                        isActive 
+                          ? 'opacity-100 translate-y-[14px] text-indigo-600 dark:text-indigo-400 font-extrabold' 
+                          : isContact
+                            ? 'opacity-90 translate-y-[18px] text-indigo-600 dark:text-indigo-400 text-[7px] font-extrabold'
+                            : 'opacity-0 translate-y-[24px] text-transparent'
+                      }`}>
+                        {link.name}
+                      </span>
+                    </a>
+                  </li>
+                );
+              })}
+              
+              {/* Dynamic Fluid Liquid Background Circle */}
+              <div 
+                className="absolute top-[-21px] w-[46px] h-[46px] rounded-full border-[4px] border-white dark:border-slate-950 transition-all duration-500 ease-[cubic-bezier(0.25,1.15,0.45,1.02)] shadow-lg bg-gradient-to-tr from-indigo-600 to-indigo-505 dark:from-indigo-500 dark:to-cyan-400"
+                style={{
+                  left: `calc((${activeIdx} * (100% / 8)) + ((100% / 8 - 46px) / 2))`,
+                }}
+              />
+            </ul>
+          </div>
         </nav>
 
         {/* Utilities & Search (Desktop) */}
@@ -164,9 +221,13 @@ export default function Header() {
 
           <a
             href="#contact"
-            className="ml-2 px-4 py-1.5 bg-indigo-600 text-white dark:bg-white dark:text-slate-950 text-xs font-semibold rounded-full hover:bg-indigo-700 dark:hover:bg-indigo-50 transition-colors whitespace-nowrap shadow-sm hover:shadow-md"
+            className="relative ml-2 flex items-center gap-1.5 px-4.5 py-1.5 bg-gradient-to-r from-indigo-600 to-cyan-500 dark:from-indigo-500 dark:to-cyan-400 text-white text-xs font-bold rounded-full transition-all duration-300 shadow-[0_0_12px_rgba(79,70,229,0.25)] hover:shadow-[0_0_18px_rgba(79,70,229,0.5)] hover:scale-105 active:scale-98 whitespace-nowrap group"
           >
-            {language === 'fr' ? 'Devis' : 'Quote'}
+            {/* Pulsating back ring wave for immediate visual notice */}
+            <span className="absolute inset-0 rounded-full border border-indigo-500/55 dark:border-indigo-400/55 animate-[ping_1.8s_cubic-bezier(0,0,0.2,1)_infinite] opacity-60 pointer-events-none" />
+            
+            <Phone size={13} className="animate-wiggle group-hover:rotate-12 transition-transform" />
+            <span>{t('nav.contact')}</span>
           </a>
         </div>
 

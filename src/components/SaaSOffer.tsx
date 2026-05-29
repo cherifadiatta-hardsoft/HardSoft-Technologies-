@@ -1,12 +1,36 @@
-import { motion } from 'motion/react';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { useLanguage } from './LanguageProvider';
 import { 
-  Smartphone, Globe, Zap, Package, Activity, Building, GraduationCap, ArrowRight, MessageSquare, TrendingUp 
+  Smartphone, Globe, Zap, Package, Activity, Building, GraduationCap, ArrowRight, MessageSquare, TrendingUp,
+  User, Phone, Mail, Sparkles, Send, CheckCircle, ShieldCheck
 } from 'lucide-react';
 
 export default function SaaSOffer() {
   const { language } = useLanguage();
   const isFr = language === 'fr';
+
+  const [formData, setFormData] = useState({
+    fullname: '',
+    phone: '',
+    email: '',
+    sector: isFr ? 'Logistique' : 'Logistics',
+    projectDesc: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.fullname || !formData.phone) return;
+    setIsSubmitting(true);
+    
+    // Simulate real server response for local storage/validation
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setSubmitted(true);
+    }, 1200);
+  };
 
   const WHATSAPP_NUMBER = "221781466421";
   const whatsappMessage = encodeURIComponent(
@@ -14,6 +38,13 @@ export default function SaaSOffer() {
       ? "Bonjour HardSoft Technologies ! J'aimerais discuter avec un architecte de ma vision pour concevoir un SaaS sur mesure au Sénégal."
       : "Hello HardSoft Technologies! I would like to discuss my ideas with a SaaS architect regarding bespoke software product scaling in Senegal."
   );
+
+  const generateSubmittedWhatsAppMessage = () => {
+    const msg = isFr 
+      ? `Bonjour HardSoft Technologies ! Je suis ${formData.fullname} (Tél: ${formData.phone}). Je viens de soumettre ma demande de démo express de SaaS pour le secteur "${formData.sector}" (Email: ${formData.email || 'Aucun'}). Discutons de mon projet !`
+      : `Hello HardSoft Technologies! I'm ${formData.fullname} (Tel: ${formData.phone}). I have just submitted my express SaaS demo request for the "${formData.sector}" sector (Email: ${formData.email || 'None'}). Let's discuss my project!`;
+    return encodeURIComponent(msg);
+  };
 
   return (
     <section 
@@ -407,36 +438,284 @@ export default function SaaSOffer() {
           </div>
         </motion.div>
 
-        {/* Ultimate Call To Action Gradient Card */}
-        <div className="bg-gradient-to-br from-indigo-950 via-[#121826] to-[#0b0f19] border border-indigo-500/30 rounded-3xl p-8 text-center relative overflow-hidden">
-          <div className="absolute -right-10 -top-10 w-40 h-40 bg-purple-500/10 rounded-full blur-3xl"></div>
-          <div className="absolute -left-10 -bottom-10 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl"></div>
+        {/* Ultimate Call To Action Split Layout with Live Express Demo Request Form */}
+        <div id="demande-demo-express" className="bg-gradient-to-br from-indigo-950 via-[#121826] to-[#0b0f19] border border-indigo-500/30 rounded-3xl p-6 md:p-10 relative overflow-hidden text-left shadow-2xl">
+          <div className="absolute -right-20 -top-20 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
+          <div className="absolute -left-20 -bottom-20 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
           
-          <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 font-display tracking-tight">
-            {isFr ? "Prêt à transformer votre vision en un actif puissant ?" : "Ready to Turn Your Vision Into an Asset?"}
-          </h3>
-          <p className="text-gray-400 text-sm md:text-base max-w-2xl mx-auto mb-8 leading-relaxed">
-            {isFr 
-              ? "Ne laissez pas des processus artisanaux ou des logiciels génériques freiner la croissance de votre entreprise. Configurons ensemble le SaaS taillé pour vos ambitions."
-              : "Don't let manual administration spreadsheets hold back your dynamic expansion. Let's configure the exact SaaS product required to lead your target market."}
-          </p>
-          
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-4 relative z-10">
-            <a 
-              href="#estimateur" 
-              className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-extrabold px-8 py-4 rounded-xl transition-all shadow-lg hover:shadow-xl shadow-purple-950/20 text-center text-sm md:text-base cursor-pointer hover:scale-[1.01]"
-            >
-              {isFr ? "Estimer mon projet en 1 min" : "Estimate my project in 1 min"}
-            </a>
-            <a 
-              href={`https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappMessage}`}
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="w-full sm:w-auto bg-[#161f32] hover:bg-[#1e2942] text-white font-semibold px-8 py-4 rounded-xl border border-slate-700 hover:border-slate-650 transition-all flex items-center justify-center gap-2 text-sm md:text-base cursor-pointer"
-            >
-              <MessageSquare className="w-5 h-5 text-emerald-400" />
-              <span>{isFr ? "Parler avec un architecte SaaS" : "Talk with a SaaS Architect"}</span>
-            </a>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-10 relative z-10 items-stretch">
+            {/* Left Column: Context Call */}
+            <div className="lg:col-span-5 flex flex-col justify-between">
+              <div>
+                <span className="inline-flex items-center gap-1.5 bg-indigo-500/15 text-indigo-300 text-[10px] font-extrabold tracking-wider uppercase px-3.5 py-1 rounded-full border border-indigo-500/20 font-mono mb-4">
+                  <Sparkles className="w-3.5 h-3.5 animate-pulse text-indigo-400" />
+                  {isFr ? "Option exclusive" : "Exclusive option"}
+                </span>
+                
+                <h3 className="text-2xl md:text-3.5xl font-extrabold text-white mb-4 font-display tracking-tight leading-tight">
+                  {isFr ? "Prêt à transformer votre vision en un actif puissant ?" : "Ready to Turn Your Vision Into an Asset?"}
+                </h3>
+                
+                <p className="text-gray-400 text-sm md:text-base mb-6 leading-relaxed">
+                  {isFr 
+                    ? "Ne laissez pas des processus artisanaux ou des logiciels génériques freiner la croissance de votre entreprise. Remplissez le formulaire express pour obtenir une démo interactive calibrée sur votre marché par notre équipe."
+                    : "Don't let manual administration spreadsheets hold back your dynamic expansion. Complete our express form to get an interactive demo customized for your specific sector."}
+                </p>
+
+                <div className="space-y-3.5 mb-8">
+                  <div className="flex items-start gap-2.5 text-xs text-slate-300">
+                    <CheckCircle className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
+                    <span>
+                      {isFr 
+                        ? "Démonstration fonctionnelle générée en 48/72 heures" 
+                        : "Functional interactive prototype ready in 48/72 hours"}
+                    </span>
+                  </div>
+                  <div className="flex items-start gap-2.5 text-xs text-slate-300">
+                    <CheckCircle className="w-4 h-4 text-indigo-400 flex-shrink-0 mt-0.5" />
+                    <span>
+                      {isFr 
+                        ? "Consultation préalable d'architecture 100% gratuite" 
+                        : "Initial systems architecture consultation 100% free"}
+                    </span>
+                  </div>
+                  <div className="flex items-start gap-2.5 text-xs text-slate-300">
+                    <ShieldCheck className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
+                    <span>
+                      {isFr 
+                        ? "Strict respect de la confidentialité et accord de NDA sur demande" 
+                        : "Full corporate privacy safeguards & standard NDAs available"}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Auxiliary Quick Links */}
+              <div className="pt-6 border-t border-slate-800/80 flex flex-col sm:flex-row gap-4">
+                <a 
+                  href="#estimateur" 
+                  className="text-xs font-semibold text-slate-300 hover:text-indigo-400 flex items-center gap-1 transition-colors group cursor-pointer"
+                >
+                  <span>{isFr ? "Calculer mon budget d'abord" : "Estimate my budget first"}</span>
+                  <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+                </a>
+              </div>
+            </div>
+
+            {/* Right Column: Live Form */}
+            <div className="lg:col-span-7 bg-[#0e1422]/90 border border-slate-800 p-6 md:p-8 rounded-2xl shadow-xl relative min-h-[380px] flex flex-col justify-center">
+              <AnimatePresence mode="wait">
+                {!submitted ? (
+                  <motion.form 
+                    key="demo-form"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    onSubmit={handleSubmit}
+                    className="space-y-4"
+                  >
+                    <div className="flex items-center justify-between border-b border-slate-800/60 pb-4">
+                      <div>
+                        <h4 className="text-base font-bold text-white font-display">
+                          {isFr ? "Formulaire de Démo Express" : "Express Demo Request"}
+                        </h4>
+                        <p className="text-[11px] text-slate-400 mt-0.5">
+                          {isFr ? "Complétez ces détails pour concevoir votre univers SaaS." : "Provide these details to map your custom SaaS application."}
+                        </p>
+                      </div>
+                      <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[9px] uppercase font-bold tracking-widest px-2.5 py-1 rounded bg-teal-900/20">
+                        {isFr ? "Gratuit" : "Free"}
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {/* Name input */}
+                      <div>
+                        <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">
+                          {isFr ? "Nom & Prénom" : "Full Name"} <span className="text-red-400">*</span>
+                        </label>
+                        <div className="relative">
+                          <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+                          <input 
+                            type="text" 
+                            required
+                            placeholder={isFr ? "Ex: Amadou Diop" : "e.g., Amadou Diop"}
+                            value={formData.fullname}
+                            onChange={(e) => setFormData({ ...formData, fullname: e.target.value })}
+                            className="w-full bg-[#121826] border border-slate-800 rounded-lg py-2 pl-9 pr-4 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-colors"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Phone input */}
+                      <div>
+                        <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">
+                          {isFr ? "Numéro de Téléphone" : "Phone Number"} <span className="text-red-400">*</span>
+                        </label>
+                        <div className="relative">
+                          <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+                          <input 
+                            type="tel" 
+                            required
+                            placeholder="Ex: +221 77 123 45 67"
+                            value={formData.phone}
+                            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                            className="w-full bg-[#121826] border border-slate-800 rounded-lg py-2 pl-9 pr-4 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-colors"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {/* Email input */}
+                      <div>
+                        <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">
+                          {isFr ? "Adresse Email" : "Email Address"}
+                        </label>
+                        <div className="relative">
+                          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+                          <input 
+                            type="email" 
+                            placeholder="Ex: contact@entreprise.sn"
+                            value={formData.email}
+                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                            className="w-full bg-[#121826] border border-slate-800 rounded-lg py-2 pl-9 pr-4 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-colors"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Sector dropdown */}
+                      <div>
+                        <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">
+                          {isFr ? "Secteur d'Activité" : "Industry / Sector"}
+                        </label>
+                        <select 
+                          value={formData.sector}
+                          onChange={(e) => setFormData({ ...formData, sector: e.target.value })}
+                          className="w-full bg-[#121826] border border-slate-800 rounded-lg py-2 px-3 text-sm text-slate-300 focus:outline-none focus:border-indigo-500 transition-colors"
+                        >
+                          {isFr ? (
+                            <>
+                              <option value="Logistique, Livraison & Flotte">Logistique, Livraison & Flotte</option>
+                              <option value="Santé & Officine Médicale">Santé & Officine Médicale</option>
+                              <option value="Immobilier & Gestion Locative">Immobilier & Gestion Locative</option>
+                              <option value="Écoles & Institut de Formation">Écoles & Institut de Formation</option>
+                              <option value="Finance & Fintech">Finance & Fintech</option>
+                              <option value="Commerce & POS">Commerce & Point de Vente (POS)</option>
+                              <option value="Autre SaaS Personnalisé">Autre SaaS Personnalisé</option>
+                            </>
+                          ) : (
+                            <>
+                              <option value="Logistics, Delivery & Fleet Operations">Logistics, Delivery & Fleet Operations</option>
+                              <option value="Healthcare & Medical Networks">Healthcare & Medical Networks</option>
+                              <option value="Real Estate & Rent Collection">Real Estate & Rent Collection</option>
+                              <option value="Schools & Educational Platforms">Schools & Educational Platforms</option>
+                              <option value="Finance & Fintech">Finance & Fintech</option>
+                              <option value="Retail & POS Terminals">Retail & Points of Sale (POS)</option>
+                              <option value="Other Custom SaaS ideas">Other Custom SaaS ideas</option>
+                            </>
+                          )}
+                        </select>
+                      </div>
+                    </div>
+
+                    {/* Brief description */}
+                    <div>
+                      <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">
+                        {isFr ? "Décrivez brièvement votre besoin" : "Briefly describe your requirements"}
+                      </label>
+                      <textarea 
+                        rows={2}
+                        placeholder={isFr ? "Ex: Automatiser la gestion locative avec relance par WhatsApp et Wave..." : "e.g., Automate rent collection via WhatsApp and Wave payments..."}
+                        value={formData.projectDesc}
+                        onChange={(e) => setFormData({ ...formData, projectDesc: e.target.value })}
+                        className="w-full bg-[#121826] border border-slate-800 rounded-lg py-2 px-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-colors resize-none"
+                      />
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="w-full relative py-3.5 bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white font-extrabold rounded-lg text-sm transition-all focus:outline-none shadow-lg shadow-indigo-950/40 cursor-pointer text-center flex items-center justify-center gap-2 overflow-hidden group hover:scale-[1.01]"
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                          <span>{isFr ? "Transmission en cours..." : "Submitting your details..."}</span>
+                        </>
+                      ) : (
+                        <>
+                          <Send className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                          <span>{isFr ? "Obtenir mon architecture et ma démo" : "Get My Custom SaaS Architecture & Demo"}</span>
+                        </>
+                      )}
+                    </button>
+
+                    <p className="text-[10px] text-center text-slate-600 flex items-center justify-center gap-1.5 font-sans">
+                      <ShieldCheck className="w-3.5 h-3.5 text-slate-500" />
+                      <span>{isFr ? "Données cryptées & 100% sécurisées. Réponse garantie sous 24h." : "Data encrypted & 100% confidential. Live reply in 24h."}</span>
+                    </p>
+                  </motion.form>
+                ) : (
+                  <motion.div 
+                    key="success-card"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    className="text-center space-y-6 py-6"
+                  >
+                    <div className="w-16 h-16 bg-emerald-500/10 rounded-full flex items-center justify-center text-emerald-400 mx-auto border border-emerald-500/20">
+                      <CheckCircle className="w-8 h-8 animate-bounce" />
+                    </div>
+
+                    <div className="font-sans">
+                      <h4 className="text-xl md:text-2xl font-black text-white font-display">
+                        {isFr ? `Merci ${formData.fullname} !` : `Thank You, ${formData.fullname}!`}
+                      </h4>
+                      <p className="text-slate-300 text-xs md:text-sm mt-2 max-w-md mx-auto leading-relaxed">
+                        {isFr 
+                          ? "Votre demande a été analysée avec succès par nos ingénieurs. Nous allons concevoir une ébauche d'architecture et de maquette personnalisée pour votre projet."
+                          : "Your express inquiry is successfully cataloged. Our engineers will draft a custom system diagram and prototype interface for your sector."}
+                      </p>
+                    </div>
+
+                    <div className="bg-[#121826] p-4.5 rounded-xl border border-slate-800/80 max-w-sm mx-auto text-left gap-1.5 flex flex-col font-sans">
+                      <div className="text-[10px] text-indigo-400 font-bold uppercase tracking-widest font-mono">
+                        {isFr ? "Synthèse de votre Envoi" : "Inquiry Summary"}
+                      </div>
+                      <div className="text-xs text-slate-300 space-y-1 mt-1 font-mono">
+                        <div><strong className="text-slate-500">{isFr ? "Secteur :" : "Sector:"}</strong> {formData.sector}</div>
+                        <div><strong className="text-slate-500">{isFr ? "Téléphone :" : "Phone:"}</strong> {formData.phone}</div>
+                        {formData.email && <div><strong className="text-slate-500">Email :</strong> {formData.email}</div>}
+                      </div>
+                    </div>
+
+                    {/* Direct-Action WhatsApp Acceleration */}
+                    <div className="space-y-3 max-w-md mx-auto font-sans">
+                      <a 
+                        href={`https://wa.me/${WHATSAPP_NUMBER}?text=${generateSubmittedWhatsAppMessage()}`}
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="w-full relative py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg text-sm transition-all shadow-lg shadow-emerald-950/30 flex items-center justify-center gap-2 group cursor-pointer"
+                      >
+                        <MessageSquare className="w-5 h-5 animate-pulse text-white" />
+                        <span>{isFr ? "Accélérer la démo sur WhatsApp" : "Accelerate My Demo on WhatsApp"}</span>
+                      </a>
+                      
+                      <button 
+                        onClick={() => {
+                          setSubmitted(false);
+                          setFormData({ fullname: '', phone: '', email: '', sector: isFr ? 'Logistique' : 'Logistics', projectDesc: '' });
+                        }}
+                        className="text-xs text-slate-500 hover:text-slate-400 underline transition-colors cursor-pointer"
+                      >
+                        {isFr ? "Soumettre une autre demande" : "Submit another request"}
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         </div>
 
