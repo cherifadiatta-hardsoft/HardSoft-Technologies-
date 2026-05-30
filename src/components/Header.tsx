@@ -94,7 +94,7 @@ export default function Header() {
         )}
       </AnimatePresence>
 
-      <div className={`max-w-[1400px] mx-auto px-4 sm:px-6 flex items-center justify-between transition-all duration-300 ${isScrolled ? 'h-16' : 'h-20'}`}>
+      <div className={`max-w-[1400px] mx-auto px-4 sm:px-6 flex items-center justify-between transition-all duration-300 ${isScrolled ? 'h-20' : 'h-24'}`}>
         {/* Logo */}
         <a href="#accueil" className="flex items-center gap-2 sm:gap-2.5 group shrink-0">
           <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-indigo-600 flex items-center justify-center text-white group-hover:scale-105 transition-transform shadow-md">
@@ -111,8 +111,8 @@ export default function Header() {
         </a>
 
         {/* Desktop Primary Nav: Magical Liquid Tab Bar */}
-        <nav className="hidden xl:flex items-center relative py-2">
-          <div className="relative bg-slate-100/90 dark:bg-slate-900/95 border border-slate-200/50 dark:border-slate-800/80 rounded-full flex items-center justify-center shadow-lg h-[56px] w-[576px] px-2 transition-all duration-300">
+        <nav className="hidden xl:flex items-center relative py-2 pt-4">
+          <div className="relative bg-slate-100/90 dark:bg-slate-900/95 border border-slate-200/50 dark:border-slate-800/80 rounded-full flex items-center justify-center shadow-lg h-[56px] w-[660px] px-2 transition-all duration-300">
             <ul className="relative flex items-center justify-between w-full h-full">
               {navLinks.map((link, idx) => {
                 const isActive = idx === activeIdx;
@@ -140,7 +140,7 @@ export default function Header() {
                       </span>
                       
                       {/* Slid-up navigation item title */}
-                      <span className={`absolute text-[8.5px] font-extrabold uppercase tracking-widest transition-all duration-500 font-sans ${
+                      <span className={`absolute whitespace-nowrap text-[8.5px] font-extrabold uppercase tracking-widest transition-all duration-500 font-sans ${
                         isActive 
                           ? 'opacity-100 translate-y-[14px] text-indigo-600 dark:text-indigo-400 font-extrabold' 
                           : isContact

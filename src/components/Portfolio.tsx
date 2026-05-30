@@ -5,7 +5,7 @@ import LazyImage from './LazyImage';
 import { useLanguage } from './LanguageProvider';
 import SEO from './SEO';
 
-const categories = ['Tous', 'SaaS & Écosystème', 'Institutionnel', 'E-Commerce & Médias'];
+const categories = ['Tous', 'SaaS', 'Web', 'Mobile'];
 
 const projects = [
   {
@@ -14,8 +14,8 @@ const projects = [
     domain: 'pharma24.net',
     description: 'Plateforme connectée et répertoire des pharmacies du Sénégal.',
     descriptionEn: 'Connected platform and pharmacy network registry in Senegal.',
-    category: 'SaaS & Écosystème',
-    categoryEn: 'SaaS & Ecosystem',
+    category: 'SaaS',
+    categoryEn: 'SaaS',
     accent: 'bg-emerald-500',
     isNew: true,
     tech: ['React', 'Node.js', 'PostgreSQL', 'Tailwind CSS', 'Docker'],
@@ -36,8 +36,8 @@ const projects = [
     domain: 'teeru-sn.com',
     description: 'Plateforme de services à la demande.',
     descriptionEn: 'On-demand local booking and services platform.',
-    category: 'SaaS & Écosystème',
-    categoryEn: 'SaaS & Ecosystem',
+    category: 'Mobile',
+    categoryEn: 'Mobile',
     accent: 'bg-blue-500',
     isNew: true,
     tech: ['React Native', 'Node.js', 'Redis', 'WebSockets', 'AWS'],
@@ -58,8 +58,8 @@ const projects = [
     domain: 'digitalsignage.hardsoft-technologies.net',
     description: 'Solution de signalisation numérique d\'entreprise.',
     descriptionEn: 'Corporate digital signage solutions network.',
-    category: 'SaaS & Écosystème',
-    categoryEn: 'SaaS & Ecosystem',
+    category: 'SaaS',
+    categoryEn: 'SaaS',
     accent: 'bg-indigo-500',
     isNew: true,
     tech: ['Next.js', 'Electron', 'SQLite', 'Tailwind CSS'],
@@ -80,8 +80,8 @@ const projects = [
     domain: 'algs.hardsoft-technologies.net',
     description: 'Application et solution logistique de livraison.',
     descriptionEn: 'Delivery and fleet logistics solution optimizer.',
-    category: 'SaaS & Écosystème',
-    categoryEn: 'SaaS & Ecosystem',
+    category: 'Mobile',
+    categoryEn: 'Mobile',
     accent: 'bg-orange-500',
     tech: ['React', 'Express', 'MongoDB', 'Google Maps API'],
     highlights: [
@@ -101,8 +101,8 @@ const projects = [
     domain: 'jikjikoox.com',
     description: 'Plateforme e-commerce / Marketplace.',
     descriptionEn: 'Modern e-commerce and local merchant marketplace.',
-    category: 'SaaS & Écosystème',
-    categoryEn: 'SaaS & Ecosystem',
+    category: 'Web',
+    categoryEn: 'Web',
     accent: 'bg-violet-500',
     tech: ['Next.js', 'GraphQL', 'PostgreSQL', 'Stripe'],
     highlights: [
@@ -122,8 +122,8 @@ const projects = [
     domain: 'sourcedeviesenegal.com',
     description: 'Plateforme financière/change.',
     descriptionEn: 'Secure financial fiat and foreign exchange dashboard.',
-    category: 'Institutionnel',
-    categoryEn: 'Institutional',
+    category: 'Web',
+    categoryEn: 'Web',
     accent: 'bg-teal-500',
     tech: ['React', 'Tailwind CSS', 'Framer Motion'],
     highlights: [
@@ -143,8 +143,8 @@ const projects = [
     domain: 'emsarts.com',
     description: 'Vitrines artistiques, événementielles ou d\'agences.',
     descriptionEn: 'Creative, arts, and dynamic booking events hub.',
-    category: 'Institutionnel',
-    categoryEn: 'Institutional',
+    category: 'Web',
+    categoryEn: 'Web',
     accent: 'bg-rose-500',
     tech: ['Vue.js', 'Vite', 'GSAP', 'CSS Variables'],
     highlights: [
@@ -164,8 +164,8 @@ const projects = [
     domain: 'birkamabalante.com',
     description: 'Site institutionnel ou communautaire.',
     descriptionEn: 'Cultural community portal and institutional platform.',
-    category: 'Institutionnel',
-    categoryEn: 'Institutional',
+    category: 'Web',
+    categoryEn: 'Web',
     accent: 'bg-green-600',
     tech: ['Astro', 'Tailwind CSS', 'Markdown'],
     highlights: [
@@ -185,8 +185,8 @@ const projects = [
     domain: 'jpeedsenegal.org',
     description: 'Site d\'organisation/ONG engagée au Sénégal.',
     descriptionEn: 'Institutional NGO platform promoting local development.',
-    category: 'Institutionnel',
-    categoryEn: 'Institutional',
+    category: 'Web',
+    categoryEn: 'Web',
     accent: 'bg-blue-600',
     tech: ['React', 'Vite', 'Tailwind CSS'],
     highlights: [
@@ -206,8 +206,8 @@ const projects = [
     domain: 'eltigroup-eg.com',
     description: 'Portails d\'entreprises et structures professionnelles.',
     descriptionEn: 'Professional service corporate portal and resource hub.',
-    category: 'Institutionnel',
-    categoryEn: 'Institutional',
+    category: 'Web',
+    categoryEn: 'Web',
     accent: 'bg-slate-500',
     tech: ['Gatsby', 'GraphQL', 'Tailwind CSS'],
     highlights: [
@@ -227,8 +227,8 @@ const projects = [
     domain: 'terangadrinks.com',
     description: 'Boutique en ligne de boissons/produits locaux.',
     descriptionEn: 'Premium Local beverages global e-shop.',
-    category: 'E-Commerce & Médias',
-    categoryEn: 'E-Commerce & Media',
+    category: 'Web',
+    categoryEn: 'Web',
     accent: 'bg-amber-500',
     tech: ['Shopify', 'Liquid', 'Custom Tailwind Theme'],
     highlights: [
@@ -248,8 +248,8 @@ const projects = [
     domain: 'sensupplyservice.com',
     description: 'Plateforme de services logistiques et de fourniture.',
     descriptionEn: 'Enterprise procurement and logistics orchestration platform.',
-    category: 'E-Commerce & Médias',
-    categoryEn: 'E-Commerce & Media',
+    category: 'SaaS',
+    categoryEn: 'SaaS',
     accent: 'bg-blue-400',
     tech: ['React', 'Node.js', 'PostgreSQL'],
     highlights: [
@@ -269,8 +269,8 @@ const projects = [
     domain: 'sourceinfos.com',
     description: 'Portail média et site d\'actualités en ligne.',
     descriptionEn: 'Breaking news and regional media publishing portal.',
-    category: 'E-Commerce & Médias',
-    categoryEn: 'E-Commerce & Media',
+    category: 'Web',
+    categoryEn: 'Web',
     accent: 'bg-red-500',
     tech: ['Next.js', 'Node.js', 'PostgreSQL', 'Redis'],
     highlights: [
@@ -433,9 +433,7 @@ export default function Portfolio() {
 
   const filteredProjects = projects.filter((project) => 
     activeCategory === 'Tous' || 
-    project.category === activeCategory ||
-    (activeCategory === 'SaaS & Écosystème' && project.category === 'SaaS & Écosystème') ||
-    (activeCategory === 'E-Commerce & Médias' && project.category === 'E-Commerce & Médias')
+    project.category === activeCategory
   );
 
   return (
@@ -484,7 +482,7 @@ export default function Portfolio() {
                   : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-800'
               }`}
             >
-              {isFr ? category : (category === 'Tous' ? 'All' : (category === 'SaaS & Écosystème' ? 'SaaS & Ecosystem' : (category === 'Institutionnel' ? 'Corporate & NGO' : 'E-Commerce & Media')))}
+              {isFr ? category : (category === 'Tous' ? 'All' : category)}
             </button>
           ))}
         </div>
