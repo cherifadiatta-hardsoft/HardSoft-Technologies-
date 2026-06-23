@@ -6,6 +6,7 @@ import Services from './components/Services';
 import POS from './components/POS';
 import Formations from './components/Formations';
 import Portfolio from './components/Portfolio';
+import AcademySection from './components/AcademySection';
 import Testimonials from './components/Testimonials';
 import About from './components/About';
 import Partners from './components/Partners';
@@ -88,6 +89,7 @@ export default function App() {
         <POS />
         <Formations />
         <Portfolio />
+        <AcademySection />
         <Partners />
         <About />
         <Testimonials />
