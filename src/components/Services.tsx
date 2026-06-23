@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Code, Globe, Workflow, Mail, MapPin, MessageCircle, Check, ChevronLeft, ChevronRight } from 'lucide-react';
 import { WHATSAPP_URL } from '../config';
 import { useLanguage } from './LanguageProvider';
+import LazyImage from './LazyImage';
 import cherifImg from '../assets/images/cherif_diatta_profile_1779710074650.png';
 
 export default function Services() {
@@ -133,7 +134,13 @@ export default function Services() {
       data-seo-description={isFr ? "Expertise en conception de sites et d'applications web, automatisation n8n et logiciels sur mesure." : "Expertise in web design, web applications, n8n automations, and bespoke software development."} 
       className="py-24 relative overflow-hidden scroll-mt-24"
     >
-      <div className="max-w-7xl 2xl:max-w-[1400px] 3xl:max-w-[1600px] mx-auto px-6">
+      <motion.div 
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.6 }}
+        className="max-w-7xl 2xl:max-w-[1400px] 3xl:max-w-[1600px] mx-auto px-6"
+      >
         <div className="text-center max-w-3xl mx-auto mb-12">
           <h2 className="font-display text-3xl md:text-5xl 2xl:text-6xl font-bold mb-4 tracking-tight text-slate-900 dark:text-white">
             {isFr ? "Ce que nous faisons" : "What We Do"}
@@ -287,12 +294,15 @@ export default function Services() {
                     className={`absolute w-[220px] sm:w-[240px] h-[320px] sm:h-[340px] rounded-2xl overflow-hidden shadow-2xl bg-white dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800 group transition-all duration-500 ease-[cubic-bezier(0.4, 0, 0.2, 1)] flex flex-col justify-end cursor-pointer ${transformClass} ${legacyClass}`}
                   >
                     {/* Background Grayscale Image to Colored Overlay */}
-                    <img 
-                      src={member.img} 
-                      alt={member.name}
-                      referrerPolicy="no-referrer"
-                      className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 group-hover:scale-105 ${isActive ? 'grayscale-0' : 'grayscale group-hover:grayscale-0'}`}
-                    />
+                    <div className="absolute inset-0 z-0">
+                      <LazyImage 
+                        src={member.img} 
+                        alt={member.name}
+                        referrerPolicy="no-referrer"
+                        containerClassName="w-full h-full"
+                        imageClassName={`w-full h-full object-cover transition-all duration-500 group-hover:scale-105 ${isActive ? 'grayscale-0' : 'grayscale group-hover:grayscale-0'}`}
+                      />
+                    </div>
                     
                     {/* Visual Vignette Radial Dark Overlay for active readability */}
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-80" />
@@ -355,7 +365,7 @@ export default function Services() {
               </span>
             </a>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

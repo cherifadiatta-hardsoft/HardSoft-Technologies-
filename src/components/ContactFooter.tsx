@@ -53,6 +53,8 @@ export default function ContactFooter() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [showNewsletterToast, setShowNewsletterToast] = useState(false);
+  const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [isNewsletterSubmitting, setIsNewsletterSubmitting] = useState(false);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -214,9 +216,16 @@ export default function ContactFooter() {
 
   const handleNewsletterSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setShowNewsletterToast(true);
-    e.currentTarget.reset();
-    setTimeout(() => setShowNewsletterToast(false), 5000);
+    if (!newsletterEmail.trim()) return;
+    setIsNewsletterSubmitting(true);
+    
+    // Simulate API call
+    setTimeout(() => {
+      setIsNewsletterSubmitting(false);
+      setShowNewsletterToast(true);
+      setNewsletterEmail('');
+      setTimeout(() => setShowNewsletterToast(false), 5000);
+    }, 1000);
   };
 
   return (
@@ -496,15 +505,23 @@ export default function ContactFooter() {
               <input 
                 type="email" 
                 name="email" 
+                value={newsletterEmail}
+                onChange={(e) => setNewsletterEmail(e.target.value)}
                 required 
                 placeholder={isFr ? "Votre adresse e-mail" : "Your email address"} 
                 className="flex-1 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-full px-6 py-3 text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all text-sm"
+                disabled={isNewsletterSubmitting}
               />
               <button 
                 type="submit" 
-                className="bg-indigo-600 hover:bg-indigo-700 text-slate-900 dark:text-white font-medium rounded-full px-8 py-3 transition-colors shadow-md text-sm whitespace-nowrap cursor-pointer"
+                disabled={isNewsletterSubmitting}
+                className={`bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-full px-8 py-3 transition-colors shadow-md text-sm whitespace-nowrap flex items-center justify-center gap-2 ${isNewsletterSubmitting ? 'opacity-80 cursor-not-allowed' : ''}`}
               >
-                {isFr ? "S'inscrire" : "Subscribe"}
+                {isNewsletterSubmitting ? (
+                  <Loader2 size={16} className="animate-spin" />
+                ) : (
+                  isFr ? "S'inscrire" : "Subscribe"
+                )}
               </button>
             </form>
           </div>

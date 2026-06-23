@@ -455,7 +455,13 @@ export default function Portfolio() {
         )}
       </AnimatePresence>
 
-      <div className="max-w-7xl 2xl:max-w-[1400px] 3xl:max-w-[1600px] mx-auto px-6">
+      <motion.div 
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.6 }}
+        className="max-w-7xl 2xl:max-w-[1400px] 3xl:max-w-[1600px] mx-auto px-6"
+      >
         <div className="text-center max-w-3xl mx-auto mb-12">
           <span className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30 px-3 py-1.5 rounded-full select-none">
             {isFr ? "PORTFOLIO" : "OUR WORK"}
@@ -577,15 +583,16 @@ export default function Portfolio() {
                     className="absolute w-[210px] sm:w-[245px] h-[330px] sm:h-[370px] rounded-2xl overflow-hidden bg-slate-900/90 dark:bg-slate-950 border transition-all duration-600 ease-[cubic-bezier(0.25,1.15,0.45,1.02)] flex flex-col justify-end p-5 cursor-pointer group shadow-2xl"
                   >
                     {/* Background visual cover image */}
-                    <div 
-                      className="absolute inset-0 w-full h-full bg-cover bg-center transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
-                      style={{ 
-                        backgroundImage: `url('https://picsum.photos/seed/${project.slug}/400/600')`,
-                        filter: isActive ? 'grayscale(0%) brightness(0.95)' : 'grayscale(60%) brightness(0.55)'
-                      }}
-                      role="img"
-                      aria-label={project.name}
-                    />
+                    <div className="absolute inset-0 z-0">
+                      <LazyImage 
+                        src={`https://picsum.photos/seed/${project.slug}/400/600`}
+                        alt={project.name}
+                        containerClassName="w-full h-full"
+                        imageClassName={`w-full h-full object-cover transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105 ${isActive ? 'grayscale-0 brightness-95' : 'grayscale-[60%] brightness-[0.55]'}`}
+                        role="img"
+                        aria-label={project.name}
+                      />
+                    </div>
 
                     {/* Highly eye-safe dark back drop gradient overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent opacity-95 z-10" />
@@ -685,7 +692,7 @@ export default function Portfolio() {
             ))}
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Modern, Highly Custom Project Details Modal */}
       <AnimatePresence>

@@ -19,7 +19,13 @@ export default function POS() {
       data-seo-description={isFr ? "Simplifiez la gestion de votre point de vente, gérez les stocks et analysez vos ventes en temps réel." : "Simplify point of sale management, oversee inventory, and optimize real-time receipts."} 
       className="py-24 bg-slate-50 dark:bg-slate-900 scroll-mt-24"
     >
-      <div className="max-w-7xl 2xl:max-w-[1400px] 3xl:max-w-[1600px] mx-auto px-6">
+      <motion.div 
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.6 }}
+        className="max-w-7xl 2xl:max-w-[1400px] 3xl:max-w-[1600px] mx-auto px-6"
+      >
         <div className="grid lg:grid-cols-2 gap-16 2xl:gap-24 items-center">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -105,7 +111,7 @@ export default function POS() {
             </a>
           </motion.div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

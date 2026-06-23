@@ -190,17 +190,25 @@ export default function Header() {
             )}
           </div>
 
-          <div className="flex items-center bg-slate-100/50 dark:bg-slate-800/50 rounded-full border border-slate-200/50 dark:border-slate-700/50 p-0.5">
-            <button
-              onClick={toggleLanguage}
-              className="flex items-center justify-center p-1.5 rounded-full text-slate-600 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-700 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
-              title={language === 'fr' ? 'Passer en anglais' : 'Switch to French'}
-            >
-              <Languages size={14} />
-              <span className="ml-1 text-[9px] font-bold uppercase">{language}</span>
-            </button>
+          <div className="flex items-center bg-slate-100/50 dark:bg-slate-800/50 rounded-full border border-slate-200/50 dark:border-slate-700/50 p-1">
+            <div className="flex items-center space-x-1">
+              <button
+                onClick={() => language !== 'fr' && toggleLanguage()}
+                className={`flex items-center justify-center px-2 py-1 rounded-full text-[10px] font-bold transition-all ${language === 'fr' ? 'bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'}`}
+                title="Français"
+              >
+                FR
+              </button>
+              <button
+                onClick={() => language !== 'en' && toggleLanguage()}
+                className={`flex items-center justify-center px-2 py-1 rounded-full text-[10px] font-bold transition-all ${language === 'en' ? 'bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'}`}
+                title="English"
+              >
+                EN
+              </button>
+            </div>
 
-            <div className="w-px h-3 bg-slate-200 dark:bg-slate-700 mx-0.5"></div>
+            <div className="w-px h-4 bg-slate-200 dark:bg-slate-700 mx-1"></div>
 
             <button
               onClick={toggleTheme}
@@ -334,14 +342,20 @@ export default function Header() {
 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 p-1.5 rounded-full border border-slate-200/50 dark:border-slate-700/50">
-                    <button
-                      onClick={toggleLanguage}
-                      className="px-4 py-2 rounded-full bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 font-black text-xs uppercase shadow-sm flex items-center gap-2 border border-slate-200/50 dark:border-slate-600/50"
-                      aria-label="Changer de langue"
-                    >
-                      <Languages size={16} />
-                      {language === 'fr' ? 'Français' : 'English'}
-                    </button>
+                    <div className="flex items-center space-x-1 bg-white dark:bg-slate-700 p-1 rounded-full shadow-sm">
+                      <button
+                        onClick={() => language !== 'fr' && toggleLanguage()}
+                        className={`px-4 py-1.5 rounded-full font-bold text-xs uppercase transition-all ${language === 'fr' ? 'bg-indigo-50 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 shadow-sm' : 'text-slate-500 dark:text-slate-400'}`}
+                      >
+                        Français
+                      </button>
+                      <button
+                        onClick={() => language !== 'en' && toggleLanguage()}
+                        className={`px-4 py-1.5 rounded-full font-bold text-xs uppercase transition-all ${language === 'en' ? 'bg-indigo-50 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 shadow-sm' : 'text-slate-500 dark:text-slate-400'}`}
+                      >
+                        English
+                      </button>
+                    </div>
 
                     <button
                       onClick={toggleTheme}

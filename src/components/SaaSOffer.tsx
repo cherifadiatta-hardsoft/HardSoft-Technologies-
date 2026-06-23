@@ -14,15 +14,60 @@ export default function SaaSOffer() {
     fullname: '',
     phone: '',
     email: '',
-    sector: isFr ? 'Logistique' : 'Logistics',
+    sector: isFr ? 'Logistique, Livraison & Flotte' : 'Logistics, Delivery & Fleet Operations',
     projectDesc: ''
   });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
+  const validateField = (name: string, value: string) => {
+    switch (name) {
+      case 'fullname':
+        return !value.trim() ? (isFr ? 'Le nom est requis' : 'Name is required') : '';
+      case 'phone':
+        if (!value.trim()) return isFr ? 'Le numéro de téléphone est requis' : 'Phone number is required';
+        return !/^\+?\d{9,15}$/.test(value.replace(/[\s-]/g, '')) ? (isFr ? 'Format de téléphone invalide' : 'Invalid phone format') : '';
+      case 'email':
+        if (value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+          return isFr ? "Format d'email invalide" : "Invalid email format";
+        }
+        return '';
+      default:
+        return '';
+    }
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setTouched(prev => ({ ...prev, [name]: true }));
+    setErrors(prev => ({ ...prev, [name]: validateField(name, value) }));
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    if (touched[name]) {
+      setErrors(prev => ({ ...prev, [name]: validateField(name, value) }));
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.fullname || !formData.phone) return;
+    
+    // Validate all fields on submit
+    const newErrors: Record<string, string> = {};
+    Object.keys(formData).forEach(key => {
+      const error = validateField(key, formData[key as keyof typeof formData]);
+      if (error) newErrors[key] = error;
+    });
+    
+    setErrors(newErrors);
+    setTouched(Object.keys(formData).reduce((acc, key) => ({ ...acc, [key]: true }), {}));
+
+    if (Object.keys(newErrors).length > 0) return;
+    
     setIsSubmitting(true);
     
     // Simulate real server response for local storage/validation
@@ -117,7 +162,7 @@ export default function SaaSOffer() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="bg-[#121826] p-6 rounded-2xl border border-gray-800 hover:border-blue-500/50 transition-all group duration-300"
+            className="bg-[#121826] p-6 rounded-2xl border border-gray-800 hover:border-blue-500/50 transition-all group duration-300 flex flex-col"
           >
             <div className="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center text-blue-400 mb-4 transition-transform group-hover:scale-110">
               <Smartphone className="w-6 h-6" />
@@ -125,11 +170,16 @@ export default function SaaSOffer() {
             <h3 className="text-xl font-bold text-white mb-2 font-display">
               {isFr ? "100% Mobile-First & Cloud" : "100% Mobile-First & Cloud"}
             </h3>
-            <p className="text-gray-400 text-sm leading-relaxed">
+            <p className="text-gray-400 text-sm leading-relaxed mb-6">
               {isFr 
                 ? "Vos équipes ou clients accèdent à la plateforme depuis n'importe quel smartphone à Dakar ou en région. Pas besoin d'infrastructures lourdes chez vous."
                 : "Your internal staff or external customers access secure data from any entry-level Android or iOS phone in Dakar or regional centers. Zero local servers required on your end."}
             </p>
+            <div className="mt-auto">
+              <a href="#demande-demo-express" className="inline-flex items-center gap-2 text-sm font-bold text-blue-400 hover:text-blue-300 transition-colors">
+                {isFr ? "Demander une démo" : "Request a demo"} <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </a>
+            </div>
           </motion.div>
 
           <motion.div 
@@ -137,7 +187,7 @@ export default function SaaSOffer() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="bg-[#121826] p-6 rounded-2xl border border-gray-800 hover:border-purple-500/50 transition-all group duration-300"
+            className="bg-[#121826] p-6 rounded-2xl border border-gray-800 hover:border-purple-500/50 transition-all group duration-300 flex flex-col"
           >
             <div className="w-12 h-12 bg-purple-500/10 rounded-xl flex items-center justify-center text-purple-400 mb-4 transition-transform group-hover:scale-110">
               <Globe className="w-6 h-6" />
@@ -145,7 +195,7 @@ export default function SaaSOffer() {
             <h3 className="text-xl font-bold text-white mb-2 font-display">
               {isFr ? "Ancré dans la Réalité Locale" : "Anchored in Local Reality"}
             </h3>
-            <p className="text-gray-400 text-sm leading-relaxed">
+            <p className="text-gray-400 text-sm leading-relaxed mb-6">
               {isFr ? (
                 <>
                   Interconnexion native avec les paiements incontournables (<strong className="text-gray-300">Wave, Orange Money, TouchPay</strong>) et notifications automatisées via l'<strong className="text-gray-300">API WhatsApp Cloud</strong>.
@@ -156,6 +206,11 @@ export default function SaaSOffer() {
                 </>
               )}
             </p>
+            <div className="mt-auto">
+              <a href="#demande-demo-express" className="inline-flex items-center gap-2 text-sm font-bold text-purple-400 hover:text-purple-300 transition-colors">
+                {isFr ? "Demander une démo" : "Request a demo"} <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </a>
+            </div>
           </motion.div>
 
           <motion.div 
@@ -163,7 +218,7 @@ export default function SaaSOffer() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.3 }}
-            className="bg-[#121826] p-6 rounded-2xl border border-gray-800 hover:border-green-500/50 transition-all group duration-300"
+            className="bg-[#121826] p-6 rounded-2xl border border-gray-800 hover:border-green-500/50 transition-all group duration-300 flex flex-col"
           >
             <div className="w-12 h-12 bg-green-500/10 rounded-xl flex items-center justify-center text-green-400 mb-4 transition-transform group-hover:scale-110">
               <Zap className="w-6 h-6" />
@@ -171,11 +226,16 @@ export default function SaaSOffer() {
             <h3 className="text-xl font-bold text-white mb-2 font-display">
               {isFr ? "Automatisé avec n8n" : "Automated with n8n"}
             </h3>
-            <p className="text-gray-400 text-sm leading-relaxed">
+            <p className="text-gray-400 text-sm leading-relaxed mb-6">
               {isFr 
                 ? "Des workflows intelligents qui travaillent pour vous en arrière-plan : relances, synchronisation des stocks et rapports financiers en temps réel."
                 : "Intelligent background sync processes running around the clock: automated reminders, high-frequency stock alignment, and real-time financial margin summaries."}
             </p>
+            <div className="mt-auto">
+              <a href="#demande-demo-express" className="inline-flex items-center gap-2 text-sm font-bold text-green-400 hover:text-green-300 transition-colors">
+                {isFr ? "Demander une démo" : "Request a demo"} <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </a>
+            </div>
           </motion.div>
 
         </div>
@@ -194,83 +254,119 @@ export default function SaaSOffer() {
           <div className="space-y-6">
             
             <div className="border-b border-gray-800/80 pb-6 last:border-0 last:pb-0">
-              <h4 className="text-lg font-bold text-blue-400 flex items-center gap-2 font-display">
-                <Package className="w-5 h-5" />
-                {isFr ? "Logistique, Livraison & Flotte" : "Logistics, Delivery & Fleet Operations"}
-              </h4>
-              <p className="text-gray-400 text-sm mt-1.5 leading-relaxed">
-                {isFr ? (
-                  <>
-                    <span className="text-red-400 font-bold">Le problème :</span> Suivi de coursier approximatif et clients qui saturent vos lignes. <br className="hidden md:inline"/>
-                    <span className="text-green-400 font-bold">La solution SaaS :</span> Un dispatching centralisé générant des liens de suivi précis envoyés automatiquement sur WhatsApp aux clients.
-                  </>
-                ) : (
-                  <>
-                    <span className="text-red-400 font-bold">The Problem:</span> Approximate courier live-tracking and client calls continuously saturating your support agents. <br className="hidden md:inline"/>
-                    <span className="text-green-400 font-bold">Our SaaS Answer:</span> Unified central dispatcher automatically sending high-precision tracking links to recipients on WhatsApp.
-                  </>
-                )}
-              </p>
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div className="flex-1">
+                  <h4 className="text-lg font-bold text-blue-400 flex items-center gap-2 font-display">
+                    <Package className="w-5 h-5" />
+                    {isFr ? "Logistique, Livraison & Flotte" : "Logistics, Delivery & Fleet Operations"}
+                  </h4>
+                  <p className="text-gray-400 text-sm mt-1.5 leading-relaxed">
+                    {isFr ? (
+                      <>
+                        <span className="text-red-400 font-bold">Le problème :</span> Suivi de coursier approximatif et clients qui saturent vos lignes. <br className="hidden md:inline"/>
+                        <span className="text-green-400 font-bold">La solution SaaS :</span> Un dispatching centralisé générant des liens de suivi précis envoyés automatiquement sur WhatsApp aux clients.
+                      </>
+                    ) : (
+                      <>
+                        <span className="text-red-400 font-bold">The Problem:</span> Approximate courier live-tracking and client calls continuously saturating your support agents. <br className="hidden md:inline"/>
+                        <span className="text-green-400 font-bold">Our SaaS Answer:</span> Unified central dispatcher automatically sending high-precision tracking links to recipients on WhatsApp.
+                      </>
+                    )}
+                  </p>
+                </div>
+                <div className="shrink-0 mt-2 md:mt-0">
+                  <a href="#demande-demo-express" className="inline-flex items-center gap-2 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 py-2 px-4 rounded-lg transition-colors">
+                    {isFr ? "Demander une démo" : "Request a demo"} <ArrowRight className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
             </div>
 
             <div className="border-b border-gray-800/80 pb-6 last:border-0 last:pb-0">
-              <h4 className="text-lg font-bold text-purple-400 flex items-center gap-2 font-display">
-                <Activity className="w-5 h-5" />
-                {isFr ? "Santé & Officines Médicales" : "Healthcare & Medical Networks"}
-              </h4>
-              <p className="text-gray-400 text-sm mt-1.5 leading-relaxed">
-                {isFr ? (
-                  <>
-                    <span className="text-red-400 font-bold">Le problème :</span> Gestion des dossiers sur papier et opacité des stocks entre plusieurs cliniques ou pharmacies de garde. <br className="hidden md:inline"/>
-                    <span className="text-green-400 font-bold">La solution SaaS :</span> Un écosystème cloud hautement sécurisé pour centraliser les données patients et suivre l'état des stocks d'urgence en direct.
-                  </>
-                ) : (
-                  <>
-                    <span className="text-red-400 font-bold">The Problem:</span> Messy paper health cards and total opacity on stocks rotating across multiple clinics or on-duty pharmacy branches. <br className="hidden md:inline"/>
-                    <span className="text-green-400 font-bold">Our SaaS Answer:</span> A robust, HIPAA-style cloud matrix centralizing patient charts and keeping instant track of medical stocks live.
-                  </>
-                )}
-              </p>
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div className="flex-1">
+                  <h4 className="text-lg font-bold text-purple-400 flex items-center gap-2 font-display">
+                    <Activity className="w-5 h-5" />
+                    {isFr ? "Santé & Officines Médicales" : "Healthcare & Medical Networks"}
+                  </h4>
+                  <p className="text-gray-400 text-sm mt-1.5 leading-relaxed">
+                    {isFr ? (
+                      <>
+                        <span className="text-red-400 font-bold">Le problème :</span> Gestion des dossiers sur papier et opacité des stocks entre plusieurs cliniques ou pharmacies de garde. <br className="hidden md:inline"/>
+                        <span className="text-green-400 font-bold">La solution SaaS :</span> Un écosystème cloud hautement sécurisé pour centraliser les données patients et suivre l'état des stocks d'urgence en direct.
+                      </>
+                    ) : (
+                      <>
+                        <span className="text-red-400 font-bold">The Problem:</span> Messy paper health cards and total opacity on stocks rotating across multiple clinics or on-duty pharmacy branches. <br className="hidden md:inline"/>
+                        <span className="text-green-400 font-bold">Our SaaS Answer:</span> A robust, HIPAA-style cloud matrix centralizing patient charts and keeping instant track of medical stocks live.
+                      </>
+                    )}
+                  </p>
+                </div>
+                <div className="shrink-0 mt-2 md:mt-0">
+                  <a href="#demande-demo-express" className="inline-flex items-center gap-2 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 py-2 px-4 rounded-lg transition-colors">
+                    {isFr ? "Demander une démo" : "Request a demo"} <ArrowRight className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
             </div>
 
             <div className="border-b border-gray-800/80 pb-6 last:border-0 last:pb-0">
-              <h4 className="text-lg font-bold text-green-400 flex items-center gap-2 font-display">
-                <Building className="w-5 h-5" />
-                {isFr ? "Immobilier & Gestion Locative" : "Real Estate & Rent Collection"}
-              </h4>
-              <p className="text-gray-400 text-sm mt-1.5 leading-relaxed">
-                {isFr ? (
-                  <>
-                    <span className="text-red-400 font-bold">Le problème :</span> Retards de loyers complexes à suivre et édition manuelle fastidieuse des quittances. <br className="hidden md:inline"/>
-                    <span className="text-green-400 font-bold">La solution SaaS :</span> Relances automatisées via WhatsApp, interconnexion directe avec Wave/Orange Money, et tableau de bord de rentabilité pour les propriétaires.
-                  </>
-                ) : (
-                  <>
-                    <span className="text-red-400 font-bold">The Problem:</span> Stressful follow-ups on late rent payments and tedious manual printing of physical payment receipts. <br className="hidden md:inline"/>
-                    <span className="text-green-400 font-bold">Our SaaS Answer:</span> Automatic WhatsApp reminders, native Orange Money / Wave click-to-pay integration, and instant profitability dashboards for property owners.
-                  </>
-                )}
-              </p>
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div className="flex-1">
+                  <h4 className="text-lg font-bold text-green-400 flex items-center gap-2 font-display">
+                    <Building className="w-5 h-5" />
+                    {isFr ? "Immobilier & Gestion Locative" : "Real Estate & Rent Collection"}
+                  </h4>
+                  <p className="text-gray-400 text-sm mt-1.5 leading-relaxed">
+                    {isFr ? (
+                      <>
+                        <span className="text-red-400 font-bold">Le problème :</span> Retards de loyers complexes à suivre et édition manuelle fastidieuse des quittances. <br className="hidden md:inline"/>
+                        <span className="text-green-400 font-bold">La solution SaaS :</span> Relances automatisées via WhatsApp, interconnexion directe avec Wave/Orange Money, et tableau de bord de rentabilité pour les propriétaires.
+                      </>
+                    ) : (
+                      <>
+                        <span className="text-red-400 font-bold">The Problem:</span> Stressful follow-ups on late rent payments and tedious manual printing of physical payment receipts. <br className="hidden md:inline"/>
+                        <span className="text-green-400 font-bold">Our SaaS Answer:</span> Automatic WhatsApp reminders, native Orange Money / Wave click-to-pay integration, and instant profitability dashboards for property owners.
+                      </>
+                    )}
+                  </p>
+                </div>
+                <div className="shrink-0 mt-2 md:mt-0">
+                  <a href="#demande-demo-express" className="inline-flex items-center gap-2 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 py-2 px-4 rounded-lg transition-colors">
+                    {isFr ? "Demander une démo" : "Request a demo"} <ArrowRight className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
             </div>
 
             <div className="border-b border-gray-800/80 pb-6 last:border-0 last:pb-0">
-              <h4 className="text-lg font-bold text-yellow-400 flex items-center gap-2 font-display">
-                <GraduationCap className="w-5 h-5" />
-                {isFr ? "Écoles & Instituts de Formation" : "Schools & Academic Platforms"}
-              </h4>
-              <p className="text-gray-400 text-sm mt-1.5 leading-relaxed">
-                {isFr ? (
-                  <>
-                    <span className="text-red-400 font-bold">Le problème :</span> Mensualités impayées difficiles à recouvrir et fiches de notes éparpillées. <br className="hidden md:inline"/>
-                    <span className="text-green-400 font-bold">La solution SaaS :</span> Un portail académique centralisé qui alerte instantanément les parents par SMS/WhatsApp en cas de retard de scolarité ou d'absence.
-                  </>
-                ) : (
-                  <>
-                    <span className="text-red-400 font-bold">The Problem:</span> School tuition dues slipping through manual logs and fragmented Excel grade systems. <br className="hidden md:inline"/>
-                    <span className="text-green-400 font-bold">Our SaaS Answer:</span> Centralized student database alerting parents automatically via WhatsApp/SMS for pending tuition deadlines or sudden absences.
-                  </>
-                )}
-              </p>
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div className="flex-1">
+                  <h4 className="text-lg font-bold text-yellow-400 flex items-center gap-2 font-display">
+                    <GraduationCap className="w-5 h-5" />
+                    {isFr ? "Écoles & Instituts de Formation" : "Schools & Academic Platforms"}
+                  </h4>
+                  <p className="text-gray-400 text-sm mt-1.5 leading-relaxed">
+                    {isFr ? (
+                      <>
+                        <span className="text-red-400 font-bold">Le problème :</span> Mensualités impayées difficiles à recouvrir et fiches de notes éparpillées. <br className="hidden md:inline"/>
+                        <span className="text-green-400 font-bold">La solution SaaS :</span> Un portail académique centralisé qui alerte instantanément les parents par SMS/WhatsApp en cas de retard de scolarité ou d'absence.
+                      </>
+                    ) : (
+                      <>
+                        <span className="text-red-400 font-bold">The Problem:</span> School tuition dues slipping through manual logs and fragmented Excel grade systems. <br className="hidden md:inline"/>
+                        <span className="text-green-400 font-bold">Our SaaS Answer:</span> Centralized student database alerting parents automatically via WhatsApp/SMS for pending tuition deadlines or sudden absences.
+                      </>
+                    )}
+                  </p>
+                </div>
+                <div className="shrink-0 mt-2 md:mt-0">
+                  <a href="#demande-demo-express" className="inline-flex items-center gap-2 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 py-2 px-4 rounded-lg transition-colors">
+                    {isFr ? "Demander une démo" : "Request a demo"} <ArrowRight className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
             </div>
 
           </div>
@@ -538,13 +634,15 @@ export default function SaaSOffer() {
                           <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
                           <input 
                             type="text" 
-                            required
+                            name="fullname"
                             placeholder={isFr ? "Ex: Amadou Diop" : "e.g., Amadou Diop"}
                             value={formData.fullname}
-                            onChange={(e) => setFormData({ ...formData, fullname: e.target.value })}
-                            className="w-full bg-[#121826] border border-slate-800 rounded-lg py-2 pl-9 pr-4 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-colors"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            className={`w-full bg-[#121826] border ${errors.fullname && touched.fullname ? 'border-red-500 focus:border-red-500' : 'border-slate-800 focus:border-indigo-500'} rounded-lg py-2 pl-9 pr-4 text-sm text-white placeholder-slate-600 focus:outline-none transition-colors`}
                           />
                         </div>
+                        {errors.fullname && touched.fullname && <p className="text-red-500 text-[10px] mt-1">{errors.fullname}</p>}
                       </div>
 
                       {/* Phone input */}
@@ -556,13 +654,15 @@ export default function SaaSOffer() {
                           <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
                           <input 
                             type="tel" 
-                            required
+                            name="phone"
                             placeholder="Ex: +221 77 123 45 67"
                             value={formData.phone}
-                            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                            className="w-full bg-[#121826] border border-slate-800 rounded-lg py-2 pl-9 pr-4 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-colors"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            className={`w-full bg-[#121826] border ${errors.phone && touched.phone ? 'border-red-500 focus:border-red-500' : 'border-slate-800 focus:border-indigo-500'} rounded-lg py-2 pl-9 pr-4 text-sm text-white placeholder-slate-600 focus:outline-none transition-colors`}
                           />
                         </div>
+                        {errors.phone && touched.phone && <p className="text-red-500 text-[10px] mt-1">{errors.phone}</p>}
                       </div>
                     </div>
 
@@ -576,12 +676,15 @@ export default function SaaSOffer() {
                           <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
                           <input 
                             type="email" 
+                            name="email"
                             placeholder="Ex: contact@entreprise.sn"
                             value={formData.email}
-                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                            className="w-full bg-[#121826] border border-slate-800 rounded-lg py-2 pl-9 pr-4 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-colors"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            className={`w-full bg-[#121826] border ${errors.email && touched.email ? 'border-red-500 focus:border-red-500' : 'border-slate-800 focus:border-indigo-500'} rounded-lg py-2 pl-9 pr-4 text-sm text-white placeholder-slate-600 focus:outline-none transition-colors`}
                           />
                         </div>
+                        {errors.email && touched.email && <p className="text-red-500 text-[10px] mt-1">{errors.email}</p>}
                       </div>
 
                       {/* Sector dropdown */}
@@ -590,8 +693,9 @@ export default function SaaSOffer() {
                           {isFr ? "Secteur d'Activité" : "Industry / Sector"}
                         </label>
                         <select 
+                          name="sector"
                           value={formData.sector}
-                          onChange={(e) => setFormData({ ...formData, sector: e.target.value })}
+                          onChange={handleChange}
                           className="w-full bg-[#121826] border border-slate-800 rounded-lg py-2 px-3 text-sm text-slate-300 focus:outline-none focus:border-indigo-500 transition-colors"
                         >
                           {isFr ? (
@@ -625,10 +729,11 @@ export default function SaaSOffer() {
                         {isFr ? "Décrivez brièvement votre besoin" : "Briefly describe your requirements"}
                       </label>
                       <textarea 
+                        name="projectDesc"
                         rows={2}
                         placeholder={isFr ? "Ex: Automatiser la gestion locative avec relance par WhatsApp et Wave..." : "e.g., Automate rent collection via WhatsApp and Wave payments..."}
                         value={formData.projectDesc}
-                        onChange={(e) => setFormData({ ...formData, projectDesc: e.target.value })}
+                        onChange={handleChange}
                         className="w-full bg-[#121826] border border-slate-800 rounded-lg py-2 px-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-colors resize-none"
                       />
                     </div>

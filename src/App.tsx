@@ -13,10 +13,12 @@ import ProjectEstimator from './components/ProjectEstimator';
 import SaaSOffer from './components/SaaSOffer';
 import ContactFooter from './components/ContactFooter';
 import WhatsAppWidget from './components/WhatsAppWidget';
+import ChatbotWidget from './components/ChatbotWidget';
 import Approaches from './components/Approaches';
 import Technologies from './components/Technologies';
 import BackToTop from './components/BackToTop';
 import SEO from './components/SEO';
+import SeoAnalyzer from './components/SeoAnalyzer';
 import { useSectionObserver } from './hooks/useSectionObserver';
 
 const LazyFAQ = lazy(() => import('./components/FAQ'));
@@ -96,7 +98,9 @@ export default function App() {
 
       <ContactFooter />
       <WhatsAppWidget />
+      <ChatbotWidget />
       <BackToTop />
+      <SeoAnalyzer />
     </div>
   );
 }
