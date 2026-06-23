@@ -73,10 +73,10 @@ export default function Services() {
     },
     {
       icon: <Globe size={32} className="text-violet-400" />,
-      title: isFr ? 'Sites Web & Applications Mobiles' : 'Websites & Mobile Applications',
+      title: isFr ? 'Conception de Sites & Applications Web' : 'Web Design & Web Applications',
       description: isFr 
-        ? 'Des plateformes performantes, sécurisées et adaptées à tous les écrans (iOS, Android, Web).'
-        : 'High-performance, secure, and fully responsive platforms designed for all screens (iOS, Android, Web).',
+        ? 'Design d\'interfaces modernes (UI/UX) et développement de plateformes web réactives, fluides et sécurisées.'
+        : 'Modern interface design (UI/UX) and development of highly responsive, smooth, and secure web platforms.',
       category: isFr ? 'Développement' : 'Development',
     },
     {
@@ -130,8 +130,8 @@ export default function Services() {
     <section 
       id="services" 
       data-seo-title={isFr ? "Nos Services | HardSoft Technologies" : "Our Services | HardSoft Technologies"} 
-      data-seo-description={isFr ? "Développement sur-mesure, automatisation n8n, création de sites web et applications mobiles." : "Bespoke development, n8n automations, website coding and cross-platform mobile apps."} 
-      className="py-24 relative overflow-hidden"
+      data-seo-description={isFr ? "Expertise en conception de sites et d'applications web, automatisation n8n et logiciels sur mesure." : "Expertise in web design, web applications, n8n automations, and bespoke software development."} 
+      className="py-24 relative overflow-hidden scroll-mt-24"
     >
       <div className="max-w-7xl 2xl:max-w-[1400px] 3xl:max-w-[1600px] mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-12">
@@ -140,8 +140,8 @@ export default function Services() {
           </h2>
           <p className="text-slate-600 dark:text-slate-400 text-base md:text-lg 2xl:text-xl">
             {isFr 
-              ? "Un accompagnement complet pour digitaliser, automatiser et propulser votre activité."
-              : "End-to-end consulting and implementation to digitize, automate and accelerate your business growth."}
+              ? "Notre expertise en conception de sites et d'applications web au service de votre réussite digitale."
+              : "Our expertise in web design and web applications dedicated to your digital success."}
           </p>
         </div>
 

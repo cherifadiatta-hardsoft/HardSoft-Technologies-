@@ -220,7 +220,7 @@ export default function ContactFooter() {
   };
 
   return (
-    <footer id="contact" className="bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 pt-24 pb-8">
+    <footer id="contact" className="bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 pt-24 pb-8 scroll-mt-24">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex flex-col gap-16 mb-24">
           

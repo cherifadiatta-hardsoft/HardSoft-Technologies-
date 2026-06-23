@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Code2, Moon, Sun, Search, Languages, WifiOff, Home, Cpu, Store, GraduationCap, Briefcase, User, HelpCircle, Phone } from 'lucide-react';
+import { Menu, X, Code2, Moon, Sun, Search, Languages, WifiOff, Home, Cpu, Store, GraduationCap, Briefcase, User, HelpCircle, Phone, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useSpring } from 'motion/react';
 import { useTheme } from './ThemeProvider';
 import { useLanguage } from './LanguageProvider';
@@ -8,6 +8,7 @@ import { useSectionObserver } from '../hooks/useSectionObserver';
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [secondaryMenuOpen, setSecondaryMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [isOnline, setIsOnline] = useState(typeof navigator !== 'undefined' ? navigator.onLine : true);
   const { theme, toggleTheme } = useTheme();
@@ -43,39 +44,36 @@ export default function Header() {
     };
   }, []);
 
-  const navLinks = [
-    { name: t('nav.accueil'), href: '#accueil', icon: Home },
+  const mainNavLinks = [
     { name: t('nav.services'), href: '#services', icon: Cpu },
     { name: t('nav.pos'), href: '#pos', icon: Store },
     { name: t('nav.formations'), href: '#formations', icon: GraduationCap },
     { name: t('nav.portfolio'), href: '#portfolio', icon: Briefcase },
+  ];
+
+  const secondaryNavLinks = [
     { name: t('nav.apropos'), href: '#about', icon: User },
     { name: t('nav.faq'), href: '#faq', icon: HelpCircle },
-    { name: t('nav.contact'), href: '#contact', icon: Phone },
   ];
+
+  const allLinks = [...mainNavLinks, ...secondaryNavLinks, { name: t('nav.contact'), href: '#contact', icon: Phone }];
 
   useEffect(() => {
     if (activeSection) {
-      const idx = navLinks.findIndex(link => link.href === `#${activeSection.id}`);
-      if (idx !== -1) {
-        setActiveIdx(idx);
-      }
+      const idx = mainNavLinks.findIndex(link => link.href === `#${activeSection.id}`);
+      if (idx !== -1) setActiveIdx(idx);
     } else if (typeof window !== 'undefined') {
       const currentHash = window.location.hash;
-      const idx = navLinks.findIndex(link => link.href === currentHash);
-      if (idx !== -1) {
-        setActiveIdx(idx);
-      }
+      const idx = mainNavLinks.findIndex(link => link.href === currentHash);
+      if (idx !== -1) setActiveIdx(idx);
     }
-  }, [activeSection]);
+  }, [activeSection, mainNavLinks]);
 
-  const filteredLinks = searchQuery ? navLinks.filter(link => link.name.toLowerCase().includes(searchQuery.toLowerCase())) : [];
+  const filteredLinks = searchQuery ? allLinks.filter(link => link.name.toLowerCase().includes(searchQuery.toLowerCase())) : [];
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-white dark:bg-slate-950/80 backdrop-blur-md border-b border-white/10' : 'bg-transparent'
-      }`}
+      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 px-4`}
     >
       {/* Offline Banner */}
       <AnimatePresence>
@@ -84,9 +82,9 @@ export default function Header() {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="bg-red-500 text-white overflow-hidden"
+            className="w-full bg-red-500 text-white overflow-hidden shadow-md rounded-t-lg mt-2 max-w-5xl mx-auto"
           >
-            <div className="max-w-7xl mx-auto px-6 py-2 flex items-center justify-center gap-2 text-sm font-medium">
+            <div className="px-6 py-1.5 flex items-center justify-center gap-2 text-sm font-medium">
               <WifiOff size={16} />
               <span>{t('network.offline')}</span>
             </div>
@@ -94,58 +92,46 @@ export default function Header() {
         )}
       </AnimatePresence>
 
-      <div className={`max-w-[1400px] mx-auto px-4 sm:px-6 flex items-center justify-between transition-all duration-300 ${isScrolled ? 'h-20' : 'h-24'}`}>
+      <div className={`max-w-[1400px] mx-auto w-full px-4 sm:px-6 flex items-center justify-between transition-all duration-300 bg-white/80 dark:bg-slate-900/80 backdrop-blur-3xl border border-slate-200/60 dark:border-slate-800/80 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.08)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.3)] ${isScrolled ? 'h-[64px] mt-2 lg:mt-3' : 'h-[72px] mt-4 lg:mt-6'}`}>
         {/* Logo */}
-        <a href="#accueil" className="flex items-center gap-2 sm:gap-2.5 group shrink-0">
-          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-indigo-600 flex items-center justify-center text-white group-hover:scale-105 transition-transform shadow-md">
-            <Code2 size={18} className="sm:size-5 text-white" />
+        <a href="#accueil" className="flex items-center gap-2 sm:gap-3 group shrink-0 ml-1">
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white group-hover:scale-105 transition-transform shadow-md">
+            <Code2 size={24} className="text-white" />
           </div>
           <div className="flex flex-col">
-            <span className="text-sm sm:text-lg font-black tracking-tight text-slate-900 dark:text-white leading-none">
+            <span className="text-lg font-black tracking-tight text-slate-900 dark:text-white leading-none">
               HardSoft
             </span>
-            <span className="text-[9px] sm:text-[11px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 leading-none mt-0.5 sm:mt-1">
+            <span className="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400 leading-none mt-1">
               Technologies
             </span>
           </div>
         </a>
 
-        {/* Desktop Primary Nav: Magical Liquid Tab Bar */}
-        <nav className="hidden xl:flex items-center relative py-2 pt-4">
-          <div className="relative bg-slate-100/90 dark:bg-slate-900/95 border border-slate-200/50 dark:border-slate-800/80 rounded-full flex items-center justify-center shadow-lg h-[56px] w-[660px] px-2 transition-all duration-300">
-            <ul className="relative flex items-center justify-between w-full h-full">
-              {navLinks.map((link, idx) => {
+        {/* Desktop Primary Nav: Dynamic Clean Links */}
+        <nav className="hidden xl:flex items-center relative py-2 mx-4 flex-1 justify-center">
+          <div className="relative flex items-center justify-center h-full">
+            <ul className="relative flex items-center w-full h-full p-1 bg-slate-100/50 dark:bg-slate-800/50 border border-slate-200/50 dark:border-slate-700/50 rounded-full">
+              {mainNavLinks.map((link, idx) => {
                 const isActive = idx === activeIdx;
-                const IconComponent = link.icon;
-                const isContact = link.href === '#contact';
                 return (
-                  <li key={link.name} className="relative z-10 flex-1 h-full flex items-center justify-center">
+                  <li key={link.name} className="relative z-10 px-1.5 sm:px-3">
+                    {isActive && (
+                      <motion.div
+                        layoutId="navPill"
+                        className="absolute inset-0 bg-white dark:bg-slate-700 shadow-sm rounded-full"
+                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                      />
+                    )}
                     <a
                       href={link.href}
                       onClick={() => setActiveIdx(idx)}
-                      className="relative flex flex-col items-center justify-center w-full h-full text-center text-decoration-none group cursor-pointer"
+                      className="relative z-20 px-1 py-1.5 flex items-center justify-center w-full h-full text-center group cursor-pointer transition-colors"
                     >
-                      {/* Active raised icon or inactive centered icon */}
-                      <span className={`absolute flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.25,1.15,0.45,1.02)] ${
+                      <span className={`whitespace-nowrap font-sans uppercase tracking-wider transition-all duration-300 ${
                         isActive 
-                          ? 'text-white -translate-y-[26px] scale-110 z-20' 
-                          : isContact
-                            ? 'text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 translate-y-0 scale-100 font-extrabold'
-                            : 'text-slate-650 dark:text-slate-350 hover:text-indigo-600 dark:hover:text-indigo-400 translate-y-0 scale-100'
-                      }`}>
-                        {isContact && !isActive && (
-                          <span className="absolute -inset-2 rounded-full bg-indigo-500/15 dark:bg-indigo-400/10 animate-pulse border border-indigo-500/30 dark:border-indigo-400/20" />
-                        )}
-                        <IconComponent size={isActive ? 18 : 16} />
-                      </span>
-                      
-                      {/* Slid-up navigation item title */}
-                      <span className={`absolute whitespace-nowrap text-[8.5px] font-extrabold uppercase tracking-widest transition-all duration-500 font-sans ${
-                        isActive 
-                          ? 'opacity-100 translate-y-[14px] text-indigo-600 dark:text-indigo-400 font-extrabold' 
-                          : isContact
-                            ? 'opacity-90 translate-y-[18px] text-indigo-600 dark:text-indigo-400 text-[7px] font-extrabold'
-                            : 'opacity-0 translate-y-[24px] text-transparent'
+                          ? 'text-indigo-600 dark:text-indigo-400 text-[11px] font-black' 
+                          : 'text-slate-500 dark:text-slate-400 text-[10px] sm:text-[11px] font-bold group-hover:text-slate-900 dark:group-hover:text-slate-100'
                       }`}>
                         {link.name}
                       </span>
@@ -153,20 +139,25 @@ export default function Header() {
                   </li>
                 );
               })}
-              
-              {/* Dynamic Fluid Liquid Background Circle */}
-              <div 
-                className="absolute top-[-21px] w-[46px] h-[46px] rounded-full border-[4px] border-white dark:border-slate-950 transition-all duration-500 ease-[cubic-bezier(0.25,1.15,0.45,1.02)] shadow-lg bg-gradient-to-tr from-indigo-600 to-indigo-505 dark:from-indigo-500 dark:to-cyan-400"
-                style={{
-                  left: `calc((${activeIdx} * (100% / 8)) + ((100% / 8 - 46px) / 2))`,
-                }}
-              />
             </ul>
           </div>
         </nav>
 
         {/* Utilities & Search (Desktop) */}
-        <div className="hidden xl:flex items-center gap-3">
+        <div className="hidden xl:flex items-center justify-end gap-3 shrink-0 mr-1">
+          {/* Secondary Links */}
+          <div className="hidden xl:flex items-center gap-1 mr-2">
+            {secondaryNavLinks.map((link) => (
+              <a
+                key={link.name}
+                href={link.href}
+                className="px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white rounded-lg transition-colors"
+              >
+                {link.name}
+              </a>
+            ))}
+          </div>
+          <div className="hidden xl:block w-px h-6 bg-slate-200 dark:bg-slate-700 mx-1" />
           <div className="relative">
             <div className="flex items-center">
               <Search className="absolute left-2.5 w-3.5 h-3.5 text-slate-400" />
@@ -175,12 +166,12 @@ export default function Header() {
                 placeholder={t('search.placeholder')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-36 2xl:w-44 pl-8 pr-3 py-1.5 bg-slate-100/80 dark:bg-slate-800/80 border border-transparent rounded-full text-xs focus:ring-2 focus:ring-indigo-500 focus:bg-white dark:focus:bg-slate-900 text-slate-900 dark:text-white outline-none transition-all"
+                className="w-36 lg:w-44 pl-8 pr-3 py-1.5 bg-slate-100/80 dark:bg-slate-800/80 border border-transparent rounded-full text-xs focus:ring-2 focus:ring-indigo-500 focus:bg-white dark:focus:bg-slate-900 text-slate-900 dark:text-white outline-none transition-all"
               />
             </div>
             
             {searchQuery && (
-              <div className="absolute top-full mt-2 w-full bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-100 dark:border-slate-700 py-2 flex flex-col z-50">
+              <div className="absolute top-full right-0 mt-2 w-48 bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-100 dark:border-slate-700 py-2 flex flex-col z-50">
                 {filteredLinks.length > 0 ? (
                   filteredLinks.map((link) => (
                     <a
@@ -199,50 +190,38 @@ export default function Header() {
             )}
           </div>
 
-          <div className="h-4 w-px bg-slate-200 dark:bg-slate-700 mx-1"></div>
+          <div className="flex items-center bg-slate-100/50 dark:bg-slate-800/50 rounded-full border border-slate-200/50 dark:border-slate-700/50 p-0.5">
+            <button
+              onClick={toggleLanguage}
+              className="flex items-center justify-center p-1.5 rounded-full text-slate-600 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-700 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+              title={language === 'fr' ? 'Passer en anglais' : 'Switch to French'}
+            >
+              <Languages size={14} />
+              <span className="ml-1 text-[9px] font-bold uppercase">{language}</span>
+            </button>
 
-          <button
-            onClick={toggleLanguage}
-            className="flex items-center justify-center p-1.5 rounded-full text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-            aria-label="Changer de langue"
-            title={language === 'fr' ? 'Passer en anglais' : 'Switch to French'}
-          >
-            <Languages size={16} />
-            <span className="ml-1 text-[10px] font-bold uppercase">{language}</span>
-          </button>
+            <div className="w-px h-3 bg-slate-200 dark:bg-slate-700 mx-0.5"></div>
 
-          <button
-            onClick={toggleTheme}
-            className="flex items-center justify-center p-1.5 rounded-full text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-            aria-label="Basculer le thème"
-          >
-            {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
-          </button>
-
+            <button
+              onClick={toggleTheme}
+              className="flex items-center justify-center p-1.5 rounded-full text-slate-600 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-700 hover:text-amber-500 dark:hover:text-amber-400 transition-colors"
+              aria-label="Basculer le thème"
+            >
+              {theme === 'dark' ? <Sun size={14} /> : <Moon size={14} />}
+            </button>
+          </div>
+          
           <a
             href="#contact"
-            className="relative ml-2 flex items-center gap-1.5 px-4.5 py-1.5 bg-gradient-to-r from-indigo-600 to-cyan-500 dark:from-indigo-500 dark:to-cyan-400 text-white text-xs font-bold rounded-full transition-all duration-300 shadow-[0_0_12px_rgba(79,70,229,0.25)] hover:shadow-[0_0_18px_rgba(79,70,229,0.5)] hover:scale-105 active:scale-98 whitespace-nowrap group"
+            className="flex items-center gap-1.5 px-4 py-1.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 border border-slate-800 dark:border-slate-200 hover:bg-slate-800 dark:hover:bg-slate-100 text-[11px] font-bold rounded-full transition-transform hover:scale-105 active:scale-95 group shrink-0 shadow-sm"
           >
-            {/* Pulsating back ring wave for immediate visual notice */}
-            <span className="absolute inset-0 rounded-full border border-indigo-500/55 dark:border-indigo-400/55 animate-[ping_1.8s_cubic-bezier(0,0,0.2,1)_infinite] opacity-60 pointer-events-none" />
-            
-            <Phone size={13} className="animate-wiggle group-hover:rotate-12 transition-transform" />
+            <Phone size={12} className="group-hover:rotate-12 transition-transform" />
             <span>{t('nav.contact')}</span>
           </a>
         </div>
 
         {/* Mobile Menu Toggle */}
         <div className="flex xl:hidden items-center gap-4">
-          <div className="flex xl:hidden items-center gap-1 sm:gap-2">
-            <button
-              onClick={toggleLanguage}
-              className="px-2 sm:px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-bold text-[10px] sm:text-xs uppercase hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors flex items-center gap-1.5"
-            >
-              <Languages size={14} />
-              <span>{language}</span>
-            </button>
-          </div>
-          
           <button
             className="p-1.5 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:text-white rounded-lg"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -252,6 +231,8 @@ export default function Header() {
           </button>
         </div>
       </div>
+
+
 
       {/* Mobile Nav Menu */}
       <AnimatePresence>
@@ -264,75 +245,124 @@ export default function Header() {
           >
             <nav className="flex flex-col p-6 gap-2">
               
-              {/* Mobile Utilities (Lang & Theme) */}
-              <div className="flex items-center justify-between mb-4 pb-4 border-b border-slate-200 dark:border-slate-800">
-                <button
-                  onClick={toggleLanguage}
-                  className="px-4 py-2 rounded-md bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-400 font-bold text-sm uppercase transition-colors flex items-center gap-2"
-                  aria-label="Changer de langue"
-                >
-                  <Languages size={18} />
-                  {language === 'fr' ? 'Français' : 'English'}
-                </button>
-
-                <button
-                  onClick={toggleTheme}
-                  className="p-2.5 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors"
-                  aria-label="Basculer le thème"
-                >
-                  {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
-                </button>
-              </div>
-
-              <div className="relative mb-2">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                <input
-                  type="text"
-                  placeholder={t('search.placeholder')}
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-base focus:ring-2 focus:ring-indigo-500 text-slate-900 dark:text-white"
-                />
-                {searchQuery && (
-                  <div className="absolute top-full mt-2 w-full bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-100 dark:border-slate-700 py-2 flex flex-col z-50 overflow-hidden">
-                    {filteredLinks.length > 0 ? (
-                      filteredLinks.map((link) => (
-                        <a
-                          key={link.name}
-                          href={link.href}
-                          onClick={() => {
-                            setSearchQuery('');
-                            setMobileMenuOpen(false);
-                          }}
-                          className="px-4 py-3 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 border-b border-slate-100 dark:border-slate-700 last:border-0"
-                        >
-                          {link.name}
-                        </a>
-                      ))
-                    ) : (
-                      <span className="px-4 py-3 text-sm text-slate-500">{t('search.no_results')}</span>
-                    )}
-                  </div>
-                )}
-              </div>
-
-              {navLinks.map((link) => (
+              {mainNavLinks.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}
-                  className="text-lg font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:text-white py-2"
+                  className="text-lg font-medium text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 py-3 px-4 rounded-xl transition-all"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {link.name}
                 </a>
               ))}
-              <a
-                href="#contact"
-                className="mt-4 px-6 py-3 bg-indigo-600 text-white text-center font-semibold rounded-lg hover:bg-indigo-700 transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {language === 'fr' ? 'Demander un devis' : 'Get a free quote'}
-              </a>
+
+              {/* Accordion for Secondary Links */}
+              <div className="flex flex-col rounded-xl overflow-hidden mt-1">
+                <button
+                  onClick={() => setSecondaryMenuOpen(!secondaryMenuOpen)}
+                  className="flex items-center justify-between text-lg font-medium text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 py-3 px-4 rounded-xl transition-all"
+                >
+                  <span>{t('nav.plus') || 'Plus'}</span>
+                  <ChevronDown size={20} className={`transition-transform duration-300 ${secondaryMenuOpen ? 'rotate-180' : ''}`} />
+                </button>
+                <AnimatePresence>
+                  {secondaryMenuOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      className="overflow-hidden bg-slate-100/50 dark:bg-slate-800/30 rounded-b-xl px-2"
+                    >
+                      <div className="flex flex-col py-2 gap-1">
+                         {secondaryNavLinks.map((link) => (
+                          <a
+                            key={link.name}
+                            href={link.href}
+                            className="text-base font-medium text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-200/50 dark:hover:bg-slate-700/50 py-2.5 px-4 rounded-lg transition-all"
+                            onClick={() => setMobileMenuOpen(false)}
+                          >
+                            {link.name}
+                          </a>
+                        ))}
+                        <a
+                           href="#contact"
+                           className="text-base font-medium text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-500/10 py-2.5 px-4 rounded-lg transition-all"
+                           onClick={() => setMobileMenuOpen(false)}
+                        >
+                           {t('nav.contact')}
+                        </a>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              {/* Ergonomic Bottom Utilities Menu (Mobile) */}
+              <div className="mt-4 pt-6 border-t border-slate-200 dark:border-slate-800 flex flex-col gap-4">
+                
+                <div className="relative">
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                  <input
+                    type="text"
+                    placeholder={t('search.placeholder')}
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full pl-12 pr-4 py-3.5 bg-slate-100 dark:bg-slate-800 border border-transparent rounded-2xl text-base focus:ring-2 focus:ring-indigo-500 focus:bg-white dark:focus:bg-[#0f172a] text-slate-900 dark:text-white transition-all shadow-inner"
+                  />
+                  {searchQuery && (
+                    <div className="absolute bottom-full mb-2 w-full bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-100 dark:border-slate-700 py-2 flex flex-col z-50 overflow-hidden">
+                      {filteredLinks.length > 0 ? (
+                        filteredLinks.map((link) => (
+                          <a
+                            key={link.name}
+                            href={link.href}
+                            onClick={() => {
+                              setSearchQuery('');
+                              setMobileMenuOpen(false);
+                            }}
+                            className="px-5 py-3 text-sm text-slate-700 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-slate-700 transition-colors border-b border-slate-100 dark:border-slate-800/50 last:border-0"
+                          >
+                            {link.name}
+                          </a>
+                        ))
+                      ) : (
+                        <span className="px-5 py-3 text-sm text-slate-500">{t('search.no_results')}</span>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 p-1.5 rounded-full border border-slate-200/50 dark:border-slate-700/50">
+                    <button
+                      onClick={toggleLanguage}
+                      className="px-4 py-2 rounded-full bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 font-black text-xs uppercase shadow-sm flex items-center gap-2 border border-slate-200/50 dark:border-slate-600/50"
+                      aria-label="Changer de langue"
+                    >
+                      <Languages size={16} />
+                      {language === 'fr' ? 'Français' : 'English'}
+                    </button>
+
+                    <button
+                      onClick={toggleTheme}
+                      className="p-2.5 rounded-full bg-amber-50 dark:bg-amber-500/10 text-amber-500 hover:scale-105 transition-all text-slate-700 dark:text-slate-300"
+                      aria-label="Basculer le thème"
+                    >
+                      {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+                    </button>
+                  </div>
+                </div>
+
+                <a
+                  href="#contact"
+                  className="mt-2 flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-black tracking-wide rounded-2xl hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-emerald-500/20"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <Phone size={18} className="animate-wiggle" />
+                  {language === 'fr' ? 'Demander un devis' : 'Get a free quote'}
+                </a>
+
+              </div>
             </nav>
           </motion.div>
         )}

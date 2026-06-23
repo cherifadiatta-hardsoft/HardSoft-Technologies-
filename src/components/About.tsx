@@ -253,7 +253,7 @@ export default function About() {
       id="about" 
       data-seo-title="À Propos | HardSoft Technologies" 
       data-seo-description="Fondée en 2017 à Dakar, HardSoft Technologies est une entreprise d'ingénierie logicielle dédiée à la construction d'éco-systèmes applicatifs sur mesure de classe mondiale." 
-      className="py-24 lg:py-32 bg-white dark:bg-slate-950 relative overflow-hidden"
+      className="py-24 lg:py-32 bg-white dark:bg-slate-950 relative overflow-hidden scroll-mt-24"
     >
       {/* Background Gradients */}
       <div className="absolute top-1/4 left-0 w-[500px] h-[500px] bg-indigo-500/5 dark:bg-indigo-550/10 rounded-full blur-3xl -z-10 pointer-events-none"></div>

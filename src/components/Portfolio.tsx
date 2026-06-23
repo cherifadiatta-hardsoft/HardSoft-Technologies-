@@ -441,7 +441,7 @@ export default function Portfolio() {
       id="portfolio" 
       data-seo-title={isFr ? "Nos Réalisations | HardSoft Technologies" : "Our Projects Portfolio | HardSoft Technologies"} 
       data-seo-description={isFr ? "Découvrez nos projets : sites web, applications SaaS et plateformes développées pour nos clients." : "Discover our enterprise projects and premium custom SaaS ecosystems."} 
-      className="py-24 bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800"
+      className="py-16 md:py-20 bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 scroll-mt-24"
     >
       {/* Absolute Dynamic Metadata injection inside React Tree */}
       <AnimatePresence>

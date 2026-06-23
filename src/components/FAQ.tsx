@@ -72,7 +72,6 @@ export default function FAQ() {
 
   return (
     <section 
-      id="faq" 
       data-seo-title={isFr ? "Foire Aux Questions | HardSoft Technologies" : "Frequently Asked Questions | HardSoft Technologies"} 
       data-seo-description={isFr ? "Trouvez des réponses concernant nos tarifs, processus de développement et méthodes de travail." : "Find responses regarding our project pricing, streamlined workflows, and collaboration processes."}
       className="py-24 bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 relative z-10"

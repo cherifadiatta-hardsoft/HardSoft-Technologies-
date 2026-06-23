@@ -44,13 +44,13 @@ function FAQSection() {
   }, []);
 
   return (
-    <div ref={ref}>
+    <div ref={ref} id="faq" className="scroll-mt-24">
       {isInView ? (
-        <Suspense fallback={<div className="py-24 text-center text-slate-500">Chargement de la FAQ...</div>}>
+        <Suspense fallback={<div className="py-24 text-center text-slate-500 min-h-[400px] flex items-center justify-center">Chargement de la FAQ...</div>}>
           <LazyFAQ />
         </Suspense>
       ) : (
-        <div className="py-24" />
+        <div className="py-24 min-h-[400px]" />
       )}
     </div>
   );

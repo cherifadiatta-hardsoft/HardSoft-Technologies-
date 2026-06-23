@@ -17,7 +17,7 @@ export default function POS() {
       id="pos" 
       data-seo-title={isFr ? "Solution POS & Caisse Enregistreuse | HardSoft Technologies" : "POS Solution & Cash Registers | HardSoft Technologies"} 
       data-seo-description={isFr ? "Simplifiez la gestion de votre point de vente, gérez les stocks et analysez vos ventes en temps réel." : "Simplify point of sale management, oversee inventory, and optimize real-time receipts."} 
-      className="py-24 bg-slate-50 dark:bg-slate-900"
+      className="py-24 bg-slate-50 dark:bg-slate-900 scroll-mt-24"
     >
       <div className="max-w-7xl 2xl:max-w-[1400px] 3xl:max-w-[1600px] mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-16 2xl:gap-24 items-center">

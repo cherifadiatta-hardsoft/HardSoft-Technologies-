@@ -2,10 +2,12 @@ import { motion } from 'motion/react';
 import { ArrowRight, Terminal, MessageCircle } from 'lucide-react';
 import { WHATSAPP_URL } from '../config';
 import { useLanguage } from './LanguageProvider';
+import { useSectionObserver } from '../hooks/useSectionObserver';
 
 export default function Hero() {
   const { language } = useLanguage();
   const isFr = language === 'fr';
+  const activeSection = useSectionObserver();
 
   return (
     <section 
@@ -22,73 +24,12 @@ export default function Hero() {
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] -z-10 [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
 
       <div className="max-w-7xl 2xl:max-w-[1400px] 3xl:max-w-[1600px] mx-auto px-6 grid lg:grid-cols-2 gap-12 2xl:gap-20 items-center">
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="max-w-2xl"
-        >
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-650 dark:text-indigo-300 text-xs sm:text-sm font-semibold mb-6 tracking-wide">
-            <Terminal size={14} className="sm:w-4 sm:h-4 text-indigo-500" />
-            <span>{isFr ? "Digitalisation & Logiciel sur mesure" : "Custom Software & Digitalization"}</span>
-          </div>
-          <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl 2xl:text-8xl font-bold tracking-tight mb-6 leading-[1.1] text-slate-900 dark:text-white">
-            {isFr ? (
-              <>Propulsez votre entreprise grâce au <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-violet-500 dark:from-indigo-400 dark:to-violet-400">digital sur mesure.</span></>
-            ) : (
-              <>Propel your business with <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-violet-500 dark:from-indigo-400 dark:to-violet-400">tailored digital solutions.</span></>
-            )}
-          </h1>
-          <p className="text-base sm:text-lg 2xl:text-xl text-slate-600 dark:text-slate-400 mb-10 leading-relaxed max-w-xl 2xl:max-w-2xl">
-            {isFr 
-              ? "De la création de votre site web à l'automatisation de vos processus, HardSoft Technologies conçoit les solutions logicielles qui feront grandir votre activité."
-              : "From creating your website to automating your internal business processes, HardSoft Technologies designs software that scales your operations."}
-          </p>
-
-          <div className="flex flex-col sm:flex-row flex-wrap gap-4 2xl:gap-6">
-            <a
-              href="#services"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 2xl:px-10 2xl:py-5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-full transition-all duration-300 shadow-lg shadow-indigo-600/25 hover:shadow-indigo-600/40 transform hover:-translate-y-0.5 group shrink-0 text-sm sm:text-base"
-            >
-              <span className="whitespace-nowrap">{isFr ? "Découvrir nos services" : "Discover our services"}</span>
-              <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform shrink-0" />
-            </a>
-            <a
-              href={WHATSAPP_URL}
-              target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 2xl:px-10 2xl:py-5 bg-[#25D366]/10 hover:bg-[#25D366]/20 text-[#25D366] font-bold rounded-full border border-[#25D366]/30 transition-all duration-300 transform hover:-translate-y-0.5 group shrink-0 text-sm sm:text-base"
-            >
-              <MessageCircle size={20} className="shrink-0" />
-              <span className="whitespace-nowrap">{isFr ? "Demander un devis sur WhatsApp" : "Request a quote on WhatsApp"}</span>
-            </a>
-          </div>
-
-          {/* Core Trust Validation indicators directly matching real user local parameters */}
-          <div className="mt-8 pt-8 border-t border-slate-200/50 dark:border-slate-800/50 flex flex-wrap items-center gap-6 text-xs sm:text-sm text-slate-500 dark:text-slate-400">
-            <div className="flex items-center gap-1.5">
-              <span className="flex h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="font-semibold text-slate-700 dark:text-slate-350">
-                {isFr ? "✓ Devis & Audit technique gratuits" : "✓ Free Tech Audit & Quote"}
-              </span>
-            </div>
-            <div className="flex items-center gap-1">
-              <span className="text-yellow-405 font-bold">⭐ 4.9/5</span>
-              <span>{isFr ? "parmi 50+ clients d'Afrique de l'Ouest" : "rating across 50+ West African clients"}</span>
-            </div>
-            <div className="hidden sm:inline-block border-l border-slate-305 dark:border-slate-800 h-4" />
-            <div className="hidden sm:block">
-              <span className="font-mono bg-indigo-50 dark:bg-slate-900 border border-indigo-100/40 dark:border-slate-800 px-2.5 py-1 rounded text-xs text-indigo-600 dark:text-indigo-400">
-                {isFr ? "🚀 Projets livrés sous 14-45j" : "🚀 Delivered within 14-45d"}
-              </span>
-            </div>
-          </div>
-        </motion.div>
-
+        {/* Scaled and Centered Abstract Tech Illustration */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="relative hidden lg:block"
+          className="relative hidden lg:block order-1"
         >
           {/* Abstract Tech Illustration Placeholder with floating labels and cards */}
           <div className="relative w-full aspect-square max-w-md 2xl:max-w-lg 3xl:max-w-xl mx-auto">
@@ -148,6 +89,70 @@ export default function Hero() {
                   {isFr ? "// Propulsé avec succès vers le cloud" : "// Sucessfully deployed to AWS & Cloud Run"}
                 </p>
               </div>
+            </div>
+          </div>
+        </motion.div>
+
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="w-full max-w-2xl flex flex-col items-start text-left lg:order-2 order-1"
+        >
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-650 dark:text-indigo-300 text-xs sm:text-sm font-semibold mb-6 tracking-wide">
+            <Terminal size={14} className="shrink-0 text-indigo-500" />
+            <span>{isFr ? "Digitalisation & Logiciel sur mesure" : "Custom Software & Digitalization"}</span>
+          </div>
+
+          <h1 className="font-display text-4xl sm:text-5xl lg:text-5xl 2xl:text-6xl font-bold tracking-tight mb-6 leading-[1.15] text-slate-900 dark:text-white">
+            {isFr ? (
+              <>Propulsez votre entreprise grâce au <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-violet-500 dark:from-indigo-400 dark:to-violet-400">digital.</span></>
+            ) : (
+              <>Propel your business with <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-violet-500 dark:from-indigo-400 dark:to-violet-400">digital solutions.</span></>
+            )}
+          </h1>
+          
+          <p className="text-base sm:text-lg 2xl:text-xl text-slate-600 dark:text-slate-400 mb-8 leading-relaxed max-w-xl">
+            {isFr 
+              ? "Conception de sites web et d'applications web sur mesure pour propulser votre entreprise."
+              : "Expert web design and custom web applications to propel your business forward."}
+          </p>
+
+          <div className="flex flex-col sm:flex-row flex-wrap items-start sm:items-center gap-4 w-full">
+            <a
+              href="#services"
+              className="inline-flex items-center justify-center gap-2 px-6 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-full transition-all duration-300 shadow-lg shadow-indigo-600/25 hover:shadow-indigo-600/40 transform hover:-translate-y-0.5 group text-sm w-full sm:w-auto"
+            >
+              <span>{isFr ? "Découvrir nos services" : "Discover services"}</span>
+              <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform shrink-0" />
+            </a>
+            <a
+              href={WHATSAPP_URL}
+              target="_blank" rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 px-6 py-4 bg-[#25D366]/10 hover:bg-[#25D366]/20 text-[#25D366] font-bold rounded-full border border-[#25D366]/30 transition-all duration-300 transform hover:-translate-y-0.5 group text-sm w-full sm:w-auto overflow-hidden text-ellipsis whitespace-nowrap"
+            >
+              <MessageCircle size={20} className="shrink-0" />
+              <span className="truncate">{isFr ? "Devis sur WhatsApp" : "WhatsApp Quote"}</span>
+            </a>
+          </div>
+
+          {/* Core Trust Validation indicators */}
+          <div className="mt-8 pt-8 border-t border-slate-200/50 dark:border-slate-800/50 flex flex-col sm:flex-row flex-wrap justify-start items-start sm:items-center gap-4 sm:gap-6 text-xs sm:text-sm text-slate-500 dark:text-slate-400 w-full">
+            <div className="flex items-center gap-1.5">
+              <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+              <span className="font-semibold text-slate-700 dark:text-slate-300 whitespace-nowrap">
+                {isFr ? "✓ Devis & Audit gratuits" : "✓ Free Tech Audit & Quote"}
+              </span>
+            </div>
+            <div className="flex items-center gap-1">
+              <span className="text-yellow-405 font-bold shrink-0">⭐ 4.9/5</span>
+              <span>{isFr ? "parmi 50+ clients" : "across 50+ clients"}</span>
+            </div>
+            <div className="hidden sm:inline-block border-l border-slate-300 dark:border-slate-800 h-4" />
+            <div className="inline-block">
+              <span className="font-mono bg-indigo-50 dark:bg-slate-900 border border-indigo-100/40 dark:border-slate-800 px-2.5 py-1 rounded text-xs text-indigo-600 dark:text-indigo-400 whitespace-nowrap">
+                {isFr ? "🚀 Livré sous 14-45j" : "🚀 Delivered in 14-45d"}
+              </span>
             </div>
           </div>
         </motion.div>

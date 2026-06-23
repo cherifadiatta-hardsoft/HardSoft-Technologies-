@@ -12,7 +12,7 @@ export default function Formations() {
       id="formations" 
       data-seo-title={isFr ? "Formations en Informatique | HardSoft Technologies" : "IT & Software Training | HardSoft Technologies"} 
       data-seo-description={isFr ? "Découvrez nos formations pratiques en développement web et mobile, adaptées aux débutants." : "Discover our practical custom web and mobile programming courses for professionals and beginners."} 
-      className="py-24 relative overflow-hidden"
+      className="py-24 relative overflow-hidden scroll-mt-24"
     >
       <div className="absolute -top-1/2 -right-1/4 w-full h-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-indigo-900/20 via-transparent to-transparent -z-10 blur-3xl"></div>
       
