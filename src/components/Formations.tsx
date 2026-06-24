@@ -1,96 +1,148 @@
 import { motion } from 'motion/react';
-import { BookOpen, PlayCircle } from 'lucide-react';
-import LazyImage from './LazyImage';
+import { Code2, Network, Radio, PenTool, ArrowRight } from 'lucide-react';
 import { useLanguage } from './LanguageProvider';
 
 export default function Formations() {
   const { language } = useLanguage();
   const isFr = language === 'fr';
 
+  const modules = [
+    {
+      id: 1,
+      icon: <Code2 size={32} />,
+      title: isFr ? "Génie Logiciel & Électronique" : "Software & Electronic Engineering",
+      slogan: isFr ? "De l'algorithme au système embarqué, concevez les technologies de demain." : "From algorithms to embedded systems, design the technologies of tomorrow.",
+      overview: isFr ? "Un pôle d'excellence dédié à la création d'applications modernes, d'architectures logicielles robustes et à l'intégration de systèmes électroniques intelligents." : "A center of excellence dedicated to creating modern applications, robust software architectures, and integrating intelligent electronic systems.",
+      target: isFr ? "Futurs développeurs, ingénieurs logiciels, passionnés d'IoT et de robotique." : "Future developers, software engineers, IoT and robotics enthusiasts.",
+      color: "from-blue-500 to-indigo-600",
+      bgLight: "bg-blue-50 dark:bg-blue-900/10",
+      iconColor: "text-blue-600 dark:text-blue-400"
+    },
+    {
+      id: 2,
+      icon: <Network size={32} />,
+      title: isFr ? "Réseaux Informatiques" : "Computer Networks",
+      slogan: isFr ? "Architecturez, administrez et sécurisez les infrastructures d'entreprise." : "Architect, administer, and secure enterprise infrastructures.",
+      overview: isFr ? "Maîtrisez l'art de connecter les organisations en apprenant à concevoir des réseaux informatiques fiables, performants et hautement sécurisés contre les cybermenaces." : "Master the art of connecting organizations by learning to design reliable, high-performance, and highly secure computer networks against cyber threats.",
+      target: isFr ? "Futurs administrateurs réseaux, techniciens support, experts en sécurité informatique." : "Future network administrators, support technicians, cybersecurity experts.",
+      color: "from-emerald-500 to-teal-600",
+      bgLight: "bg-emerald-50 dark:bg-emerald-900/10",
+      iconColor: "text-emerald-600 dark:text-emerald-400"
+    },
+    {
+      id: 3,
+      icon: <Radio size={32} />,
+      title: isFr ? "Télécommunication" : "Telecommunications",
+      slogan: isFr ? "Connectez le monde et déployez les infrastructures de communication." : "Connect the world and deploy communication infrastructures.",
+      overview: isFr ? "Plongez au cœur des technologies de transmission, des réseaux mobiles, de la fibre optique et des systèmes de communication par satellite." : "Dive into transmission technologies, mobile networks, fiber optics, and satellite communication systems.",
+      target: isFr ? "Futurs techniciens et ingénieurs télécoms, installateurs d'infrastructures réseau." : "Future telecom technicians and engineers, network infrastructure installers.",
+      color: "from-orange-500 to-red-600",
+      bgLight: "bg-orange-50 dark:bg-orange-900/10",
+      iconColor: "text-orange-600 dark:text-orange-400"
+    },
+    {
+      id: 4,
+      icon: <PenTool size={32} />,
+      title: isFr ? "Infographie & Multimédia" : "Computer Graphics & Multimedia",
+      slogan: isFr ? "Donnez vie à vos idées à travers le design et le contenu numérique." : "Bring your ideas to life through design and digital content.",
+      overview: isFr ? "Alliez art et technologie en apprenant à concevoir des interfaces graphiques captivantes (UI/UX), des identités visuelles marquantes et des productions multimédias professionnelles." : "Combine art and technology by learning to design captivating graphical interfaces (UI/UX), striking visual identities, and professional multimedia productions.",
+      target: isFr ? "Futurs UI/UX designers, graphistes, créateurs de contenu, webmasters." : "Future UI/UX designers, graphic designers, content creators, webmasters.",
+      color: "from-purple-500 to-pink-600",
+      bgLight: "bg-purple-50 dark:bg-purple-900/10",
+      iconColor: "text-purple-600 dark:text-purple-400"
+    }
+  ];
+
   return (
     <section 
-      id="formations" 
-      data-seo-title={isFr ? "Formations en Informatique | HardSoft Technologies" : "IT & Software Training | HardSoft Technologies"} 
-      data-seo-description={isFr ? "Découvrez nos formations pratiques en développement web et mobile, adaptées aux débutants." : "Discover our practical custom web and mobile programming courses for professionals and beginners."} 
-      className="py-24 relative overflow-hidden scroll-mt-24"
+      id="catalogue-formations" 
+      data-seo-title={isFr ? "Catalogue de Formations | HardSoft Academy" : "Training Catalog | HardSoft Academy"} 
+      data-seo-description={isFr ? "Découvrez notre catalogue de formations: Génie Logiciel, Réseaux, Télécoms, Infographie." : "Discover our training catalog: Software Engineering, Networks, Telecoms, Graphics."} 
+      className="py-24 relative overflow-hidden bg-white dark:bg-slate-950"
     >
-      <div className="absolute -top-1/2 -right-1/4 w-full h-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-indigo-900/20 via-transparent to-transparent -z-10 blur-3xl"></div>
-      
-      <div className="max-w-7xl 2xl:max-w-[1400px] 3xl:max-w-[1600px] mx-auto px-6">
-        <div className="bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 md:p-16 2xl:p-20 flex flex-col md:flex-row items-center justify-between gap-12 2xl:gap-16 backdrop-blur-sm">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="text-center max-w-3xl mx-auto mb-16">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="flex-1"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white font-semibold text-sm mb-6 border border-slate-200 dark:border-slate-700"
           >
-            <div className="w-16 h-16 bg-indigo-500/20 text-indigo-650 dark:text-indigo-400 rounded-2xl flex items-center justify-center mb-6">
-              <BookOpen size={32} />
-            </div>
-            <h2 className="font-display text-3xl md:text-5xl font-bold mb-4 tracking-tight text-slate-900 dark:text-white">
-              {isFr ? "Formations en Informatique" : "IT & Software Training"}
-            </h2>
-            <p className="text-base sm:text-lg 2xl:text-xl text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
-              {isFr 
-                ? "Envie de monter en compétences ou de former vos équipes ? Nous proposons des modules de formation pratiques et adaptés au marché actuel : Développement, outils numériques et bureautique."
-                : "Want to expand your skillset or train your teams? We provide hands-on, market-aligned training programs: advanced programming, automation workflows and modern business tools."}
-            </p>
-            <ul className="grid sm:grid-cols-2 gap-3 mb-8 text-sm sm:text-base">
-               <li className="flex items-center gap-2 text-slate-700 dark:text-slate-300 font-semibold">
-                  <CheckIcon /> {isFr ? "Cycle complet Développeur" : "Full Developer Track"}
-               </li>
-               <li className="flex items-center gap-2 text-slate-700 dark:text-slate-300 font-semibold">
-                  <CheckIcon /> {isFr ? "Outils d'Automatisation (n8n)" : "Automation Systems (n8n)"}
-               </li>
-               <li className="flex items-center gap-2 text-slate-700 dark:text-slate-300 font-semibold">
-                  <CheckIcon /> {isFr ? "Executive Education (Diplôme)" : "Executive Education (Diploma)"}
-               </li>
-               <li className="flex items-center gap-2 text-slate-700 dark:text-slate-300 font-semibold">
-                  <CheckIcon /> {isFr ? "Sessions Intra/Inter Entreprise" : "Corporate & Custom Training"}
-               </li>
-            </ul>
-             <div className="mb-6 inline-flex items-center rounded-xl bg-amber-500/10 px-4 py-2.5 border border-amber-500/20 max-w-full">
-               <p className="text-amber-600 dark:text-amber-400 text-xs sm:text-sm font-semibold italic">
-                 {isFr 
-                   ? '"S\'armer pour l\'indépendance. Postulez pour le programme d\'Executive Education."'
-                   : '"Empower yourself for independence. Apply now for the Executive Education course."'}
-               </p>
-             </div>
-             <br />
-             <a
-               href="#contact"
-               className="inline-flex items-center gap-2 px-6 py-3.5 border border-indigo-550 text-indigo-650 dark:text-indigo-300 hover:bg-indigo-600 hover:text-white dark:hover:text-slate-950 font-bold rounded-lg transition-all duration-300 transform hover:-translate-y-0.5 text-sm sm:text-base shadow-sm cursor-pointer"
-             >
-               {isFr ? "Voir le programme" : "View Curriculum"}
-             </a>
+            📂 {isFr ? "Notre Catalogue" : "Our Catalog"}
           </motion.div>
-
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="flex-1 w-full relative"
+            transition={{ delay: 0.1 }}
+            className="text-3xl md:text-5xl font-display font-bold text-slate-900 dark:text-white mb-6"
           >
-             <div className="aspect-video bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-2xl relative group cursor-pointer flex items-center justify-center">
-                {/* Lazy Loaded Image for training session */}
-                <LazyImage
-                  src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&q=80&w=1000"
-                  alt={isFr ? "Session de formation en informatique" : "Developer training class session"}
-                  containerClassName="absolute inset-0 w-full h-full group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-tr from-slate-50 dark:from-slate-900 via-transparent to-indigo-900/40 opacity-80 mix-blend-multiply pointer-events-none"></div>
-                
-                <div className="w-16 h-16 bg-slate-900/10 dark:bg-white/10 backdrop-blur text-slate-900 dark:text-white rounded-full flex items-center justify-center group-hover:scale-110 group-hover:bg-indigo-600 transition-all z-10">
-                   <PlayCircle size={32} className="ml-1" />
+            {isFr ? "Catalogue de Formations" : "Training Catalog"}
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="text-lg text-slate-600 dark:text-slate-400"
+          >
+            {isFr 
+              ? "Découvrez nos modules de formation spécialisés, conçus pour vous préparer aux métiers de demain avec une approche résolument pratique."
+              : "Discover our specialized training modules, designed to prepare you for the jobs of tomorrow with a resolutely practical approach."}
+          </motion.p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-8">
+          {modules.map((mod, idx) => (
+            <motion.div
+              key={mod.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.1 }}
+              className="group relative bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 hover:shadow-xl transition-all duration-300 overflow-hidden"
+            >
+              <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${mod.color} opacity-10 blur-3xl group-hover:opacity-20 transition-opacity rounded-bl-full`}></div>
+              
+              <div className="flex items-start gap-5 mb-6">
+                <div className={`w-16 h-16 rounded-2xl ${mod.bgLight} ${mod.iconColor} flex items-center justify-center shrink-0`}>
+                  {mod.icon}
                 </div>
-             </div>
-          </motion.div>
+                <div>
+                  <div className="text-sm font-bold text-slate-400 dark:text-slate-500 mb-1 tracking-wider uppercase">
+                    {isFr ? `Module ${mod.id}` : `Module ${mod.id}`}
+                  </div>
+                  <h3 className="text-2xl font-bold text-slate-900 dark:text-white leading-tight">
+                    {mod.title}
+                  </h3>
+                </div>
+              </div>
+
+              <div className="mb-6">
+                <p className="text-lg font-medium text-slate-800 dark:text-slate-200 mb-4 italic">
+                  "{mod.slogan}"
+                </p>
+                <p className="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                  <span className="font-semibold text-slate-900 dark:text-white">{isFr ? "Aperçu : " : "Overview: "}</span>
+                  {mod.overview}
+                </p>
+                <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
+                  <span className="font-semibold text-slate-900 dark:text-white">{isFr ? "Public cible : " : "Target Audience: "}</span>
+                  {mod.target}
+                </p>
+              </div>
+
+              <a
+                href="#contact"
+                className={`inline-flex items-center gap-2 font-bold text-sm sm:text-base transition-colors group-hover:underline ${mod.iconColor}`}
+              >
+                {isFr ? "Découvrir les formations de ce module" : "Discover the courses of this module"}
+                <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+              </a>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
   );
-}
-
-function CheckIcon() {
-    return <svg className="w-5 h-5 text-indigo-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>;
 }

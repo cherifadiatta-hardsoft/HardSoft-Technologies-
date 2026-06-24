@@ -1,39 +1,65 @@
-import { motion } from 'motion/react';
-import { BookOpen, Target, Rocket, Lightbulb, Network, MonitorPlay, Code2, PenTool, CheckCircle, GraduationCap, Briefcase, Award } from 'lucide-react';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { BookOpen, Target, Rocket, Lightbulb, Network, MonitorPlay, Code2, PenTool, CheckCircle, GraduationCap, Briefcase, Award, Download, X, Mail } from 'lucide-react';
 import { useLanguage } from './LanguageProvider';
+import ModuleDetails from './ModuleDetails';
 
 export default function AcademySection() {
   const { language } = useLanguage();
   const isFr = language === 'fr';
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [email, setEmail] = useState('');
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email) {
+      setIsSubmitted(true);
+      // Simuler l'envoi
+      setTimeout(() => {
+        setIsModalOpen(false);
+        setIsSubmitted(false);
+        setEmail('');
+      }, 3000);
+    }
+  };
 
   const poles = [
     {
+      icon: <Code2 size={24} />,
+      title: isFr ? "1. Génie Logiciel & Électronique" : "1. Software & Electronic Eng.",
+      slogan: isFr ? "De l'algorithme au système embarqué, concevez les technologies de demain" : "From algorithm to embedded system, design tomorrow's tech",
+      desc: isFr
+        ? "Développement d'applications web et mobiles robustes, architecture logicielle, IoT et systèmes embarqués intelligents."
+        : "Development of robust web and mobile applications, software architecture, IoT, and intelligent embedded systems.",
+      tags: ["Développement Web & Mobile", "IoT & Robotique", "AI Assistance"]
+    },
+    {
       icon: <Network size={24} />,
-      title: isFr ? "1. Télécommunication" : "1. Telecommunications",
-      desc: isFr 
-        ? "Conception, déploiement et optimisation des infrastructures de communication modernes pour interconnecter les services et garantir la continuité des flux de données."
-        : "Design, deployment, and optimization of modern communication infrastructures to interconnect services and ensure continuous data flow."
+      title: isFr ? "2. Réseaux Informatiques" : "2. Computer Networks",
+      slogan: isFr ? "Architecturez, administrez et sécurisez les infrastructures d'entreprise" : "Architect, administer and secure enterprise infrastructures",
+      desc: isFr
+        ? "Conception et gestion de réseaux performants, administration de serveurs et initiation aux fondamentaux de la cybersécurité."
+        : "Design and management of high-performance networks, server administration, and introduction to cybersecurity fundamentals.",
+      tags: ["Architecture Réseau", "Sécurité", "Administration Système"]
     },
     {
       icon: <MonitorPlay size={24} />,
-      title: isFr ? "2. Réseaux Informatiques" : "2. Computer Networks",
-      desc: isFr
-        ? "Architecture, sécurisation et administration des infrastructures réseaux d’entreprise, garantissant une connectivité fiable, rapide et hautement sécurisée."
-        : "Architecture, securing, and administration of enterprise network infrastructures, ensuring reliable, fast, and highly secure connectivity."
-    },
-    {
-      icon: <Code2 size={24} />,
-      title: isFr ? "3. Génie Logiciel & Électronique" : "3. Software & Electronic Eng.",
-      desc: isFr
-        ? "Développement d'applications web, mobiles et de systèmes embarqués sur mesure. De la logique métier à l'intégration matérielle, nous formons à concevoir des architectures robustes."
-        : "Development of custom web, mobile apps, and embedded systems. From business logic to hardware integration, we train you to design robust software architectures."
+      title: isFr ? "3. Télécommunication" : "3. Telecommunications",
+      slogan: isFr ? "Connectez le monde et déployez les infrastructures de communication" : "Connect the world and deploy communication infrastructures",
+      desc: isFr 
+        ? "Maîtrise des technologies de transmission, des réseaux mobiles, de la fibre optique et des systèmes de communication modernes."
+        : "Mastery of transmission technologies, mobile networks, optical fiber, and modern communication systems.",
+      tags: ["Fibre Optique", "Réseaux Mobiles", "Transmission"]
     },
     {
       icon: <PenTool size={24} />,
-      title: isFr ? "4. Infographie - Multimédia" : "4. Computer Graphics - Multimedia",
+      title: isFr ? "4. Infographie & Multimédia" : "4. Computer Graphics & Multimedia",
+      slogan: isFr ? "Donnez vie à vos idées à travers le design et le contenu numérique" : "Bring your ideas to life through design and digital content",
       desc: isFr
-        ? "Création visuelle, design d'interfaces (UI/UX) et production de contenus multimédias. Nous combinons esthétique, ergonomie et performance pour des expériences mémorables."
-        : "Visual creation, interface design (UI/UX), and multimedia content production. We combine aesthetics, ergonomics, and performance for memorable user experiences."
+        ? "Création visuelle, Design d'interfaces (UI/UX), identité de marque et production de contenus multimédias professionnels."
+        : "Visual creation, Interface Design (UI/UX), brand identity, and professional multimedia content production.",
+      tags: ["UI/UX Design", "Graphisme", "Création Digitale"]
     }
   ];
 
@@ -107,12 +133,24 @@ export default function AcademySection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed"
+            className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed mb-8"
           >
             {isFr 
               ? "Chez HardSoft Technologies, nous concevons le digital comme un levier de transformation durable. Notre mission : bâtir des solutions innovantes et former les talents de la révolution numérique de demain."
               : "At HardSoft Technologies, we design digital tools as a lever for sustainable transformation. Our mission: build innovative solutions and train the talents of tomorrow's digital revolution."}
           </motion.p>
+          
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+            onClick={() => setIsModalOpen(true)}
+            className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl transition-all shadow-md hover:shadow-xl hover:-translate-y-0.5"
+          >
+            <Download size={20} />
+            {isFr ? "Télécharger la brochure complète" : "Download Full Brochure"}
+          </motion.button>
         </div>
 
         {/* Vision & Objectives Grid */}
@@ -204,7 +242,7 @@ export default function AcademySection() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6">
             {poles.map((pole, idx) => (
               <motion.div
                 key={idx}
@@ -212,23 +250,141 @@ export default function AcademySection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.1 }}
-                className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 rounded-3xl hover:border-indigo-500/50 dark:hover:border-indigo-500/50 transition-colors group shadow-sm hover:shadow-md"
+                className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-8 rounded-3xl hover:border-indigo-500/50 dark:hover:border-indigo-500/50 transition-colors group shadow-sm hover:shadow-md flex flex-col"
               >
-                <div className="w-14 h-14 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                  {pole.icon}
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-14 h-14 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                    {pole.icon}
+                  </div>
+                  <h4 className="font-bold text-slate-900 dark:text-white text-xl leading-tight">
+                    {pole.title}
+                  </h4>
                 </div>
-                <h4 className="font-bold text-slate-900 dark:text-white mb-3 text-lg leading-tight">
-                  {pole.title}
-                </h4>
-                <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                
+                <p className="text-slate-500 dark:text-slate-400 text-sm font-medium italic mb-4">
+                  « {pole.slogan} »
+                </p>
+                
+                <p className="text-slate-600 dark:text-slate-300 text-base leading-relaxed mb-6 flex-grow">
                   {pole.desc}
                 </p>
+                
+                <div className="flex flex-wrap gap-2 mt-auto">
+                  {pole.tags.map((tag, tagIdx) => (
+                    <span 
+                      key={tagIdx} 
+                      className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-800/50"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </motion.div>
             ))}
           </div>
         </div>
 
+        {/* Module Details - Génie Logiciel & Électronique */}
+        <ModuleDetails />
+
       </div>
+
+      {/* Brochure Modal */}
+      <AnimatePresence>
+        {isModalOpen && (
+          <motion.div 
+            key="brochure-modal"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          >
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsModalOpen(false)}
+              className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
+            />
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="relative w-full max-w-lg bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden"
+            >
+              <div className="flex justify-between items-center p-6 border-b border-slate-100 dark:border-slate-800">
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                  <Download size={24} className="text-indigo-600 dark:text-indigo-400" />
+                  {isFr ? "Brochure HardSoft Academy" : "HardSoft Academy Brochure"}
+                </h3>
+                <button 
+                  onClick={() => setIsModalOpen(false)}
+                  className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
+                >
+                  <X size={24} />
+                </button>
+              </div>
+
+              <div className="p-6">
+                <p className="text-slate-600 dark:text-slate-400 mb-6 text-sm">
+                  {isFr 
+                    ? "Recevez notre brochure détaillée comprenant le programme complet de nos 4 pôles d'expertise, les modalités d'inscription et les opportunités de carrière." 
+                    : "Receive our detailed brochure including the complete curriculum of our 4 areas of expertise, enrollment details, and career opportunities."}
+                </p>
+
+                <div className="bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-4 mb-6">
+                  <h4 className="font-semibold text-slate-900 dark:text-white mb-2 text-sm uppercase tracking-wider">
+                    {isFr ? "Pôles inclus :" : "Included areas:"}
+                  </h4>
+                  <ul className="grid grid-cols-2 gap-2 text-sm text-slate-600 dark:text-slate-400">
+                    <li className="flex items-center gap-2"><CheckCircle size={14} className="text-emerald-500" /> Télécommunication</li>
+                    <li className="flex items-center gap-2"><CheckCircle size={14} className="text-emerald-500" /> Réseaux</li>
+                    <li className="flex items-center gap-2"><CheckCircle size={14} className="text-emerald-500" /> Génie Logiciel</li>
+                    <li className="flex items-center gap-2"><CheckCircle size={14} className="text-emerald-500" /> Infographie</li>
+                  </ul>
+                </div>
+
+                {isSubmitted ? (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 p-4 rounded-xl flex items-center justify-center gap-3 font-medium"
+                  >
+                    <CheckCircle size={20} />
+                    {isFr ? "Brochure envoyée avec succès !" : "Brochure sent successfully!"}
+                  </motion.div>
+                ) : (
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    <div>
+                      <label htmlFor="email" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                        {isFr ? "Adresse e-mail" : "Email address"}
+                      </label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                          <Mail size={18} />
+                        </div>
+                        <input
+                          type="email"
+                          id="email"
+                          required
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          className="block w-full pl-10 pr-3 py-3 border border-slate-200 dark:border-slate-700 rounded-xl leading-5 bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                          placeholder={isFr ? "votre@email.com" : "your@email.com"}
+                        />
+                      </div>
+                    </div>
+                    <button
+                      type="submit"
+                      className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl transition-all shadow-md hover:shadow-xl"
+                    >
+                      {isFr ? "Recevoir la brochure" : "Receive the brochure"}
+                    </button>
+                  </form>
+                )}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
     </section>
   );
 }
