@@ -43,11 +43,13 @@ export default function ChatbotWidget() {
     setIsLoading(true);
 
     try {
-      // Format history for the Gemini API (excluding the current user message)
-      const history = messages.map(msg => ({
-        role: msg.role,
-        parts: [{ text: msg.text }]
-      }));
+      // Format history for the Gemini API, excluding the initial greeting and current message
+      const history = messages
+        .filter((_, index) => index > 0) // Skip the first default greeting message
+        .map(msg => ({
+          role: msg.role,
+          parts: [{ text: msg.text }]
+        }));
 
       const response = await fetch('/api/chat', {
         method: 'POST',

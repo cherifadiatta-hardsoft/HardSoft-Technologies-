@@ -27,7 +27,7 @@ async function startServer() {
       });
       
       const chat = ai.chats.create({
-        model: "gemini-3.5-flash",
+        model: "gemini-3.6-flash",
         history: history || [],
         config: {
           systemInstruction: "Tu es un assistant virtuel amical de HardSoft Technologies, une agence de développement web et logiciel. Tu aides les visiteurs à comprendre nos services (logiciels sur mesure, sites web, applications SaaS, automatisation n8n, point de vente POS). Réponds de manière concise (max 3-4 phrases), professionnelle et chaleureuse. Si on te demande un devis, invite l'utilisateur à remplir le formulaire de contact ou à utiliser WhatsApp. Réponds en français ou en anglais selon la langue de l'utilisateur.",
@@ -40,6 +40,32 @@ async function startServer() {
       console.error("Erreur API Chat:", error);
       res.status(500).json({ error: "Désolé, je ne peux pas répondre pour le moment." });
     }
+  });
+
+  app.get("/api/dashboard/stats", (req, res) => {
+    res.json({
+      revenue: { total: "$12,450" },
+      users: { active: "1,245" },
+      projects: { new: "45" },
+      conversionRate: "4.6%",
+      revenueData: [
+        { name: 'Jan', value: 4000 },
+        { name: 'Fév', value: 3000 },
+        { name: 'Mar', value: 5000 },
+        { name: 'Avr', value: 2780 },
+        { name: 'Mai', value: 6890 },
+        { name: 'Juin', value: 8390 },
+      ],
+      usersData: [
+        { name: 'Lun', value: 120 },
+        { name: 'Mar', value: 200 },
+        { name: 'Mer', value: 150 },
+        { name: 'Jeu', value: 300 },
+        { name: 'Ven', value: 250 },
+        { name: 'Sam', value: 90 },
+        { name: 'Dim', value: 40 },
+      ]
+    });
   });
 
   // Serve static files in production / fallback to index.html for SPA router

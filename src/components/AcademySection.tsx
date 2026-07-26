@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { BookOpen, Target, Rocket, Lightbulb, Network, MonitorPlay, Code2, PenTool, CheckCircle, GraduationCap, Briefcase, Award, Download, X, Mail, Search } from 'lucide-react';
+import { BookOpen, Target, Rocket, Lightbulb, Network, MonitorPlay, Code2, PenTool, CheckCircle, GraduationCap, Briefcase, Award, Download, X, Mail, Search, SearchX, Info, Play, Check } from 'lucide-react';
 import { useLanguage } from './LanguageProvider';
 import ModuleDetails from './ModuleDetails';
 
@@ -11,6 +11,31 @@ export default function AcademySection() {
   const [email, setEmail] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [moduleProgress, setModuleProgress] = useState<Record<string, number>>({});
+
+  useEffect(() => {
+    const saved = localStorage.getItem('academyModuleProgress');
+    if (saved) {
+      try {
+        setModuleProgress(JSON.parse(saved));
+      } catch (e) {
+        console.error("Failed to parse progress");
+      }
+    }
+  }, []);
+
+  const handleConsultModule = (title: string) => {
+    setModuleProgress(prev => {
+      const current = prev[title] || 0;
+      let next = current;
+      if (current === 0) next = 30; // Started
+      else if (current < 100) next = Math.min(100, current + 35); // Progressing
+      
+      const newProgress = { ...prev, [title]: next };
+      localStorage.setItem('academyModuleProgress', JSON.stringify(newProgress));
+      return newProgress;
+    });
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -100,9 +125,16 @@ export default function AcademySection() {
     }
   ];
 
+  const filteredPoles = poles.filter(pole => {
+    const query = searchQuery.toLowerCase();
+    return pole.title.toLowerCase().includes(query) || 
+           pole.desc.toLowerCase().includes(query) || 
+           pole.tags.some(tag => tag.toLowerCase().includes(query));
+  });
+
   return (
     <section 
-      id="academy" 
+      id="formations" 
       data-seo-title={isFr ? "HardSoft Academy | Formations en Informatique" : "HardSoft Academy | IT Training"} 
       data-seo-description={isFr ? "Formations pratiques en développement, réseaux et multimédia par HardSoft Technologies." : "Practical training in software development, networks, and multimedia by HardSoft."} 
       className="py-24 relative overflow-hidden scroll-mt-24 bg-slate-50 dark:bg-[#0B1120]"
@@ -251,31 +283,40 @@ export default function AcademySection() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={isFr ? "Rechercher un module (ex: IoT, Web, Réseau...)" : "Search a module (e.g., IoT, Web, Network...)"}
-                className="w-full pl-12 pr-4 py-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 shadow-sm transition-all"
+                className="w-full pl-12 pr-20 py-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 shadow-sm transition-all"
               />
+              <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+                <span className="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-indigo-600 bg-indigo-100 rounded-full dark:bg-indigo-900/50 dark:text-indigo-400">
+                  {filteredPoles.length} {isFr ? "module" : "module"}{filteredPoles.length > 1 ? "s" : ""}
+                </span>
+              </div>
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6">
-            {poles.filter(pole => {
-              const query = searchQuery.toLowerCase();
-              return pole.title.toLowerCase().includes(query) || 
-                     pole.desc.toLowerCase().includes(query) || 
-                     pole.tags.some(tag => tag.toLowerCase().includes(query));
-            }).map((pole, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                whileHover={{ 
-                  scale: 1.02,
-                  boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)"
-                }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1, duration: 0.3 }}
-                className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-8 rounded-3xl hover:border-indigo-500/50 dark:hover:border-indigo-500/50 group flex flex-col"
-              >
-                <div className="flex items-center gap-4 mb-4">
+          {filteredPoles.length > 0 ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6">
+              {filteredPoles.map((pole, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  whileHover={{ scale: 1.02 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.1, duration: 0.3 }}
+                  className="relative bg-white dark:bg-slate-900/50 backdrop-blur-sm border border-slate-200 dark:border-white/10 p-8 rounded-3xl hover:shadow-xl dark:hover:shadow-indigo-500/10 hover:border-indigo-500/50 dark:hover:border-indigo-500/50 transition-all duration-300 group flex flex-col"
+                >
+                <div className="absolute top-6 right-6 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors group/tooltip cursor-help z-10">
+                  <Info size={20} />
+                  
+                  {/* Tooltip Content */}
+                  <div className="absolute bottom-full mb-3 right-0 w-64 p-4 bg-slate-800 dark:bg-slate-800 text-white text-sm rounded-2xl shadow-2xl opacity-0 group-hover/tooltip:opacity-100 transition-all duration-300 pointer-events-none transform translate-y-2 group-hover/tooltip:translate-y-0 z-20">
+                    <div className="absolute -bottom-2 right-2 w-4 h-4 bg-slate-800 dark:bg-slate-800 transform rotate-45"></div>
+                    <span className="font-bold block mb-1 text-indigo-300">{isFr ? "Aperçu du module" : "Module preview"}</span>
+                    {pole.desc}
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-4 mb-4 pr-8">
                   <div className="w-14 h-14 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
                     {pole.icon}
                   </div>
@@ -292,7 +333,7 @@ export default function AcademySection() {
                   {pole.desc}
                 </p>
                 
-                <div className="flex flex-wrap gap-2 mt-auto">
+                <div className="flex flex-wrap gap-2 mt-auto mb-6">
                   {pole.tags.map((tag, tagIdx) => (
                     <span 
                       key={tagIdx} 
@@ -302,9 +343,71 @@ export default function AcademySection() {
                     </span>
                   ))}
                 </div>
+
+                <div className="pt-4 border-t border-slate-100 dark:border-slate-800/50 mt-auto">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                      {moduleProgress[pole.title] > 0 ? (isFr ? "Progression" : "Progress") : (isFr ? "Non commencé" : "Not started")}
+                    </span>
+                    <span className="text-xs font-bold text-indigo-600 dark:text-indigo-400">
+                      {moduleProgress[pole.title] || 0}%
+                    </span>
+                  </div>
+                  <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-1.5 mb-4 overflow-hidden">
+                    <div 
+                      className="bg-indigo-500 h-1.5 rounded-full transition-all duration-1000 ease-out" 
+                      style={{ width: `${moduleProgress[pole.title] || 0}%` }}
+                    ></div>
+                  </div>
+                  
+                  <button 
+                    onClick={() => handleConsultModule(pole.title)}
+                    className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold transition-colors bg-slate-50 hover:bg-slate-100 text-slate-700 dark:bg-slate-800/50 dark:hover:bg-slate-800 dark:text-slate-300"
+                  >
+                    {moduleProgress[pole.title] >= 100 ? (
+                      <>
+                        <Check size={16} className="text-emerald-500" />
+                        {isFr ? "Terminé" : "Completed"}
+                      </>
+                    ) : moduleProgress[pole.title] > 0 ? (
+                      <>
+                        <Play size={16} className="text-indigo-500" />
+                        {isFr ? "Continuer" : "Continue"}
+                      </>
+                    ) : (
+                      <>
+                        <BookOpen size={16} />
+                        {isFr ? "Consulter" : "Consult"}
+                      </>
+                    )}
+                  </button>
+                </div>
               </motion.div>
             ))}
-          </div>
+            </div>
+          ) : (
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex flex-col items-center justify-center p-12 text-center bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm"
+            >
+              <div className="w-20 h-20 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mb-5 text-slate-400 dark:text-slate-500">
+                <SearchX size={36} />
+              </div>
+              <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
+                {isFr ? "Aucun module trouvé" : "No module found"}
+              </h4>
+              <p className="text-slate-500 dark:text-slate-400 max-w-md mx-auto mb-6">
+                {isFr ? "Nous n'avons trouvé aucun module correspondant à votre recherche. Essayez avec d'autres mots-clés." : "We couldn't find any module matching your search. Try with different keywords."}
+              </p>
+              <button
+                onClick={() => setSearchQuery('')}
+                className="px-6 py-2.5 bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-900/30 dark:hover:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 rounded-full font-semibold transition-colors"
+              >
+                {isFr ? "Réinitialiser la recherche" : "Reset search"}
+              </button>
+            </motion.div>
+          )}
         </div>
 
         {/* Module Details - Génie Logiciel & Électronique */}

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Code2, Moon, Sun, Search, Languages, WifiOff, Home, Cpu, Store, GraduationCap, Briefcase, User, HelpCircle, Phone, ChevronDown } from 'lucide-react';
+import { Menu, X, Code2, Moon, Sun, Search, Languages, WifiOff, Home, Cpu, Store, GraduationCap, Briefcase, User, HelpCircle, Phone, ChevronDown, LayoutDashboard } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useSpring } from 'motion/react';
 import { useTheme } from './ThemeProvider';
 import { useLanguage } from './LanguageProvider';
@@ -220,6 +220,13 @@ export default function Header() {
           </div>
           
           <a
+            href="/dashboard"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 text-[11px] font-bold rounded-full transition-colors group shrink-0"
+          >
+            <LayoutDashboard size={12} />
+            <span>Dashboard</span>
+          </a>
+          <a
             href="#contact"
             className="flex items-center gap-1.5 px-4 py-1.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 border border-slate-800 dark:border-slate-200 hover:bg-slate-800 dark:hover:bg-slate-100 text-[11px] font-bold rounded-full transition-transform hover:scale-105 active:scale-95 group shrink-0 shadow-sm"
           >
@@ -366,6 +373,15 @@ export default function Header() {
                     </button>
                   </div>
                 </div>
+
+                <a
+                  href="/dashboard"
+                  className="mt-2 flex items-center justify-center gap-2 px-6 py-4 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 font-black tracking-wide rounded-2xl hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition-all border border-indigo-200 dark:border-indigo-800"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <LayoutDashboard size={18} />
+                  Dashboard
+                </a>
 
                 <a
                   href="#contact"
