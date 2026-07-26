@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { BookOpen, Target, Rocket, Lightbulb, Network, MonitorPlay, Code2, PenTool, CheckCircle, GraduationCap, Briefcase, Award, Download, X, Mail } from 'lucide-react';
+import { BookOpen, Target, Rocket, Lightbulb, Network, MonitorPlay, Code2, PenTool, CheckCircle, GraduationCap, Briefcase, Award, Download, X, Mail, Search } from 'lucide-react';
 import { useLanguage } from './LanguageProvider';
 import ModuleDetails from './ModuleDetails';
 
@@ -10,6 +10,7 @@ export default function AcademySection() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [email, setEmail] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -235,22 +236,44 @@ export default function AcademySection() {
             <h3 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-4">
               {isFr ? "Nos Pôles d'Expertise & de Formation" : "Our Poles of Expertise & Training"}
             </h3>
-            <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+            <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto mb-8">
               {isFr 
                 ? "Nos cursus et compétences d'ingénierie s'articulent autour de quatre grands axes stratégiques."
                 : "Our academic roadmaps and engineering skills are structured around four main strategic axes."}
             </p>
+            
+            <div className="max-w-md mx-auto relative">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                <Search size={20} />
+              </div>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder={isFr ? "Rechercher un module (ex: IoT, Web, Réseau...)" : "Search a module (e.g., IoT, Web, Network...)"}
+                className="w-full pl-12 pr-4 py-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 shadow-sm transition-all"
+              />
+            </div>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6">
-            {poles.map((pole, idx) => (
+            {poles.filter(pole => {
+              const query = searchQuery.toLowerCase();
+              return pole.title.toLowerCase().includes(query) || 
+                     pole.desc.toLowerCase().includes(query) || 
+                     pole.tags.some(tag => tag.toLowerCase().includes(query));
+            }).map((pole, idx) => (
               <motion.div
                 key={idx}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
+                whileHover={{ 
+                  scale: 1.02,
+                  boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)"
+                }}
                 viewport={{ once: true }}
-                transition={{ delay: idx * 0.1 }}
-                className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-8 rounded-3xl hover:border-indigo-500/50 dark:hover:border-indigo-500/50 transition-colors group shadow-sm hover:shadow-md flex flex-col"
+                transition={{ delay: idx * 0.1, duration: 0.3 }}
+                className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-8 rounded-3xl hover:border-indigo-500/50 dark:hover:border-indigo-500/50 group flex flex-col"
               >
                 <div className="flex items-center gap-4 mb-4">
                   <div className="w-14 h-14 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
