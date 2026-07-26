@@ -13,7 +13,14 @@ import {
   ArrowDownRight,
   Download,
   Search,
-  Bell
+  Bell,
+  LifeBuoy,
+  History,
+  PlusSquare,
+  BookOpen,
+  PieChart,
+  User,
+  FileText
 } from 'lucide-react';
 import { 
   LineChart, 
@@ -47,6 +54,27 @@ const mockNotifications = [
   { id: 3, title: 'Transaction réussie', message: 'Le paiement de Acme Corp a été validé', time: 'Il y a 2 heures', unread: false },
 ];
 
+const mockTickets = [
+  { id: 'TKT-101', user: 'Jean Dupont', subject: 'Problème de connexion', status: 'Ouvert', priority: 'Haute', date: '2023-10-25' },
+  { id: 'TKT-102', user: 'Alice Martin', subject: 'Question sur la facturation', status: 'En cours', priority: 'Moyenne', date: '2023-10-24' },
+  { id: 'TKT-103', user: 'Acme Corp', subject: 'Demande de fonctionnalité', status: 'Résolu', priority: 'Basse', date: '2023-10-22' },
+];
+
+const mockActivities = [
+  { id: 1, user: 'Administrateur', action: 'Connexion au système', date: '2023-10-26 09:00', type: 'login' },
+  { id: 2, user: 'Jean Dupont', action: 'Création d\'un nouveau projet', date: '2023-10-26 09:15', type: 'create' },
+  { id: 3, user: 'Système', action: 'Sauvegarde automatique', date: '2023-10-26 10:00', type: 'system' },
+  { id: 4, user: 'Alice Martin', action: 'Modification de profil', date: '2023-10-26 10:30', type: 'update' },
+  { id: 5, user: 'Administrateur', action: 'Changement des paramètres de sécurité', date: '2023-10-26 11:45', type: 'security' },
+];
+
+const mockInvoices = [
+  { id: 'INV-2023-001', client: 'Acme Corp', amount: 1200, date: '2023-10-15', dueDate: '2023-11-15', status: 'Payée' },
+  { id: 'INV-2023-002', client: 'Global Tech', amount: 3450, date: '2023-10-20', dueDate: '2023-11-20', status: 'En attente' },
+  { id: 'INV-2023-003', client: 'Stark Industries', amount: 850, date: '2023-10-22', dueDate: '2023-11-22', status: 'Payée' },
+  { id: 'INV-2023-004', client: 'Wayne Enterprises', amount: 5000, date: '2023-09-10', dueDate: '2023-10-10', status: 'En retard' },
+];
+
 export default function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [stats, setStats] = useState<any>(null);
@@ -54,6 +82,7 @@ export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('Vue d\'ensemble');
   const [searchQuery, setSearchQuery] = useState('');
   const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
   const [notifications, setNotifications] = useState(mockNotifications);
 
   const unreadCount = notifications.filter(n => n.unread).length;
@@ -76,6 +105,13 @@ export default function Dashboard() {
     { name: 'Vue d\'ensemble', icon: LayoutDashboard },
     { name: 'Utilisateurs', icon: Users },
     { name: 'Transactions', icon: DollarSign },
+    { name: 'Facturation', icon: FileText },
+    { name: 'Support', icon: LifeBuoy },
+    { name: 'Journal', icon: History },
+    { name: 'Insertion', icon: PlusSquare },
+    { name: 'Publications', icon: BookOpen },
+    { name: 'Rapports', icon: PieChart },
+    { name: 'Compte', icon: User },
     { name: 'Paramètres', icon: Settings },
   ];
 
@@ -121,6 +157,22 @@ export default function Dashboard() {
   const filteredTransactions = mockTransactions.filter(t => 
     t.client.toLowerCase().includes(searchQuery.toLowerCase()) || 
     t.id.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const filteredInvoices = mockInvoices.filter(i => 
+    i.client.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    i.id.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const filteredTickets = mockTickets.filter(t => 
+    t.user.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    t.subject.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    t.id.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const filteredActivities = mockActivities.filter(a =>
+    a.action.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    a.user.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const filteredRevenueData = stats?.revenueData?.filter((d: any) => 
@@ -319,10 +371,53 @@ export default function Dashboard() {
                 </AnimatePresence>
               </div>
 
-              <div className="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center text-indigo-700 dark:text-indigo-300 font-bold">
-                AD
+              <div className="relative">
+                <button 
+                  onClick={() => setProfileOpen(!profileOpen)}
+                  className="flex items-center gap-2 hover:bg-slate-50 dark:hover:bg-slate-800/50 p-1.5 rounded-lg transition-colors"
+                >
+                  <div className="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center text-indigo-700 dark:text-indigo-300 font-bold">
+                    AD
+                  </div>
+                  <span className="text-sm font-medium hidden sm:block">Administrateur</span>
+                </button>
+
+                <AnimatePresence>
+                  {profileOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute right-0 mt-2 w-56 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-lg z-50 overflow-hidden"
+                    >
+                      <div className="p-4 border-b border-slate-200 dark:border-slate-800">
+                        <p className="text-sm font-medium text-slate-900 dark:text-white">Administrateur</p>
+                        <p className="text-xs text-slate-500 truncate">admin@hardsoft.com</p>
+                      </div>
+                      <div className="p-1.5">
+                        <button 
+                          onClick={() => {
+                            setProfileOpen(false);
+                            setActiveTab('Paramètres');
+                          }}
+                          className="w-full flex items-center gap-2 px-3 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg transition-colors"
+                        >
+                          <Settings size={16} />
+                          Paramètres
+                        </button>
+                        <button 
+                          onClick={() => setProfileOpen(false)}
+                          className="w-full flex items-center gap-2 px-3 py-2 text-sm text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-900/10 rounded-lg transition-colors"
+                        >
+                          <LogOut size={16} />
+                          Déconnexion
+                        </button>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-              <span className="text-sm font-medium hidden sm:block">Administrateur</span>
             </div>
           </div>
         </header>
@@ -591,6 +686,161 @@ export default function Dashboard() {
             </motion.div>
           )}
 
+          {activeTab === 'Facturation' && (
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-white dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden"
+            >
+              <div className="p-6 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
+                <h3 className="text-lg font-bold">Factures et Paiements</h3>
+                <div className="flex items-center gap-4">
+                  <div className="hidden sm:block relative w-48">
+                    <div className="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none">
+                      <Search size={14} className="text-slate-400" />
+                    </div>
+                    <input
+                      type="text"
+                      className="bg-slate-100 dark:bg-slate-800 border-none text-slate-900 dark:text-white text-xs rounded-lg focus:ring-2 focus:ring-indigo-500 block w-full pl-8 p-1.5"
+                      placeholder="Rechercher une facture..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                  </div>
+                  <button className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors flex items-center gap-2">
+                    <PlusSquare size={16} />
+                    Nouvelle Facture
+                  </button>
+                </div>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm text-left">
+                  <thead className="text-xs text-slate-500 bg-slate-50 dark:bg-slate-900/50 uppercase border-b border-slate-200 dark:border-slate-800">
+                    <tr>
+                      <th className="px-6 py-4">ID Facture</th>
+                      <th className="px-6 py-4">Client</th>
+                      <th className="px-6 py-4">Montant</th>
+                      <th className="px-6 py-4">Date d'émission</th>
+                      <th className="px-6 py-4">Date d'échéance</th>
+                      <th className="px-6 py-4">Statut</th>
+                      <th className="px-6 py-4">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredInvoices.length > 0 ? filteredInvoices.map(inv => (
+                      <tr key={inv.id} className="border-b border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900/50">
+                        <td className="px-6 py-4 font-medium">{inv.id}</td>
+                        <td className="px-6 py-4">{inv.client}</td>
+                        <td className="px-6 py-4 font-bold">{new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(inv.amount)}</td>
+                        <td className="px-6 py-4">{inv.date}</td>
+                        <td className="px-6 py-4">{inv.dueDate}</td>
+                        <td className="px-6 py-4">
+                          <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${
+                            inv.status === 'Payée' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400' :
+                            inv.status === 'En attente' ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400' :
+                            'bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400'
+                          }`}>
+                            {inv.status}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="flex items-center gap-3">
+                            <button className="text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors" title="Télécharger">
+                              <Download size={16} />
+                            </button>
+                            <button className="text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-medium text-xs uppercase" title="Envoyer">
+                              Envoyer
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    )) : (
+                      <tr>
+                        <td colSpan={7} className="px-6 py-8 text-center text-slate-500">Aucune facture trouvée pour "{searchQuery}"</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </motion.div>
+          )}
+
+          {activeTab === 'Support' && (
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-white dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden"
+            >
+              <div className="p-6 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
+                <h3 className="text-lg font-bold">Tickets de Support</h3>
+                <div className="sm:hidden relative w-48">
+                  <div className="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none">
+                    <Search size={14} className="text-slate-400" />
+                  </div>
+                  <input
+                    type="text"
+                    className="bg-slate-100 dark:bg-slate-800 border-none text-slate-900 dark:text-white text-xs rounded-lg focus:ring-2 focus:ring-indigo-500 block w-full pl-8 p-1.5"
+                    placeholder="Rechercher un ticket..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm text-left">
+                  <thead className="text-xs text-slate-500 bg-slate-50 dark:bg-slate-900/50 uppercase border-b border-slate-200 dark:border-slate-800">
+                    <tr>
+                      <th className="px-6 py-4">ID</th>
+                      <th className="px-6 py-4">Utilisateur</th>
+                      <th className="px-6 py-4">Sujet</th>
+                      <th className="px-6 py-4">Priorité</th>
+                      <th className="px-6 py-4">Statut</th>
+                      <th className="px-6 py-4">Date</th>
+                      <th className="px-6 py-4"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredTickets.length > 0 ? filteredTickets.map(ticket => (
+                      <tr key={ticket.id} className="border-b border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900/50">
+                        <td className="px-6 py-4 font-medium">{ticket.id}</td>
+                        <td className="px-6 py-4">{ticket.user}</td>
+                        <td className="px-6 py-4">{ticket.subject}</td>
+                        <td className="px-6 py-4">
+                          <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${
+                            ticket.priority === 'Haute' ? 'bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400' :
+                            ticket.priority === 'Moyenne' ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400' :
+                            'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300'
+                          }`}>
+                            {ticket.priority}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4">
+                          <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${
+                            ticket.status === 'Résolu' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400' :
+                            ticket.status === 'En cours' ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400' :
+                            'bg-sky-100 text-sky-700 dark:bg-sky-900/30 dark:text-sky-400'
+                          }`}>
+                            {ticket.status}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">{ticket.date}</td>
+                        <td className="px-6 py-4 text-right">
+                          <button className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 font-medium text-sm">
+                            Gérer
+                          </button>
+                        </td>
+                      </tr>
+                    )) : (
+                      <tr>
+                        <td colSpan={7} className="px-6 py-8 text-center text-slate-500">Aucun ticket trouvé pour "{searchQuery}"</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </motion.div>
+          )}
+
           {activeTab === 'Paramètres' && (
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
@@ -630,6 +880,117 @@ export default function Dashboard() {
                     </label>
                   </div>
                 </div>
+              </div>
+            </motion.div>
+          )}
+
+          {activeTab === 'Journal' && (
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-white dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden"
+            >
+              <div className="p-6 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
+                <h3 className="text-lg font-bold">Journal d'activité</h3>
+                <div className="sm:hidden relative w-48">
+                  <div className="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none">
+                    <Search size={14} className="text-slate-400" />
+                  </div>
+                  <input
+                    type="text"
+                    className="bg-slate-100 dark:bg-slate-800 border-none text-slate-900 dark:text-white text-xs rounded-lg focus:ring-2 focus:ring-indigo-500 block w-full pl-8 p-1.5"
+                    placeholder="Rechercher..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className="p-6">
+                <div className="space-y-6">
+                  {filteredActivities.length > 0 ? filteredActivities.map((activity, index) => (
+                    <div key={activity.id} className="flex gap-4 relative">
+                      {index !== filteredActivities.length - 1 && (
+                        <div className="absolute top-8 bottom-[-24px] left-[15px] w-[2px] bg-slate-200 dark:bg-slate-800"></div>
+                      )}
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 z-10 ${
+                        activity.type === 'login' ? 'bg-indigo-100 text-indigo-600 dark:bg-indigo-900/50 dark:text-indigo-400' :
+                        activity.type === 'create' ? 'bg-emerald-100 text-emerald-600 dark:bg-emerald-900/50 dark:text-emerald-400' :
+                        activity.type === 'update' ? 'bg-amber-100 text-amber-600 dark:bg-amber-900/50 dark:text-amber-400' :
+                        activity.type === 'security' ? 'bg-rose-100 text-rose-600 dark:bg-rose-900/50 dark:text-rose-400' :
+                        'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400'
+                      }`}>
+                        <History size={16} />
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="font-semibold text-slate-900 dark:text-white">{activity.user}</span>
+                          <span className="text-xs text-slate-500">{activity.date}</span>
+                        </div>
+                        <p className="text-slate-600 dark:text-slate-400 text-sm">{activity.action}</p>
+                      </div>
+                    </div>
+                  )) : (
+                    <div className="text-center py-8 text-slate-500">
+                      Aucune activité trouvée pour "{searchQuery}"
+                    </div>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {activeTab === 'Insertion' && (
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-white dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden p-8"
+            >
+              <div className="flex flex-col items-center justify-center text-center py-12">
+                <PlusSquare size={48} className="text-slate-300 dark:text-slate-700 mb-4" />
+                <h3 className="text-xl font-bold mb-2">Module d'Insertion</h3>
+                <p className="text-slate-500 max-w-md">Ajoutez de nouvelles entrées, clients ou données dans le système ERP. Ce module est en cours de développement.</p>
+              </div>
+            </motion.div>
+          )}
+
+          {activeTab === 'Publications' && (
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-white dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden p-8"
+            >
+              <div className="flex flex-col items-center justify-center text-center py-12">
+                <BookOpen size={48} className="text-slate-300 dark:text-slate-700 mb-4" />
+                <h3 className="text-xl font-bold mb-2">Gestion des Publications</h3>
+                <p className="text-slate-500 max-w-md">Gérez vos articles, pages et contenus publiés sur vos différents canaux.</p>
+              </div>
+            </motion.div>
+          )}
+
+          {activeTab === 'Rapports' && (
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-white dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden p-8"
+            >
+              <div className="flex flex-col items-center justify-center text-center py-12">
+                <PieChart size={48} className="text-slate-300 dark:text-slate-700 mb-4" />
+                <h3 className="text-xl font-bold mb-2">Générateur de Rapports</h3>
+                <p className="text-slate-500 max-w-md">Créez, exportez et analysez des rapports détaillés sur les performances de votre entreprise.</p>
+              </div>
+            </motion.div>
+          )}
+
+          {activeTab === 'Compte' && (
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-white dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden p-8"
+            >
+              <div className="flex flex-col items-center justify-center text-center py-12">
+                <User size={48} className="text-slate-300 dark:text-slate-700 mb-4" />
+                <h3 className="text-xl font-bold mb-2">Mon Compte</h3>
+                <p className="text-slate-500 max-w-md">Gérez vos informations personnelles, préférences de facturation et mots de passe.</p>
               </div>
             </motion.div>
           )}
